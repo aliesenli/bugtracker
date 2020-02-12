@@ -23,6 +23,12 @@ namespace Bugtracker.Controllers
             return View();
         }
 
+        [HttpGet("api/user")]
+        public IActionResult getTestUser()
+        {
+            return Ok(new { name = "Ali" });
+        }
+
         public IActionResult Privacy()
         {
             return View();
