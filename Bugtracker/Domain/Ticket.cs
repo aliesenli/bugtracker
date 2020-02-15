@@ -24,8 +24,10 @@ namespace Bugtracker.Domain
 
         public string UserId { get; set; }
 
+        /* TODO
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; }
+        */
 
         public DateTime CreatedAt { get; set; }
 

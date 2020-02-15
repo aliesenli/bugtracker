@@ -23,6 +23,13 @@ namespace Bugtracker.Services
             return await queryable.ToListAsync();
         }
 
+        public async Task<Ticket> GetTicketByIdAsync(Guid postId)
+        {
+            return await _applicationDbContext.Tickets
+                 .SingleOrDefaultAsync(x => x.Id == postId);
+        }
+
+
         public Task<bool> CreateTicketAsync(Ticket post)
         {
             throw new NotImplementedException();
@@ -33,10 +40,6 @@ namespace Bugtracker.Services
             throw new NotImplementedException();
         }
 
-        public Task<Ticket> GetTicketByIdAsync(Guid postId)
-        {
-            throw new NotImplementedException();
-        }
 
         public Task<bool> UpdateTicketAsync(Ticket postToUpdate)
         {
