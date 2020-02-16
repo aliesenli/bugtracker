@@ -30,9 +30,12 @@ namespace Bugtracker.Services
         }
 
 
-        public Task<bool> CreateTicketAsync(Ticket post)
+        public async Task<bool> CreateTicketAsync(Ticket post)
         {
-            throw new NotImplementedException();
+            await _applicationDbContext.Tickets.AddAsync(post);
+
+            var created = await _applicationDbContext.SaveChangesAsync();
+            return created > 0;
         }
 
         public Task<bool> DeleteTicketAsync(Guid postId)
