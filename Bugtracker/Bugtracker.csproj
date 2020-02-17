@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-Bugtracker-AE893018-30D8-4A07-8511-680C7CD6E088</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20200217151230_update_ticket.cs" />
+    <Compile Remove="Data\Migrations\20200217151230_update_ticket.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.0.0" />

@@ -29,24 +29,34 @@ namespace Bugtracker.Services
                  .SingleOrDefaultAsync(x => x.Id == postId);
         }
 
-
-        public Task<bool> CreateTicketAsync(Ticket post)
+        public async Task<bool> CreateTicketAsync(Ticket post)
         {
-            throw new NotImplementedException();
+            await _applicationDbContext.Tickets.AddAsync(post);
+
+            var created = await _applicationDbContext.SaveChangesAsync();
+            return created > 0;
         }
 
-        public Task<bool> DeleteTicketAsync(Guid postId)
+        public async Task<bool> DeleteTicketAsync(Guid ticketId)
         {
-            throw new NotImplementedException();
+            var post = await GetTicketByIdAsync(ticketId);
+
+            if (post == null)
+                return false;
+
+            _applicationDbContext.Tickets.Remove(post);
+            var deleted = await _applicationDbContext.SaveChangesAsync();
+            return deleted > 0;
         }
 
-
-        public Task<bool> UpdateTicketAsync(Ticket postToUpdate)
+        public async Task<bool> UpdateTicketAsync(Ticket ticketToUpdate)
         {
-            throw new NotImplementedException();
+            _applicationDbContext.Tickets.Update(ticketToUpdate);
+            var updated = await _applicationDbContext.SaveChangesAsync();
+            return updated > 0;
         }
 
-        public Task<bool> UserOwnsTicketAsync(Guid postId, string userId)
+        public Task<bool> UserOwnsTicketAsync(Guid ticketId, string userId)
         {
             throw new NotImplementedException();
         }

@@ -9,14 +9,15 @@ namespace Bugtracker.Services
     public interface ITicketService
     {
         Task<List<Ticket>> GetTicketsAsync();
-        Task<bool> CreateTicketAsync(Ticket post);
 
-        Task<Ticket> GetTicketByIdAsync(Guid postId);
+        Task<bool> CreateTicketAsync(Ticket ticket);
 
-        Task<bool> UpdateTicketAsync(Ticket postToUpdate);
+        Task<Ticket> GetTicketByIdAsync(Guid ticketId);
 
-        Task<bool> DeleteTicketAsync(Guid postId);
+        Task<bool> UpdateTicketAsync(Ticket ticketToUpdate);
 
-        Task<bool> UserOwnsTicketAsync(Guid postId, string userId);
+        Task<bool> DeleteTicketAsync(Guid ticketId);
+
+        Task<bool> UserOwnsTicketAsync(Guid ticketId, string userId);
     }
 }
