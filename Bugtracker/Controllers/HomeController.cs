@@ -4,15 +4,29 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Bugtracker.Web.Models;
+using Microsoft.Extensions.Logging;
+using Bugtracker.Models;
 
-namespace Bugtracker.Web.Controllers
+namespace Bugtracker.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpGet("api/user")]
+        public IActionResult getTestUser()
+        {
+            return Ok(new { name = "Ali" });
         }
 
         public IActionResult Privacy()
