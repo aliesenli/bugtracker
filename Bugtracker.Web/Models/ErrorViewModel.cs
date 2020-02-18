@@ -1,6 +1,6 @@
 using System;
 
-namespace Bugtracker.Models
+namespace Bugtracker.Web.Models
 {
     public class ErrorViewModel
     {
