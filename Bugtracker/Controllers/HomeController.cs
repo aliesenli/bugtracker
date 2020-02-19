@@ -6,27 +6,30 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Bugtracker.Models;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Bugtracker.Domain;
+using Bugtracker.Services;
 
 namespace Bugtracker.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ITicketService _ticketService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ITicketService ticketService)
         {
             _logger = logger;
+            _ticketService = ticketService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var tickets = await _ticketService.GetTicketsAsync();
 
-        [HttpGet("api/user")]
-        public IActionResult getTestUser()
-        {
-            return Ok(new { name = "Ali" });
+            return View(tickets);
         }
 
         public IActionResult Privacy()
