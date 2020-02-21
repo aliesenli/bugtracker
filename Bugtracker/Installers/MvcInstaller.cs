@@ -29,11 +29,6 @@ namespace Bugtracker.Installers
                 var absoluteUri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent(), "/");
                 return new UriService(absoluteUri);
             });
-
-            services.AddHttpClient("Bugtracker", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:44340/");
-            });
         }
     }
 }
