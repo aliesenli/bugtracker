@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Bugtracker.Data;
 using Bugtracker.Domain;
@@ -11,6 +12,7 @@ namespace Bugtracker.Services
     public class TicketService : ITicketService
     {
         private readonly ApplicationDbContext _applicationDbContext;
+
         public TicketService(ApplicationDbContext applicationDbContext)
         {
             _applicationDbContext = applicationDbContext;
