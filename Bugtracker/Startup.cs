@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.SpaServices;
 using Microsoft.Extensions.Hosting;
 using Bugtracker.Installers;
 using SwaggerOptions = Bugtracker.Options.SwaggerOptions;
@@ -22,11 +21,6 @@ namespace Bugtracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.InstallServicesInAssembly(Configuration);
-
-            services.AddSpaStaticFiles(options =>
-            {
-                options.RootPath = "ClientApp/dist";
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
