@@ -1,28 +1,92 @@
 <template>
-  <div id="app">
-      <router-view />
-  </div>
+    <div  id="wrapper" :class="wrapperClass">
+        <MenuToggleBtn></MenuToggleBtn>
+
+        <Menu></Menu>
+
+        <ContentOverlay></ContentOverlay>
+
+        <router-view></router-view>
+    </div>
 </template>
 
+<script>
+    // @ is an alias to /src
+    import MenuToggleBtn from '@/components/MenuToggleBtn.vue'
+    import Menu from '@/components/Menu.vue'
+    import ContentOverlay from '@/components/ContentOverlay.vue'
+
+    export default {
+
+        components: {
+            MenuToggleBtn,
+            Menu,
+            ContentOverlay,
+        },
+
+        created() {
+
+            window.bus.$on('menu/toggle', () => {
+                window.setTimeout(() => {
+                    this.isOpenMobileMenu = !this.isOpenMobileMenu;
+                }, 200);
+            });
+
+            window.bus.$on('menu/closeMobileMenu', () => {
+                this.isOpenMobileMenu = false;
+            });
+
+        },
+
+
+        data() {
+            return {
+                isOpenMobileMenu: false,
+            };
+        },
+
+        computed: {
+            wrapperClass() {
+                return {
+                    'toggled': this.isOpenMobileMenu === true,
+                };
+            },
+        }
+
+    }
+
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
+    #app {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-align: center;
+        color: #2c3e50;
+    }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
+    #nav {
+        padding: 30px;
+    }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+        #nav a {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+            #nav a.router-link-exact-active {
+                color: #42b983;
+            }
 </style>
+
+
+<style lang="scss">
+    @import 'styles/layout.scss';
+    @import 'styles/menu-toggle-btn.scss';
+    @import 'styles/menu.scss';
+    @import 'styles/content-overlay.scss';
+    @import 'styles/media-queries.scss';
+</style>
+

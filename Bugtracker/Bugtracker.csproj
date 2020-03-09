@@ -24,4 +24,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\styles\" />
+  </ItemGroup>
+
 </Project>

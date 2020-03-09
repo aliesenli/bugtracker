@@ -10,6 +10,8 @@ Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
 
+window.bus = new Vue();
+
 new Vue({
     router,
     render: h => h(App)
