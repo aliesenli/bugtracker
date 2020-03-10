@@ -1,15 +1,36 @@
 ﻿<template>
     <div class="hello">
         <h1>{{ ticket }}</h1>
+        <button v-on:click="callApi()">Call Api</button>
+
+        <div class="todos">
+            <div v-for="todo in allTickets" :key="todo.id" class="todo">
+                {{ todo.name }}
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     export default {
         name: 'Ticket',
         props: {
             ticket: String
+        },
+        computed: mapGetters(['allTickets'])
+        /*
+        methods: {
+            callApi() {
+                fetch("http://localhost:44340/api/tickets")
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data) // Prints result from `response.json()` in getRequest
+                        this.ticket = data[0].name;
+                    });
+            }
         }
+        */
     }
 </script>
 

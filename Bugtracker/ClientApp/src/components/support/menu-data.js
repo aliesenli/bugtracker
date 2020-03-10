@@ -3,11 +3,11 @@ export default {
   // home is a section without childs, set as an empty array
   home: [],
 
-  products: [
+  projects: [
 
     {
       type: 'title',
-      txt: 'Products',
+      txt: 'Projects',
       icon: 'fa fa-tag context-menu__title-icon',
     },
 
