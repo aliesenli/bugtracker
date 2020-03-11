@@ -10,7 +10,6 @@ body {
 .main-content__top {
   position: fixed;
   top: 0;
-  margin-left: -15px;
   width: calc(100% - 277px);
   height: 60px;
   border-bottom: 1px solid #eee;
@@ -26,4 +25,5 @@ body {
 
 .main-content__body {
   margin-top: 80px;
+  padding: 15px;
 }

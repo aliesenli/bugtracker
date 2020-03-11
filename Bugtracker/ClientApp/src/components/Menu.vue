@@ -11,7 +11,6 @@
         </router-link>
         <a
         href="#"
-        @click.prevent="openProjectLink"
         class="menu__title"
         >
           Bugtracker
@@ -134,11 +133,6 @@ export default {
   },
 
   methods: {
-
-    openProjectLink() {
-      alert('You could open the project frontend in another tab here, so the logged admin could see changes made to the project ;)');
-    },
-
     updateMenu(context) {
       this.contextSection = context;
       this.menuItems = this.menuData[context];

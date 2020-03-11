@@ -1,36 +1,40 @@
 ﻿<template>
     <div class="hello">
-        <h1>{{ ticket }}</h1>
-        <button v-on:click="callApi()">Call Api</button>
-
         <div class="todos">
-            <div v-for="todo in allTickets" :key="todo.id" class="todo">
-                {{ todo.name }}
-            </div>
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="todo in allTickets" :key="todo.id" class="todo">
+                        <th scope="row">1</th>
+                        <td>{{ todo.name }}</td>
+                        <td>{{ todo.createdAt }}</td>
+                        <td>{{ todo.id }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapActions } from 'vuex'
+
     export default {
         name: 'Ticket',
-        props: {
-            ticket: String
-        },
-        computed: mapGetters(['allTickets'])
-        /*
         methods: {
-            callApi() {
-                fetch("http://localhost:44340/api/tickets")
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data) // Prints result from `response.json()` in getRequest
-                        this.ticket = data[0].name;
-                    });
-            }
+            ...mapActions(['fetchTickets'])
+        },
+        computed: mapGetters(['allTickets']),
+        created() {
+            this.fetchTickets();
         }
-        */
     }
 </script>
 

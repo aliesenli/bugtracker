@@ -1,23 +1,24 @@
+import axios from 'axios'
+
 const state = {
-    tickets: [
-        {
-            id: 1,
-            name: "test"
-        },
-        {
-            id: 2,
-            name:"test2"
-        }
-    ]
+    tickets: []
 };
 
 const getters = {
     allTickets: state => state.tickets
 };
 
-const actions = {};
+const actions = {
+    async fetchTickets({ commit }) {
+        const response = await axios('https://localhost:5001/api/tickets');
 
-const mutations = {};
+        commit('setTickets', response.data)
+    }
+};
+
+const mutations = {
+    setTickets: (state, tickets) => state.tickets = tickets
+};
 
 export default ({
     state,
