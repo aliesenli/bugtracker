@@ -15,5 +15,6 @@ namespace Bugtracker.Data
         }
 
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Project> Projects { get; set; }
     }
 }

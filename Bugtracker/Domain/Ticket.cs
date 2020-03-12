@@ -35,5 +35,7 @@ namespace Bugtracker.Domain
 
         public Priority Priority { get; set; }
 
+        public Project Project { get; set; }
+
     }
 }
