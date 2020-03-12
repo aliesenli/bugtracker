@@ -5,9 +5,9 @@
                 <thead>
                     <tr>
                     <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Updated At</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -15,7 +15,7 @@
                         <th scope="row">1</th>
                         <td>{{ todo.name }}</td>
                         <td>{{ todo.createdAt }}</td>
-                        <td>{{ todo.id }}</td>
+                        <td>{{ todo.updatedAt }}</td>
                     </tr>
                 </tbody>
             </table>

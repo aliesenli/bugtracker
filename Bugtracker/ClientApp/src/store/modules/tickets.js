@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
     async fetchTickets({ commit }) {
-        const response = await axios('https://localhost:5001/api/tickets');
+        const response = await axios('http://localhost:44340/api/tickets');
 
         commit('setTickets', response.data)
     }

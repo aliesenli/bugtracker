@@ -30,8 +30,9 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 UserId = ticket.UserId,
                 Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt,
-                UpdatedAt = (DateTime)ticket.UpdatedAt,
+                CreatedAt = ticket.CreatedAt.ToString(),
+                //UpdatedAt = ticket.UpdatedAt.HasValue ? (DateTime)ticket.UpdatedAt : default(DateTime),
+                UpdatedAt = ticket.UpdatedAt.ToString(),
                 Priority = ticket.Priority
             });
 
@@ -47,7 +48,7 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 UserId = ticket.UserId,
                 Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt,
+                CreatedAt = ticket.CreatedAt.ToString(),
                 Priority = ticket.Priority
             };
 
@@ -67,7 +68,8 @@ namespace Bugtracker.Controllers
                 //TODO
                 //UserId = HttpContext.GetUserId(),
                 UserId = userId.ToString(),
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = null,
                 Priority = postRequest.Priority
             };
 
@@ -76,7 +78,7 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 Name = ticket.Name,
                 UserId = ticket.UserId,
-                CreatedAt = ticket.CreatedAt,
+                CreatedAt = ticket.CreatedAt.ToString(),
                 Priority = ticket.Priority
             };
 
@@ -104,8 +106,8 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 UserId = ticket.UserId,
                 Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt,
-                UpdatedAt = (DateTime)ticket.UpdatedAt,
+                CreatedAt = ticket.CreatedAt.ToString(),
+                UpdatedAt = ticket.UpdatedAt.ToString(),
                 Priority = ticket.Priority
             };
 
