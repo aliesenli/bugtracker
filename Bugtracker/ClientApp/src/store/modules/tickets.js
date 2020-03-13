@@ -5,19 +5,19 @@ const state = {
 };
 
 const getters = {
-    allTickets: state => state.tickets
+    allTickets: (state) => state.tickets
 };
 
 const actions = {
     async fetchTickets({ commit }) {
         const response = await axios('https://localhost:5001/api/tickets');
-
+        
         commit('setTickets', response.data)
     }
 };
 
 const mutations = {
-    setTickets: (state, tickets) => state.tickets = tickets
+    setTickets: (state, tickets) => state.tickets = tickets,
 };
 
 export default ({

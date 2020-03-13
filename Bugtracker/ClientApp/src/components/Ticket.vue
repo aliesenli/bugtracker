@@ -11,27 +11,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="todo in allTickets" :key="todo.id" class="todo">
+                    <tr v-for="ticket in allTickets" :key="ticket.id">
                         <th scope="row">1</th>
-                        <td>{{ todo.name }}</td>
-                        <td>{{ todo.createdAt }}</td>
-                        <td>{{ todo.updatedAt }}</td>
+                        <td>{{ ticket.name }}</td>
+                        <td>{{ ticket.createdAt }}</td>
+                        <td>{{ ticket.updatedAt }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         
-        <b-table>
-            <b-input-group>
-                <b-form-input v-model="keyword" placeholder="Search" type="text"></b-form-input>
-                <b-input-group-text><b-btn @click="keyword = ''"></b-btn></b-input-group-text>
-            </b-input-group>
-        </b-table>
-
-           <b-container fluid>
-                <!-- User Interface controls -->
-                <b-row>
-
+        <b-container fluid>
+            <!-- User Interface controls -->
+            <b-row>
                 <b-col lg="6" class="my-1">
                     <b-form-group
                     label="Filter"
@@ -74,41 +66,40 @@
                     ></b-form-select>
                     </b-form-group>
                 </b-col>
+            </b-row>
 
-                <b-col sm="7" md="6" class="my-1">
+            <!-- Main table element -->
+            <b-table
+                show-empty
+                small
+                stacked="md"
+                :items="allTickets"
+                :fields="fields"
+                :current-page="currentPage"
+                :per-page="perPage"
+                :filter="filter"
+                :filterIncludedFields="filterOn"
+                :sort-by.sync="sortBy"
+                :sort-desc.sync="sortDesc"
+                :sort-direction="sortDirection"
+                sort-icon-right
+                @filtered="onFiltered"
+            >
+            </b-table> 
+
+            <b-row>
+                <b-col sm="7" md="3" class="my-1">
                     <b-pagination
-                    v-model="currentPage"
-                    :total-rows="totalRows"
-                    :per-page="perPage"
-                    align="fill"
-                    size="sm"
-                    class="my-0"
+                        v-model="currentPage"
+                        :total-rows="totalRows"
+                        :per-page="perPage"
+                        align="fill"
+                        size="sm"
+                        class="my-0"
                     ></b-pagination>
                 </b-col>
-                </b-row>
-
-                <!-- Main table element -->
-                <b-table
-                    show-empty
-                    small
-                    stacked="md"
-                    :items="items"
-                    :fields="fields"
-                    :current-page="currentPage"
-                    :per-page="perPage"
-                    :filter="filter"
-                    :filterIncludedFields="filterOn"
-                    :sort-by.sync="sortBy"
-                    :sort-desc.sync="sortDesc"
-                    :sort-direction="sortDirection"
-                    @filtered="onFiltered"
-                >
-                    <template v-slot:cell(name)="row">
-                        {{ row.value.first }} {{ row.value.last }}
-                    </template>
-
-                </b-table> 
-            </b-container>
+            </b-row>
+        </b-container>
     
 
     </div>
@@ -120,16 +111,10 @@
     export default {
         name: 'Ticket',
         methods: {
-            ...mapActions(['fetchTickets']),
-            info(item, index, button) {
-                this.infoModal.title = `Row index: ${index}`
-                this.infoModal.content = JSON.stringify(item, null, 2)
-                this.$root.$emit('bv::show::modal', this.infoModal.id, button)
-            },
-            resetInfoModal() {
-                this.infoModal.title = ''
-                this.infoModal.content = ''
-            },
+            ...mapActions([
+                'fetchTickets'
+            ]),
+
             onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
@@ -137,60 +122,21 @@
             }
         },
         computed: {
-            ...mapGetters(['allTickets']),
-            sortOptions() {
-                // Create an options list from our fields
-                return this.fields
-                .filter(f => f.sortable)
-                .map(f => {
-                    return { text: f.label, value: f.key }
-                })
-            }
+            ...mapGetters([
+                'allTickets',
+                'pagination'
+            ]),      
         },
         created() {
             this.fetchTickets();
-            this.totalRows = this.items.length;
         },
         data() {
             return {
-                items: [
-                { isActive: true, age: 40, name: { first: 'Dickerson', last: 'Macdonald' } },
-                { isActive: false, age: 21, name: { first: 'Larsen', last: 'Shaw' } },
-                {
-                    isActive: false,
-                    age: 9,
-                    name: { first: 'Mini', last: 'Navarro' },
-                    _rowVariant: 'success'
-                },
-                { isActive: false, age: 89, name: { first: 'Geneva', last: 'Wilson' } },
-                { isActive: true, age: 38, name: { first: 'Jami', last: 'Carney' } },
-                { isActive: false, age: 27, name: { first: 'Essie', last: 'Dunlap' } },
-                { isActive: true, age: 40, name: { first: 'Thor', last: 'Macdonald' } },
-                {
-                    isActive: true,
-                    age: 87,
-                    name: { first: 'Larsen', last: 'Shaw' },
-                    _cellVariants: { age: 'danger', isActive: 'warning' }
-                },
-                { isActive: false, age: 26, name: { first: 'Mitzi', last: 'Navarro' } },
-                { isActive: false, age: 22, name: { first: 'Genevieve', last: 'Wilson' } },
-                { isActive: true, age: 38, name: { first: 'John', last: 'Carney' } },
-                { isActive: false, age: 29, name: { first: 'Dick', last: 'Dunlap' } }
-                ],
                 fields: [
-                { key: 'name', label: 'Person Full name', sortable: true, sortDirection: 'desc' },
-                { key: 'age', label: 'Person age', sortable: true, class: 'text-center' },
-                {
-                    key: 'isActive',
-                    label: 'is Active',
-                    //formatter: (value, key, item) => {
-                    //return value ? 'Yes' : 'No'
-                   // },
-                    sortable: true,
-                    sortByFormatted: true,
-                    filterByFormatted: true
-                },
-                { key: 'actions', label: 'Actions' }
+                    { key: 'name', label: 'Ticket name', sortable: true, sortDirection: 'desc' },
+                    { key: 'id', label: 'Person age', sortable: true, class: 'text-center' },
+                    { key: 'isActive', label: 'is Active', sortable: true },
+                    { key: 'actions', label: 'Actions' }
                 ],
                 totalRows: 1,
                 currentPage: 1,
@@ -201,12 +147,13 @@
                 sortDirection: 'asc',
                 filter: null,
                 filterOn: [],
-                infoModal: {
-                id: 'info-modal',
-                title: '',
-                content: ''
-                }
             }
+        },
+        watch: {
+            allTickets: function () {
+                this.totalRows = this.allTickets.length
+                console.log(this.allTickets.length);
+            },
         }
     }
 </script>

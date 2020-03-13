@@ -8,12 +8,13 @@ namespace Bugtracker.Domain
 {
     public class Project
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime Completion { get; set; }
         public List<Ticket> Tickets { get; set; }
         //TODO: Project Team Assignments
-        //public ICollection<IdentityUser> IdentityUsers { get; set; }
+        //public List<IdentityUser> IdentityUsers { get; set; }
     }
 }
