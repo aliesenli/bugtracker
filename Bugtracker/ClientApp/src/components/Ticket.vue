@@ -1,11 +1,17 @@
 ﻿<template>
     <div class="hello">
         <b-container fluid>
-
             <div class="mb-2">
                 <b-card>
-                    <div class="test">
+                    <div class="card-title-shifted">
                         <h5>Project-Details</h5>
+                        <b-row>
+                            <b-col>
+                                      <a href="#" class="card-link">Card link</a>
+                            <b-link href="#" class="card-link">Another link</b-link>     
+                            </b-col>
+                     
+                        </b-row>
                     </div>
                     <b-card-text>
                     Some quick example text to build on the <em>card title</em> and make up the bulk of the card's
@@ -13,17 +19,20 @@
                     </b-card-text>
 
                     <b-card-text>A second paragraph of text in the card.</b-card-text>
+                </b-card>
+                
+                <hr>
 
-                    <a href="#" class="card-link">Card link</a>
-                    <b-link href="#" class="card-link">Another link</b-link>
+                <b-card
+                    header="Tickets for this Project"
+                    header-text-variant="white"
+                    header-tag="header"
+                    header-bg-variant="dark"
+                    border-variant="default"
+                >
 
-                    <hr>
-                    <div class="test">
-                        <h5>Project-Details</h5>
-                    </div>
-
-                    <b-row align-h="between">
-                        <b-col sm="3" class="my-1">
+                    <b-row align-h="between" class="mb-2">
+                        <b-col sm="2" class="my-1">
                             <b-form-group
                             label="Per page"
                             label-cols-sm="12"
@@ -43,24 +52,24 @@
 
                         <b-col sm="4" class="my-1">
                             <b-form-group
-                                label="Filter"
-                                label-cols-sm="12"
-                                label-align-sm="left"
-                                label-size="sm"
-                                label-for="perPageSelect"
-                                class="mb-0"
+                            label="Filter"
+                            label-cols-sm="12"
+                            label-align-sm="left"
+                            label-size="sm"
+                            label-for="perPageSelect"
+                            class="mb-0"
                             >
                                 <b-input-group size="sm">
                                     <b-form-input
-                                        v-model="filter"
-                                        type="search"
-                                        id="filterInput"
-                                        placeholder="Type to Search"
+                                    v-model="filter"
+                                    type="search"
+                                    id="filterInput"
+                                    placeholder="Type to Search"
                                     >
                                     </b-form-input>
-                                    <b-input-group-append>
-                                    <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                                    </b-input-group-append>
+                                        <b-input-group-append>
+                                            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                                        </b-input-group-append>
                                 </b-input-group>
                             </b-form-group>
                         </b-col>
@@ -71,7 +80,6 @@
                         show-empty
                         stacked="sm"
                         responsive="sm"
-                        head-variant="dark"
                         sort-icon-left
                         fixed
                         striped
@@ -109,9 +117,6 @@
                     </b-row> 
                 </b-card>
             </div>
-
-            
-
         </b-container>
     </div>
 </template>
