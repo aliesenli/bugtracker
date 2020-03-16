@@ -18,5 +18,10 @@ namespace Bugtracker.Services
         {
             return new Uri(_baseUri + "api/tickets/{postId}".Replace("{postId}", ticketId));
         }
+
+        public Uri GetProjectUri(string projectId)
+        {
+            return new Uri(_baseUri + "api/projects/{projectId}".Replace("{projectId}", projectId));
+        }
     }
 }

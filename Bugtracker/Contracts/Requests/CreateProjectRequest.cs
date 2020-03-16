@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bugtracker.Domain;
 
 namespace Bugtracker.Contracts.Requests
 {
-
-    public class CreateTicketRequest
+    public class CreateProjectRequest
     {
         public string Name { get; set; }
 
-        public Priority Priority { get; set; }
+        public string Description { get; set; }
 
-        public string ProjectId { get; set; }
+        public DateTime Completion { get; set; }
     }
 }

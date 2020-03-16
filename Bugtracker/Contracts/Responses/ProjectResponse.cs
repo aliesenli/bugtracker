@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Bugtracker.Domain
+namespace Bugtracker.Contracts.Responses
 {
-    public class Project
+    public class ProjectResponse
     {
         public Guid Id { get; set; }
 
@@ -17,10 +16,5 @@ namespace Bugtracker.Domain
         public DateTime CreatedOn { get; set; }
 
         public DateTime Completion { get; set; }
-
-        public List<Ticket> Tickets { get; set; }
-
-        //TODO: Project Team Assignments
-        //public List<IdentityUser> IdentityUsers { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using Bugtracker.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Bugtracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200316224505_created_new_endpoints")]
+    partial class created_new_endpoints
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,10 +59,7 @@ namespace Bugtracker.Data.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProjectId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("ProjectId1")
+                    b.Property<Guid?>("ProjectId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -71,7 +70,7 @@ namespace Bugtracker.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId1");
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Tickets");
                 });
@@ -278,9 +277,9 @@ namespace Bugtracker.Data.Migrations
 
             modelBuilder.Entity("Bugtracker.Domain.Ticket", b =>
                 {
-                    b.HasOne("Bugtracker.Domain.Project", null)
+                    b.HasOne("Bugtracker.Domain.Project", "Project")
                         .WithMany("Tickets")
-                        .HasForeignKey("ProjectId1");
+                        .HasForeignKey("ProjectId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

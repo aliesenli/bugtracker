@@ -69,7 +69,8 @@ namespace Bugtracker.Controllers
                 UserId = userId.ToString(),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = null,
-                Priority = postRequest.Priority
+                Priority = postRequest.Priority,
+                ProjectId = postRequest.ProjectId
             };
 
             var ticketResponse = new TicketResponse
@@ -78,7 +79,8 @@ namespace Bugtracker.Controllers
                 Name = ticket.Name,
                 UserId = ticket.UserId,
                 CreatedAt = ticket.CreatedAt.ToString(),
-                Priority = ticket.Priority
+                Priority = ticket.Priority,
+                ProjectId = ticket.ProjectId
             };
 
             await _ticketService.CreateTicketAsync(ticket);
