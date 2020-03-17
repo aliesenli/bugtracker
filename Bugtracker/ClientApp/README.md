@@ -1,4 +1,4 @@
-# clientapp
+# bugtracker
 
 ## Project setup
 ```

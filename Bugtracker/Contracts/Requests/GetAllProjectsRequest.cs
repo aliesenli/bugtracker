@@ -2,7 +2,7 @@
 
 namespace Bugtracker.Contracts.Requests
 {
-    public class GetAllTicketsRequest
+    public class GetAllProjectsRequest
     {
         [FromQuery(Name = "userId")]
         public string UserId { get; set; }

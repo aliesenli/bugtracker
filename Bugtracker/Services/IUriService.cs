@@ -8,5 +8,7 @@ namespace Bugtracker.Services
     public interface IUriService
     {
         Uri GetPostUri(string ticketId);
+
+        Uri GetProjectUri(string projectId);
     }
 }

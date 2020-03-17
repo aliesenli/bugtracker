@@ -24,16 +24,17 @@ namespace Bugtracker.Domain
 
         public string UserId { get; set; }
 
-        /* TODO
-        [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; }
-        */
-
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 
         public Priority Priority { get; set; }
 
+        public Guid ProjectId { get; set; }
+
+        /* TODO
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser User { get; set; }
+        */
     }
 }

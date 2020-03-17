@@ -5,8 +5,8 @@ using Bugtracker.Contracts.Requests;
 using Bugtracker.Contracts.Responses;
 using Bugtracker.Domain;
 using Bugtracker.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Bugtracker.Extensions;
 
 namespace Bugtracker.Controllers
 {
@@ -30,9 +30,10 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 UserId = ticket.UserId,
                 Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt,
-                UpdatedAt = (DateTime)ticket.UpdatedAt,
-                Priority = ticket.Priority
+                CreatedAt = ticket.CreatedAt.ToString(),
+                UpdatedAt = ticket.UpdatedAt.ToString(),
+                Priority = ticket.Priority,
+                ProjectId = ticket.ProjectId
             });
 
             return Ok(ticketResponse);
@@ -47,7 +48,7 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 UserId = ticket.UserId,
                 Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt,
+                CreatedAt = ticket.CreatedAt.ToString(),
                 Priority = ticket.Priority
             };
 
@@ -67,8 +68,10 @@ namespace Bugtracker.Controllers
                 //TODO
                 //UserId = HttpContext.GetUserId(),
                 UserId = userId.ToString(),
-                CreatedAt = DateTime.UtcNow,
-                Priority = postRequest.Priority
+                CreatedAt = DateTime.Now,
+                UpdatedAt = null,
+                Priority = postRequest.Priority,
+                ProjectId = postRequest.ProjectId
             };
 
             var ticketResponse = new TicketResponse
@@ -76,11 +79,13 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 Name = ticket.Name,
                 UserId = ticket.UserId,
-                CreatedAt = ticket.CreatedAt,
-                Priority = ticket.Priority
+                CreatedAt = ticket.CreatedAt.ToString(),
+                Priority = ticket.Priority,
+                ProjectId = ticket.ProjectId
             };
 
             await _ticketService.CreateTicketAsync(ticket);
+
 
             var locationUri = _uriService.GetPostUri(ticket.Id.ToString());
             return Created(locationUri, ticketResponse);
@@ -104,8 +109,8 @@ namespace Bugtracker.Controllers
                 Id = ticket.Id,
                 UserId = ticket.UserId,
                 Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt,
-                UpdatedAt = (DateTime)ticket.UpdatedAt,
+                CreatedAt = ticket.CreatedAt.ToString(),
+                UpdatedAt = ticket.UpdatedAt.ToString(),
                 Priority = ticket.Priority
             };
 
@@ -120,7 +125,6 @@ namespace Bugtracker.Controllers
         {
             //TODO
             //var userOwnsPost = await _ticketService.UserOwnsTicketAsync(postId);
-
             var deleted = await _ticketService.DeleteTicketAsync(ticketId);
 
             if (deleted)

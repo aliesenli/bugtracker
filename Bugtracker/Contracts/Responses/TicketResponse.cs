@@ -1,8 +1,5 @@
 ﻿using Bugtracker.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bugtracker.Contracts.Responses
 {
@@ -14,10 +11,12 @@ namespace Bugtracker.Contracts.Responses
 
         public string UserId { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public string CreatedAt { get; set; }
 
-        public DateTime UpdatedAt { get; set; }
+        public string UpdatedAt { get; set; }
 
         public Priority Priority { get; set; }
+
+        public Guid ProjectId { get; set; }
     }
 }
