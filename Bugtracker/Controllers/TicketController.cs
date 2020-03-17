@@ -32,7 +32,8 @@ namespace Bugtracker.Controllers
                 Name = ticket.Name,
                 CreatedAt = ticket.CreatedAt.ToString(),
                 UpdatedAt = ticket.UpdatedAt.ToString(),
-                Priority = ticket.Priority
+                Priority = ticket.Priority,
+                ProjectId = ticket.ProjectId
             });
 
             return Ok(ticketResponse);
@@ -84,6 +85,7 @@ namespace Bugtracker.Controllers
             };
 
             await _ticketService.CreateTicketAsync(ticket);
+
 
             var locationUri = _uriService.GetPostUri(ticket.Id.ToString());
             return Created(locationUri, ticketResponse);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bugtracker.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,5 +17,7 @@ namespace Bugtracker.Contracts.Responses
         public DateTime CreatedOn { get; set; }
 
         public DateTime Completion { get; set; }
+
+        public List<Ticket> Tickets { get; set; }
     }
 }

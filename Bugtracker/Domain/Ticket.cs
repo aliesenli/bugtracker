@@ -30,7 +30,7 @@ namespace Bugtracker.Domain
 
         public Priority Priority { get; set; }
 
-        public string ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
 
         /* TODO
         [ForeignKey(nameof(UserId))]

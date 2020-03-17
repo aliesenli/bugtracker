@@ -18,6 +18,7 @@ namespace Bugtracker.Installers
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<ITicketService, TicketService>();
+            services.AddScoped<IProjectService, ProjectService>();
         }
     }
 }

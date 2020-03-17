@@ -10,6 +10,8 @@
     <Compile Remove="Data\Migrations\20200217151230_update_ticket.Designer.cs" />
     <Compile Remove="Data\Migrations\20200311224549_test.cs" />
     <Compile Remove="Data\Migrations\20200311224549_test.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200317151450_init2.cs" />
+    <Compile Remove="Data\Migrations\20200317151450_init2.Designer.cs" />
   </ItemGroup>
 
 
