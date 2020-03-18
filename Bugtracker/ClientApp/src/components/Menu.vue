@@ -1,8 +1,7 @@
 <template>
-
   <div class="menu-container">
 
-    <!-- root level itens -->
+    <!-- root level items -->
     <ul class="menu">
 
       <li class="menu__top">
@@ -34,7 +33,7 @@
         @click.prevent="updateMenu('projects')"
         :class="highlightSection('projects')"
         >
-          <i class="fa fa-tag menu__icon" aria-hidden="true"></i>
+          <i class="fas fa-project-diagram menu__icon"></i>
           Projects
           <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
         </a>
@@ -66,7 +65,7 @@
 
     </ul>
 
-    <!-- context menu: childs of root level itens -->
+    <!-- context menu: childs of root level items -->
     <transition name="slide-fade">
 
       <div class="context-menu-container" v-show="showContextMenu">
@@ -110,7 +109,6 @@
     </transition>
 
   </div>
-
 </template>
 
 <script>

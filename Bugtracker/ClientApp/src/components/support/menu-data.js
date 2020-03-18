@@ -8,12 +8,13 @@ export default {
     {
       type: 'title',
       txt: 'Projects',
-      icon: 'fa fa-tag context-menu__title-icon',
+      //icon: 'fa fa-tag context-menu__title-icon',
+      icon: 'fas fa-project-diagram context-menu__title-icon'
     },
 
     {
       type: 'link',
-      txt: 'List Products',
+      txt: 'All Projects',
       link: '/page',
     },
 

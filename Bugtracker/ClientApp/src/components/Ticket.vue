@@ -30,6 +30,13 @@
                     header-bg-variant="dark"
                     border-variant="default"
                 >
+                    <h3>Add Ticket</h3>
+                    <form @submit="onSubmit">
+                        <input v-model="name" type="text" placeholder="Name">
+                        <input v-model="prio" type="number" placeholder="Priority">
+                        <input v-model="projectId" type="text" placeholder="Project id">
+                        <input type="submit" value="Submit">
+                    </form>
 
                     <b-row align-h="between" class="mb-2">
                         <b-col sm="2" class="my-1">
@@ -128,8 +135,13 @@
         name: 'Ticket',
         methods: {
             ...mapActions([
-                'fetchTickets'
-            ]),
+                'fetchTickets',
+                'createTicket'
+            ]), 
+            onSubmit(e) {
+                e.preventDefault();
+                this.createTicket(this.name, this.prio, this.projectId);
+            },
 
             onFiltered(filteredItems) {
                 // Trigger pagination to update the number of buttons/pages due to filtering
@@ -139,8 +151,7 @@
         },
         computed: {
             ...mapGetters([
-                'allTickets',
-                'pagination'
+                'allTickets'
             ]),      
         },
         created() {
@@ -154,7 +165,7 @@
                     { key: 'isActive', label: 'is Active', sortable: true },
                     { key: 'actions', label: 'Actions' }
                 ],
-                isBusy: true,
+                isBusy: false,
                 totalRows: 1,
                 currentPage: 1,
                 perPage: 5,
@@ -164,12 +175,16 @@
                 sortDirection: 'asc',
                 filter: null,
                 filterOn: [],
+
+                name: '',
+                prio: 1,
+                projectId: ''
             }
         },
         watch: {
             allTickets: function () {
                 this.totalRows = this.allTickets.length
-                this.isBusy = !this.isBusy;
+                //this.isBusy = !this.isBusy;
             },
         }
     }

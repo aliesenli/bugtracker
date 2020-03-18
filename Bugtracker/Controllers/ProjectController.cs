@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bugtracker.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
@@ -38,7 +38,7 @@ namespace Bugtracker.Controllers
                 Description = project.Description,
                 CreatedOn = project.CreatedOn,
                 Completion = project.Completion,
-                Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
+                Tickets = tickets.FindAll(x => x.ProjectId == project.Id.ToString())
             });
 
             return Ok(projectResponse);
@@ -56,7 +56,7 @@ namespace Bugtracker.Controllers
                 Description = project.Description,
                 CreatedOn = project.CreatedOn,
                 Completion = project.Completion,
-                Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
+                Tickets = tickets.FindAll(x => x.ProjectId == project.Id.ToString())
             };
 
             return Ok(projectResponse);

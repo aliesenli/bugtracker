@@ -13,6 +13,6 @@ namespace Bugtracker.Contracts.Requests
 
         public Priority Priority { get; set; }
 
-        public Guid ProjectId { get; set; }
+        public string ProjectId { get; set; }
     }
 }
