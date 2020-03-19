@@ -5,7 +5,6 @@
             <div class="main-content__body">
                 <p>
                     <Ticket />
-                    <Date/>
                 </p>
             </div>
         </div>
@@ -15,13 +14,11 @@
 <script>
     // @ is an alias to /src
     import Ticket from '@/components/Ticket.vue'
-    import Date from '@/components/Date.vue'
 
     export default {
         name: 'Home',
         components: {
-            Ticket,
-            Date
+            Ticket
         }
     }
 </script>

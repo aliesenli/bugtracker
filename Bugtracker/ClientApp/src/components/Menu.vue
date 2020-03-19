@@ -1,12 +1,11 @@
 <template>
-  <div class="menu-container">
+  <div class="menu-container" v-show="!$route.meta.hideNavigation">
 
     <!-- root level items -->
     <ul class="menu">
-
       <li class="menu__top">
         <router-link to="/" class="menu__logo">
-          <img src="/icon-32.png" alt="icon">
+          <img src="/logo.png" alt="icon" width="35px">
         </router-link>
         <a
         href="#"
@@ -62,7 +61,6 @@
           <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
         </a>
       </li>
-
     </ul>
 
     <!-- context menu: childs of root level items -->
@@ -71,11 +69,9 @@
       <div class="context-menu-container" v-show="showContextMenu">
 
         <ul class="context-menu">
-
           <li v-for="(item, index) in menuItems" :key="index">
 
             <h6 v-if="item.type === 'title'" class="context-menu__title">
-
               <i :class="item.icon" aria-hidden="true"></i>
 
               {{item.txt}}
@@ -88,7 +84,6 @@
               >
                 <i class="fa fa-window-close" aria-hidden="true"></i>
               </a>
-
             </h6>
 
             <a
@@ -99,9 +94,7 @@
             >
               {{item.txt}}
             </a>
-
           </li>
-
         </ul>
 
       </div>
@@ -178,8 +171,9 @@ export default {
   computed: {
     showContextMenu() {
       return this.menuItems.length;
-    },
+    }
   }
 
 }
 </script>
+

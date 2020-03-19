@@ -11,48 +11,46 @@
 </template>
 
 <script>
-    // @ is an alias to /src
-    import MenuToggleBtn from '@/components/MenuToggleBtn.vue'
-    import Menu from '@/components/Menu.vue'
-    import ContentOverlay from '@/components/ContentOverlay.vue'
+// @ is an alias to /src
+import MenuToggleBtn from '@/components/MenuToggleBtn.vue'
+import Menu from '@/components/Menu.vue'
+import ContentOverlay from '@/components/ContentOverlay.vue'
 
-    export default {
+export default {
 
-        components: {
-            MenuToggleBtn,
-            Menu,
-            ContentOverlay,
-        },
+    components: {
+        MenuToggleBtn,
+        Menu,
+        ContentOverlay,
+    },
 
-        created() {
+    created() {
+        window.bus.$on('menu/toggle', () => {
+            window.setTimeout(() => {
+                this.isOpenMobileMenu = !this.isOpenMobileMenu;
+            }, 200);
+        });
 
-            window.bus.$on('menu/toggle', () => {
-                window.setTimeout(() => {
-                    this.isOpenMobileMenu = !this.isOpenMobileMenu;
-                }, 200);
-            });
+        window.bus.$on('menu/closeMobileMenu', () => {
+            this.isOpenMobileMenu = false;
+        });
+    },
 
-            window.bus.$on('menu/closeMobileMenu', () => {
-                this.isOpenMobileMenu = false;
-            });
+    data() {
+        return {
+            isOpenMobileMenu: false,
+        };
+    },
 
-        },
-
-        data() {
+    computed: {
+        wrapperClass() {
             return {
-                isOpenMobileMenu: false,
+                'toggled': this.isOpenMobileMenu === true,
             };
         },
-
-        computed: {
-            wrapperClass() {
-                return {
-                    'toggled': this.isOpenMobileMenu === true,
-                };
-            },
-        }
-
     }
+
+}
 </script>
 
 <style>
@@ -77,14 +75,5 @@
     #nav a.router-link-exact-active {
         color: #42b983;
     }
-</style>
-
-
-<style lang="scss">
-    @import 'styles/layout.scss';
-    @import 'styles/menu-toggle-btn.scss';
-    @import 'styles/menu.scss';
-    @import 'styles/content-overlay.scss';
-    @import 'styles/media-queries.scss';
 </style>
 

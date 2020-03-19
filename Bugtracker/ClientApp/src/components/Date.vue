@@ -7,10 +7,12 @@
 <script>
   export default {
     name: 'Date',
+
     data() {
       return {
         value: ''
       }
+      
     },
     methods: {
       dateDisabled(ymd, date) {
