@@ -1,27 +1,74 @@
 <template>
  <div>
-   <form class="login" @submit.prevent="login">
-     <h1>Sign in</h1>
-     <label>Email</label>
-     <input required v-model="email" type="text" placeholder="Name"/>
-     <label>Password</label>
-     <input required v-model="password" type="password" placeholder="Password"/>
-     <hr/>
-     <button type="submit">Login</button>
-   </form>
+     <b-container>
+    <h1>Sign in</h1>
+    <div>
+        
+    </div>
+
+    <div>
+        <b-overlay :show="this.loading" rounded="sm">
+        <b-card title="Card with overlay" :aria-hidden="show ? 'true' : null">
+            <b-form @submit.prevent="login">
+            <b-form-group
+                id="input-group-1"
+                label="Email address:"
+                label-for="input-1"
+            >
+                <b-form-input
+                id="input-1"
+                v-model="email"
+                type="email"
+                required
+                placeholder="Enter email"
+                ></b-form-input>
+            </b-form-group>
+
+            <b-form-group 
+                id="input-group-2" 
+                label="Your Password:" 
+                label-for="input-2"
+            >
+                <b-form-input
+                type="password"
+                id="input-2"
+                v-model="password"
+                required
+                placeholder="Enter name"
+                ></b-form-input>
+            </b-form-group>
+
+            <b-button type="submit" variant="primary">Submit</b-button>
+        </b-form>
+        </b-card>
+        </b-overlay>
+        
+  </div>
+
+    </b-container>
+
+
+
  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
     
     data() {
         return {
             email : "",
-            password : ""
+            password : "",
+            show: false
         }
     },
 
+    computed: mapState({
+        loading: state => state.auth.loading,
+    }),
+        
     methods: {
         login: function () {
             let email = this.email 

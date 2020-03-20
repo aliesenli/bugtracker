@@ -34,11 +34,18 @@ export default {
         window.bus.$on('menu/closeMobileMenu', () => {
             this.isOpenMobileMenu = false;
         });
+
+        if(this.$route.path == "/login" || this.$route.path == "/register") {
+            this.hideMenu = true
+        } else {
+            this.hideMenu = false
+        }
     },
 
     data() {
         return {
             isOpenMobileMenu: false,
+            hideMenu: false
         };
     },
 
@@ -46,6 +53,7 @@ export default {
         wrapperClass() {
             return {
                 'toggled': this.isOpenMobileMenu === true,
+                'hideMenu': this.hideMenu
             };
         },
     }
@@ -54,6 +62,9 @@ export default {
 </script>
 
 <style>
+    .hideMenu {
+        padding-left: 0px !important;
+    }
 
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;

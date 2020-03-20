@@ -3,7 +3,8 @@ import VueRouter from 'vue-router'
 import store from '../store'
 import Home from '../views/Home.vue'
 import Projects from '../views/Projects.vue'
-import Login from '../components/Login.vue'
+//import Login from '../components/Login.vue'
+import Login from '../views/Login.vue'
 import Register from '../components/Register.vue'
 
 Vue.use(VueRouter)

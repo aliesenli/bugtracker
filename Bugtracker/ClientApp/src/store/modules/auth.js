@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const state = {
     status: '',
+    loading: false,
     token: localStorage.getItem('token') || '',
     user : {}
 };
@@ -35,7 +36,7 @@ const actions = {
     register({commit}, user){
         return new Promise((resolve, reject) => {
             commit('auth_request')
-            axios({url: 'https://localhost:5001/api/identity/register', data: user, method: 'POST' })
+            axios({url: 'http://localhost:44340/api/identity/register', data: user, method: 'POST' })
             .then(resp => {
                 const token = resp.data.token
                 const user = resp.data.user
@@ -66,15 +67,18 @@ const actions = {
 const mutations = {
 
     auth_request(state) {
-        state.status = 'loading'
+        state.status = 'loading',
+        state.loading = true
     },
     auth_success(state, token, user) {
     state.status = 'success'
+    state.loading = false
     state.token = token
     state.user = user
     },
     auth_error(state) {
     state.status = 'error'
+    state.loading = false
     },
     logout(state) {
     state.status = ''
