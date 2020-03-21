@@ -7,9 +7,12 @@ using Bugtracker.Domain;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Mvc;
 using Bugtracker.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bugtracker.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TicketController : Controller
     {
         private readonly ITicketService _ticketService;

@@ -1,10 +1,12 @@
 <template>
-    <div  id="wrapper" :class="wrapperClass">
-        <MenuToggleBtn></MenuToggleBtn>
+    <div id="appli">
+        <div id="wrapper" :class="wrapperClass" v-show="!hideMenu">
+            <MenuToggleBtn></MenuToggleBtn>
 
-        <Menu></Menu>
+            <Menu></Menu>
 
-        <ContentOverlay></ContentOverlay>
+            <ContentOverlay></ContentOverlay>
+        </div>
 
         <router-view></router-view>
     </div>
@@ -35,11 +37,15 @@ export default {
             this.isOpenMobileMenu = false;
         });
 
-        if(this.$route.path == "/login" || this.$route.path == "/register") {
+        if (this.$route.path == "/login" || this.$route.path == "/register") {
             this.hideMenu = true
+            //document.getElementById("appli").classList.remove("applis")
         } else {
             this.hideMenu = false
+            //document.getElementById("appli").classList.add("applis")
         }
+
+        console.log(this.hideMenu);
     },
 
     data() {
@@ -53,19 +59,15 @@ export default {
         wrapperClass() {
             return {
                 'toggled': this.isOpenMobileMenu === true,
-                'hideMenu': this.hideMenu
             };
-        },
+        }
     }
+
 
 }
 </script>
 
 <style>
-    .hideMenu {
-        padding-left: 0px !important;
-    }
-
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;

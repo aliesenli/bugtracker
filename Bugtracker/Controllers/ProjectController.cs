@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bugtracker.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;

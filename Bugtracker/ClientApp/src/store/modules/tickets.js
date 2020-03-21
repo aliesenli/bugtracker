@@ -10,7 +10,13 @@ const getters = {
 
 const actions = {
     async fetchTickets({ commit }) {
-        const response = await axios('http://localhost:44340/api/tickets');
+        const response = await axios('http://localhost:44340/api/tickets', {
+            headers: {
+                "Authorization": "bearer "+ localStorage.getItem('token') ,
+                "Accept": "application/json",
+                "cache-control": "no-cache"
+              }
+        });
         
         commit('setTickets', response.data)
     },
