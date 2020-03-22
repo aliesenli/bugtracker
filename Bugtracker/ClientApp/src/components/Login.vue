@@ -73,8 +73,3 @@ export default {
 }
 </script>
 
-<style>
-    #appli {
-        padding-left: 0px;
-    }
-</style>

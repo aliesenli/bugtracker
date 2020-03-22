@@ -1,6 +1,6 @@
 <template>
-    <div id="appli">
-        <div id="wrapper" :class="wrapperClass" v-show="!hideMenu">
+    <div id="app" :class="spacingClass">
+        <div id="wrapper" :class="wrapperClass" v-show="spacingClass">
             <MenuToggleBtn></MenuToggleBtn>
 
             <Menu></Menu>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 // @ is an alias to /src
 import MenuToggleBtn from '@/components/MenuToggleBtn.vue'
 import Menu from '@/components/Menu.vue'
@@ -36,46 +37,44 @@ export default {
         window.bus.$on('menu/closeMobileMenu', () => {
             this.isOpenMobileMenu = false;
         });
-
-        if (this.$route.path == "/login" || this.$route.path == "/register") {
-            this.hideMenu = true
-            //document.getElementById("appli").classList.remove("applis")
-        } else {
-            this.hideMenu = false
-            //document.getElementById("appli").classList.add("applis")
-        }
-
-        console.log(this.hideMenu);
     },
 
     data() {
         return {
             isOpenMobileMenu: false,
-            hideMenu: false
         };
     },
 
-    computed: {
-        wrapperClass() {
+     computed: {
+         wrapperClass() {
             return {
-                'toggled': this.isOpenMobileMenu === true,
-            };
+                'toggled': this.isOpenMobileMenu === true
+            }
+        },
+        spacingClass() {
+            return {
+                'spacing': this.spacing
+            }
+        },
+          ...mapState({
+        spacing: state => state.menu.spacing,
+        })
+    },
+
+    watch:{
+        $route (){
+            if (this.$route.path == "/login" || this.$route.path == "/register") {
+                this.$store.dispatch('clear')
+            } else {
+                this.$store.dispatch('set')
+            }
         }
-    }
-
-
+    } 
+    
 }
 </script>
 
 <style>
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-    }
-
     #nav {
         padding: 30px;
     }
