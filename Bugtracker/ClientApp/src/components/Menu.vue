@@ -87,12 +87,18 @@
             </h6>
 
             <a
-            v-else
+            v-else-if="item.type === 'link'"
             href="#"
             @click.prevent="openSection(item)"
             :class="subMenuClass(item.txt)"
             >
               {{item.txt}}
+            </a>
+
+            <a id="context-menu-logout__link" v-else-if="item.type === 'logout'"
+            @click="logout"
+            >
+             {{item.txt}}
             </a>
           </li>
         </ul>
@@ -164,6 +170,13 @@ export default {
       let sectionSlug = kebabCase(item.txt);
 
       return `${item.link}/${sectionSlug}`;
+    },
+
+    logout: function () {
+        this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login')
+        })
     }
 
   },

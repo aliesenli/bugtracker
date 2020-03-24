@@ -9,14 +9,15 @@ const state = {
 
 const getters = {
     isLoggedIn: state => !!state.token,
-	authStatus: state => state.status,
+    loggedInAs: state => JSON.parse(atob(state.token.split('.')[1])),
+    authStatus: state => state.status,
 };
 
 const actions = {
     login({commit}, user){
         return new Promise((resolve, reject) => {
             commit('auth_request')
-            axios({url: 'http://localhost:44340/api/identity/login', data: user, method: 'POST' })
+            axios({url: 'https://localhost:5001/api/identity/login', data: user, method: 'POST' })
             .then(resp => {
                 const token = resp.data.token
                 const user = resp.data.user

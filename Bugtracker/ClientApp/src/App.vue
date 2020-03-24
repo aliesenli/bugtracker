@@ -7,7 +7,6 @@
 
             <ContentOverlay></ContentOverlay>
         </div>
-
         <router-view></router-view>
     </div>
 </template>
@@ -37,6 +36,10 @@ export default {
         window.bus.$on('menu/closeMobileMenu', () => {
             this.isOpenMobileMenu = false;
         });
+    
+        if(this.$route.path == "/login") {
+            this.$store.dispatch("clear");
+        }
     },
 
     data() {

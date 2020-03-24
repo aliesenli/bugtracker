@@ -148,6 +148,22 @@ ul {
   }
 }
 
+#context-menu-logout__link {
+  display: block;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  background: transparent;
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+    background: #3c444b;
+    cursor: pointer;
+    transition: all 500ms ease-out;
+  }
+}
+
 .context-menu__link--active {
   background: #57636d;
 }

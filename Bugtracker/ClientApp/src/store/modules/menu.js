@@ -1,5 +1,5 @@
 const state = {
-    spacing: false
+    spacing: true
 };
 
 const actions = {

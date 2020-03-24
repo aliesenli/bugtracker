@@ -81,9 +81,8 @@ export default {
     },
 
     {
-      type: 'link',
+      type: 'logout',
       txt: 'Logout',
-      link: '/page',
     },
 
     {

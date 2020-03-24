@@ -1,38 +1,19 @@
 <template>
-    <div>
-        <h1>Salam</h1>
-
-        <ul id="example-1">
-            <li v-for="project in allProjects" :key="project.id">
-                {{ project.name }}
-            </li>
-        </ul>
-    </div>
+    <div class="main-content"> 
+            <div class="main-content__body">
+                <Project />
+            </div>
+        </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+    // @ is an alias to /src
+    import Project from '@/components/Project.vue'
 
-export default {
-
-    name: 'Project',
-
-    methods: {
-        ...mapActions([
-            'fetchProjects'
-        ]),
-    },
-
-    computed: {
-        ...mapGetters([
-            'allProjects'
-        ]),      
-    },
-    
-    created() {
-        this.fetchProjects();
-    },
-
-}
-
+    export default {
+        name: 'Projects',
+        components: {
+            Project
+        }
+    }
 </script>

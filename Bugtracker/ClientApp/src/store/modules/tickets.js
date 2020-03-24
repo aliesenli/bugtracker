@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
     async fetchTickets({ commit }) {
-        const response = await axios('http://localhost:44340/api/tickets', {
+        const response = await axios('https://localhost:5001/api/tickets', {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
@@ -22,9 +22,14 @@ const actions = {
     },
 
     async createTicket({ commit }, name, prio, projectId) {
-        const response = await axios.post('http://localhost:44340/api/tickets/create',
-        { name: name, priority: prio, projectId: projectId }
-        );
+        const response = await axios.post('https://localhost:5001/api/tickets/create', { name: name, priority: prio, projectId: projectId },
+        {
+            headers: {
+                "Authorization": "bearer "+ localStorage.getItem('token') ,
+                "Accept": "application/json",
+                "cache-control": "no-cache"
+              },
+        });
 
         commit('addTicket', response.data);
     },

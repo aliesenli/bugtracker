@@ -9,12 +9,12 @@
       >
         <i class="fa fa-bars" aria-hidden="true"></i>
       </a>
-      <h1 class="main-content__title">
-          Home
+      <div class="main-content__title">
           <span v-if="isLoggedIn">
-            <button @click="logout">Logout</button>
+            <span>Logged in as: {{ loggedInAs.sub }} </span>
+            <b-button @click="logout">Logout</b-button>
           </span>
-      </h1>
+      </div>
     </div>
 
   </div>
@@ -25,7 +25,8 @@
 export default {
 
   computed : {
-      isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+      isLoggedIn : function(){ return this.$store.getters.isLoggedIn },
+      loggedInAs : function(){ return this.$store.getters.loggedInAs }
     },
 
    methods: {

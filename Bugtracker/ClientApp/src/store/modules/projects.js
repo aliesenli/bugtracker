@@ -10,9 +10,16 @@ const getters = {
 
 const actions = {
     async fetchProjects({ commit }) {
-        const response = await axios('https://localhost:5001/api/projects');
+        const response = await axios('https://localhost:5001/api/projects', {
+            headers: {
+                "Authorization": "bearer "+ localStorage.getItem('token') ,
+                "Accept": "application/json",
+                "cache-control": "no-cache"
+              }
+        });
         
         commit('setProjects', response.data);
+        console.log(response.data);
     }
 };
 
