@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="main-content__top" v-show="!$route.meta.hideNavigation">
       <a
         href="#"

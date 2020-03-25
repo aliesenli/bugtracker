@@ -18,10 +18,11 @@ const routes = [
     }
   },
   {
-    path: '/page/all-projects',
+    path: '/projects',
     name: 'Projects',
     component: Projects
   },
+  { path: '/projects/:projectId', name: 'project', component: Home },
   {
     path: '/login',
     name: 'login',

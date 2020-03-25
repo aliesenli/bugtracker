@@ -14,8 +14,8 @@ export default {
 
     {
       type: 'link',
-      txt: 'All Projects',
-      link: '/page',
+      txt: 'Projects',
+      link: '',
     },
 
     {

@@ -2,9 +2,7 @@
     <div class="home">
         <div class="main-content"> 
             <div class="main-content__body">
-                <p>
-                    <Ticket />
-                </p>
+                <Ticket />
             </div>
         </div>
     </div>

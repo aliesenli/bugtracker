@@ -80,9 +80,9 @@
                 </template>
 
                 <template v-slot:cell(actions)="row">
-                    <b-button size="sm" @click="row.toggleDetails">
-                    {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-                    </b-button>
+                    <b-button size="sm" @click="info(row.item)" class="mr-1">
+                    Details
+                    </b-button>                    
                 </template>
             </b-table> 
 
@@ -117,6 +117,11 @@ export default {
             // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
+        },
+        info(item) {
+            console.log(item);
+            this.$router.push({ name: 'project', params: { projectId: item.id }})
+            
         }
     },
 
