@@ -19,7 +19,6 @@ const actions = {
         });
         
         commit('setProjects', response.data);
-        console.log(response.data);
     }
 };
 

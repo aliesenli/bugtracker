@@ -106,7 +106,6 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-
     name: 'Project',
 
     methods: {
@@ -114,14 +113,11 @@ export default {
             'fetchProjects'
         ]),
         onFiltered(filteredItems) {
-            // Trigger pagination to update the number of buttons/pages due to filtering
             this.totalRows = filteredItems.length
             this.currentPage = 1
         },
         info(item) {
-            console.log(item);
-            this.$router.push({ name: 'project', params: { projectId: item.id }})
-            
+            this.$router.push({ name: 'Project', params: { projectId: item.id }})
         }
     },
 

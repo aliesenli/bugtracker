@@ -9,15 +9,15 @@ const getters = {
 };
 
 const actions = {
-    async fetchTickets({ commit }) {
-        const response = await axios('https://localhost:5001/api/tickets', {
+    async fetchTickets({ commit }, test) {
+        const response = await axios(`https://localhost:5001/api/projects/${test}`, {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
                 "cache-control": "no-cache"
-              }
+            }
         });
-        
+        console.log(response.data);
         commit('setTickets', response.data)
     },
 
@@ -28,7 +28,7 @@ const actions = {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
                 "cache-control": "no-cache"
-              },
+            },
         });
 
         commit('addTicket', response.data);

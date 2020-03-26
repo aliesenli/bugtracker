@@ -28,6 +28,10 @@ body {
   padding: 15px;
 }
 
+.card {
+  box-shadow: 0 0 4px 0 silver;
+}
+
 .card-title-shifted {
   margin-top: -40px;
   position: relative;
@@ -40,11 +44,15 @@ body {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color:#c6e2fd;
+  background-color:#4b6782;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
   padding: 1rem;
+}
+
+.card-title-shifted h5 {
+  color: white
 }
 
 .card-title {

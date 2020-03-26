@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import store from '../store'
 import Home from '../views/Home.vue'
 import Projects from '../views/Projects.vue'
+import Project from '../views/Project.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 
@@ -22,7 +23,10 @@ const routes = [
     name: 'Projects',
     component: Projects
   },
-  { path: '/projects/:projectId', name: 'project', component: Home },
+  { path: '/projects/:projectId',
+    name: 'Project',
+    component: Project
+  },
   {
     path: '/login',
     name: 'login',

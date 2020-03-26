@@ -7,18 +7,18 @@
                     <h5>Project-Details</h5>
                     <b-row>
                         <b-col>
-                                    <a href="#" class="card-link">Card link</a>
-                        <b-link href="#" class="card-link">Another link</b-link>     
+                            <a href="#" class="card-link">Card link</a>
+                            <b-link href="#" class="card-link">Another link</b-link>     
                         </b-col>
                     
                     </b-row>
                 </div>
-                <b-card-text>
-                Some quick example text to build on the <em>card title</em> and make up the bulk of the card's
-                content.
-                </b-card-text>
-
-                <b-card-text>A second paragraph of text in the card.</b-card-text>
+                <div class="mt-4">
+                    <b-row align-h="start">
+                        <b-col><span class="font-weight-bold">Name: </span>{{this.allTickets.name}}</b-col>
+                        <b-col><span class="font-weight-bold">Description: </span>{{this.allTickets.description}}</b-col>
+                    </b-row>
+                </div>
             </b-card>
             
             <hr>
@@ -146,6 +146,10 @@
                 // Trigger pagination to update the number of buttons/pages due to filtering
                 this.totalRows = filteredItems.length
                 this.currentPage = 1
+            },
+
+            getUrl() {
+                return this.$route.params.projectId;
             }
         },
         computed: {
@@ -154,7 +158,7 @@
             ]),      
         },
         created() {
-            this.fetchTickets();
+            this.fetchTickets(this.getUrl());
         },
         data() {
             return {
