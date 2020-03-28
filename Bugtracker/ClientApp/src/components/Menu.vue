@@ -135,7 +135,9 @@ export default {
       this.menuItems = this.menuData[context];
 
       if (context === 'home') {
-        this.$router.push('/');
+        /* eslint-disable no-unused-vars */
+          this.$router.push('/').catch(err => {});
+        /* eslint-enable no-unused-vars */
         window.bus.$emit('menu/closeMobileMenu');
       }
     },

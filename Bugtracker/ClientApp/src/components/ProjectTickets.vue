@@ -1,28 +1,6 @@
 ﻿<template>
     <div class="hello">
-
         <div>
-            <b-card class="mt-3">
-                <div class="card-title-shifted">
-                    <h5>Project-Details</h5>
-                    <b-row>
-                        <b-col>
-                            <a href="#" class="card-link">Card link</a>
-                            <b-link href="#" class="card-link">Another link</b-link>     
-                        </b-col>
-                    
-                    </b-row>
-                </div>
-                <div class="mt-4">
-                    <b-row align-h="start">
-                        <b-col><span class="font-weight-bold">Name: </span>{{this.allTickets.name}}</b-col>
-                        <b-col><span class="font-weight-bold">Description: </span>{{this.allTickets.description}}</b-col>
-                    </b-row>
-                </div>
-            </b-card>
-            
-            <hr>
-
             <b-card
                 header="Tickets for this Project"
                 header-text-variant="white"
@@ -91,22 +69,32 @@
                     fixed
                     striped
                     :busy="isBusy"
-                    :items="allTickets"
+                    :items="projectTickets"
                     :fields="fields"
                     :current-page="currentPage"
                     :per-page="perPage"
                     :filter="filter"
-                    :filterIncludedFields="filterOn"
                     :sort-by.sync="sortBy"
                     :sort-desc.sync="sortDesc"
                     :sort-direction="sortDirection"
                     @filtered="onFiltered"
                 >
+
+                    <template v-slot:cell(priority)="data">
+                        {{btnText(data)}}
+                    </template>/
+
                     <template v-slot:table-busy>
                         <div class="text-center text-danger my-2">
                         <b-spinner class="align-middle"></b-spinner>
                         <strong>Loading...</strong>
                         </div>
+                    </template>
+
+                    <template v-slot:cell(actions)="row">
+                        <b-button size="sm" @click="info(row.item)" class="mr-1">
+                        Details
+                        </b-button>                    
                     </template>
                 </b-table> 
 
@@ -134,7 +122,7 @@
         name: 'Ticket',
         methods: {
             ...mapActions([
-                'fetchTickets',
+                'fetchProjectTickets',
                 'createTicket'
             ]), 
             onSubmit(e) {
@@ -148,24 +136,28 @@
                 this.currentPage = 1
             },
 
-            getUrl() {
-                return this.$route.params.projectId;
+            btnText(data){
+                if (data.value == 0) return "Low"
+                if (data.value == 1) return "Medium"
+                return "High"
             }
+
         },
         computed: {
             ...mapGetters([
-                'allTickets'
-            ]),      
+                'projectTickets',
+                'projectName',
+                'projectDescription'
+            ]),
         },
         created() {
-            this.fetchTickets(this.getUrl());
+            this.fetchProjectTickets(this.$route.params.projectId);
         },
         data() {
             return {
                 fields: [
-                    { key: 'name', label: 'Ticket name', sortable: true, sortDirection: 'desc' },
-                    { key: 'id', label: 'Ticket id', sortable: true },
-                    { key: 'isActive', label: 'is Active', sortable: true },
+                    { key: 'name', label: 'Ticket title', sortable: true, sortDirection: 'desc' },
+                    { key: 'priority', label: 'Priority', sortable: true },
                     { key: 'actions', label: 'Actions' }
                 ],
                 isBusy: false,
@@ -177,39 +169,17 @@
                 sortDesc: false,
                 sortDirection: 'asc',
                 filter: null,
-                filterOn: [],
 
                 name: '',
                 prio: 1,
-                projectId: ''
+                projectId: '',
             }
         },
         watch: {
-            allTickets: function () {
-                this.totalRows = this.allTickets.length
-                //this.isBusy = !this.isBusy;
+            projectTickets: function () {
+                this.totalRows = this.projectTickets.length
             },
         }
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    h3 {
-        margin: 40px 0 0;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-
-    a {
-        color: #42b983;
-    }
-</style>

@@ -1,15 +1,19 @@
 import axios from 'axios'
 
 const state = {
-    tickets: []
+    projectName: "",
+    projectDescription: "",
+    projectTickets: []
 };
 
 const getters = {
-    allTickets: (state) => state.tickets
+    projectTickets: (state) => state.projectTickets,
+    projectName: (state) => state.projectName,
+    projectDescription: (state) => state.projectDescription
 };
 
 const actions = {
-    async fetchTickets({ commit }, test) {
+    async fetchProjectTickets({ commit }, test) {
         const response = await axios(`https://localhost:5001/api/projects/${test}`, {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
@@ -17,8 +21,8 @@ const actions = {
                 "cache-control": "no-cache"
             }
         });
-        console.log(response.data);
-        commit('setTickets', response.data)
+
+        commit('setProjectDetails', response.data)
     },
 
     async createTicket({ commit }, name, prio, projectId) {
@@ -44,7 +48,11 @@ const actions = {
 };
 
 const mutations = {
-    setTickets: (state, tickets) => state.tickets = tickets,
+    setProjectDetails: (state, data) => { 
+        state.projectDescription = data.description,
+        state.projectName = data.name,
+        state.projectTickets = data.tickets 
+    },
     addTicket: (state, ticket) => state.tickets.unshift(ticket),
     deleteTicket: (state, ticketId) => state.tickets.filter(ticketId)
 };
