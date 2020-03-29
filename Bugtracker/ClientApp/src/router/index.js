@@ -4,6 +4,7 @@ import store from '../store'
 import Home from '../views/Home.vue'
 import Projects from '../views/Projects.vue'
 import Project from '../views/Project.vue'
+import Ticket from '../components/Ticket.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 
@@ -23,9 +24,15 @@ const routes = [
     name: 'Projects',
     component: Projects
   },
-  { path: '/project/:projectId',
+  { 
+    path: '/project/:projectId',
     name: 'Project',
     component: Project
+  },
+  {
+    path: '/ticket/:ticketId',
+    name: 'Ticket',
+    component: Ticket
   },
   {
     path: '/login',

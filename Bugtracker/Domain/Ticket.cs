@@ -32,7 +32,7 @@ namespace Bugtracker.Domain
 
         /* TODO
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; }
+        public IdentityUser Assignee { get; set; }
         */
     }
 }

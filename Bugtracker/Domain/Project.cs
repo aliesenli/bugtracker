@@ -21,8 +21,5 @@ namespace Bugtracker.Domain
         public DateTime Completion { get; set; }
 
         public List<Ticket> Tickets { get; set; }
-
-        //TODO: Project Team Assignments
-        //public List<IdentityUser> IdentityUsers { get; set; }
     }
 }

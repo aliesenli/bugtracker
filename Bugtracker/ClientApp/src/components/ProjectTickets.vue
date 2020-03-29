@@ -81,7 +81,7 @@
                 >
 
                     <template v-slot:cell(priority)="data">
-                        {{btnText(data)}}
+                        {{priorityText(data)}}
                     </template>/
 
                     <template v-slot:table-busy>
@@ -136,10 +136,14 @@
                 this.currentPage = 1
             },
 
-            btnText(data){
+            priorityText(data){
                 if (data.value == 0) return "Low"
                 if (data.value == 1) return "Medium"
                 return "High"
+            },
+
+            info(item) {
+                this.$router.push({ name: 'Ticket', params: { ticketId: item.id }})
             }
 
         },
@@ -157,7 +161,7 @@
             return {
                 fields: [
                     { key: 'name', label: 'Ticket title', sortable: true, sortDirection: 'desc' },
-                    { key: 'priority', label: 'Priority', sortable: true },
+                    { key: 'priority', label: 'Priority', sortable: true, sortDirection: 'desc' },
                     { key: 'actions', label: 'Actions' }
                 ],
                 isBusy: false,
