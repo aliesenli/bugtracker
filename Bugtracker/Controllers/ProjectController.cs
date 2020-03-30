@@ -36,9 +36,9 @@ namespace Bugtracker.Controllers
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
-                CreatedOn = project.CreatedOn,
-                Completion = project.Completion,
-                Tickets = tickets.FindAll(x => x.ProjectId == project.Id.ToString())
+                CreatedOn = project.CreatedOn.ToString(),
+                Completion = project.Completion.ToString(),
+                Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
             });
 
             return Ok(projectResponse);
@@ -54,9 +54,9 @@ namespace Bugtracker.Controllers
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
-                CreatedOn = project.CreatedOn,
-                Completion = project.Completion,
-                Tickets = tickets.FindAll(x => x.ProjectId == project.Id.ToString())
+                CreatedOn = project.CreatedOn.ToString(),
+                Completion = project.Completion.ToString(),
+                Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
             };
 
             return Ok(projectResponse);
@@ -81,8 +81,8 @@ namespace Bugtracker.Controllers
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
-                CreatedOn = project.CreatedOn,
-                Completion = project.Completion
+                CreatedOn = project.CreatedOn.ToString(),
+                Completion = project.Completion.ToString()
             };
 
             await _projectService.CreateProjectAsync(project);

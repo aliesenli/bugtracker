@@ -14,6 +14,8 @@
     <Compile Remove="Data\Migrations\20200317151450_init2.Designer.cs" />
     <Compile Remove="Data\Migrations\Migrations\20200317185642_jwt-installed.cs" />
     <Compile Remove="Data\Migrations\Migrations\20200317185642_jwt-installed.Designer.cs" />
+    <Compile Remove="Data\Migrations\Migrations\20200330174303_domain_changes2.cs" />
+    <Compile Remove="Data\Migrations\Migrations\20200330174303_domain_changes2.Designer.cs" />
   </ItemGroup>
 
 
@@ -27,6 +29,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="5.0.0" />
   </ItemGroup>

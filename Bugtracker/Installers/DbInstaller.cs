@@ -20,6 +20,7 @@ namespace Bugtracker.Installers
 
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IStaffService, StaffService>();
         }
     }
 }

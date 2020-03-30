@@ -9,7 +9,7 @@ namespace Bugtracker.Contracts.Responses
 
         public string Name { get; set; }
 
-        public string UserId { get; set; }
+        public string SubmitterId { get; set; }
 
         public string CreatedAt { get; set; }
 
@@ -17,6 +17,6 @@ namespace Bugtracker.Contracts.Responses
 
         public Priority Priority { get; set; }
 
-        public string ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
     }
 }

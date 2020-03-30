@@ -1,13 +1,7 @@
 <template>
     <div>
-        <b-card
-        header="All Projects"
-        header-text-variant="white"
-        header-tag="header"
-        header-bg-variant="dark"
-        border-variant="default"
-        >
-
+        <h2>Projects</h2>
+        <div class="p-3">
             <b-row align-h="between" class="mb-2">
                 <b-col sm="2" class="my-1">
                     <b-form-group
@@ -58,8 +52,6 @@
                 stacked="sm"
                 responsive="sm"
                 sort-icon-left
-                fixed
-                striped
                 :busy="isBusy"
                 :items="allProjects"
                 :fields="fields"
@@ -81,7 +73,7 @@
 
                 <template v-slot:cell(actions)="row">
                     <b-button size="sm" @click="info(row.item)" class="mr-1">
-                    Details
+                    Details 
                     </b-button>                    
                 </template>
             </b-table> 
@@ -98,7 +90,7 @@
                     ></b-pagination>
                 </b-col>
             </b-row> 
-        </b-card>
+        </div>
     </div>
 </template>
 

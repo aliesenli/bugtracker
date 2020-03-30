@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 
 namespace Bugtracker.Domain
@@ -13,14 +13,35 @@ namespace Bugtracker.Domain
         High
     }
 
+    public enum Status
+    {
+        Open,
+        Closed,
+    }
+
     public class Ticket
     {
         [Key]
         public Guid Id { get; set; }
 
-        public string Name { get; set; }
+        public string Title { get; set; }
 
-        public string UserId { get; set; }
+        public string Description { get; set; }
+
+        public Guid ProjectId { get; set; }
+
+        [ForeignKey(nameof(ProjectId))]
+        public Project Project { get; set; }
+
+        public string SubmitterId { get; set; }
+
+        public string AssigneeId { get; set; }
+
+        [ForeignKey(nameof(SubmitterId))]
+        public IdentityUser Submitter { get; set; }
+
+        [ForeignKey(nameof(AssigneeId))]
+        public IdentityUser Assignee { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -28,11 +49,6 @@ namespace Bugtracker.Domain
 
         public Priority Priority { get; set; }
 
-        public string ProjectId { get; set; }
-
-        /* TODO
-        [ForeignKey(nameof(UserId))]
-        public IdentityUser Assignee { get; set; }
-        */
+        public Status Status { get; set; }
     }
 }

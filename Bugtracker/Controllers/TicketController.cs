@@ -31,8 +31,8 @@ namespace Bugtracker.Controllers
             var ticketResponse = tickets.Select(ticket => new TicketResponse
             {
                 Id = ticket.Id,
-                UserId = ticket.UserId,
-                Name = ticket.Name,
+                SubmitterId = ticket.SubmitterId,
+                Name = ticket.Title,
                 CreatedAt = ticket.CreatedAt.ToString(),
                 UpdatedAt = ticket.UpdatedAt.ToString(),
                 Priority = ticket.Priority,
@@ -49,8 +49,8 @@ namespace Bugtracker.Controllers
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                UserId = ticket.UserId,
-                Name = ticket.Name,
+                SubmitterId = ticket.SubmitterId,
+                Name = ticket.Title,
                 CreatedAt = ticket.CreatedAt.ToString(),
                 Priority = ticket.Priority
             };
@@ -62,26 +62,26 @@ namespace Bugtracker.Controllers
         public async Task<IActionResult> Create([FromBody] CreateTicketRequest postRequest)
         {
             var newTicketId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
 
             var ticket = new Ticket
             {
                 Id = newTicketId,
-                Name = postRequest.Name,
-                //TODO
-                //UserId = HttpContext.GetUserId(),
-                UserId = userId.ToString(),
+                Title = postRequest.Name,
+                Description = postRequest.Description,
+                SubmitterId = HttpContext.GetUserId(),
+                AssigneeId = postRequest.AssigneeId,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = null,
                 Priority = postRequest.Priority,
-                ProjectId = postRequest.ProjectId
+                Status = 0, // Enum 0 means status "Open"
+                ProjectId = postRequest.ProjectId,
             };
 
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                Name = ticket.Name,
-                UserId = ticket.UserId,
+                Name = ticket.Title,
+                SubmitterId = ticket.SubmitterId,
                 CreatedAt = ticket.CreatedAt.ToString(),
                 Priority = ticket.Priority,
                 ProjectId = ticket.ProjectId
@@ -97,11 +97,8 @@ namespace Bugtracker.Controllers
         [HttpPut("api/ticket/{ticketId}")]
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
-            //TODO
-            //var userOwnsPost = await _ticketService.UserOwnsPostAsync(ticketId, HttpContext.GetUserId());
-
             var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
-            ticket.Name = request.Name;
+            ticket.Title = request.Name;
             ticket.UpdatedAt = DateTime.UtcNow;
             ticket.Priority = request.Priority;
 
@@ -110,8 +107,8 @@ namespace Bugtracker.Controllers
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                UserId = ticket.UserId,
-                Name = ticket.Name,
+                SubmitterId = ticket.SubmitterId,
+                Name = ticket.Title,
                 CreatedAt = ticket.CreatedAt.ToString(),
                 UpdatedAt = ticket.UpdatedAt.ToString(),
                 Priority = ticket.Priority
@@ -126,8 +123,6 @@ namespace Bugtracker.Controllers
         [HttpDelete("api/tickets/{ticketId}")]
         public async Task<IActionResult> Delete([FromRoute] Guid ticketId)
         {
-            //TODO
-            //var userOwnsPost = await _ticketService.UserOwnsTicketAsync(postId);
             var deleted = await _ticketService.DeleteTicketAsync(ticketId);
 
             if (deleted)
