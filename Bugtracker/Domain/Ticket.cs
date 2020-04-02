@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace Bugtracker.Domain
 {
@@ -28,20 +29,20 @@ namespace Bugtracker.Domain
 
         public string Description { get; set; }
 
+        [ForeignKey(nameof(Project))]
         public Guid ProjectId { get; set; }
 
-        [ForeignKey(nameof(ProjectId))]
         public Project Project { get; set; }
 
-        public string SubmitterId { get; set; }
-
+        [ForeignKey(nameof(Assignee))]
         public string AssigneeId { get; set; }
 
-        [ForeignKey(nameof(SubmitterId))]
-        public IdentityUser Submitter { get; set; }
-
-        [ForeignKey(nameof(AssigneeId))]
         public IdentityUser Assignee { get; set; }
+
+        [ForeignKey(nameof(Submitter))]
+        public string SubmitterId { get; set; }
+
+        public IdentityUser Submitter { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

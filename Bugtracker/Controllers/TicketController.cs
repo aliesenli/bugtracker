@@ -31,12 +31,12 @@ namespace Bugtracker.Controllers
             var ticketResponse = tickets.Select(ticket => new TicketResponse
             {
                 Id = ticket.Id,
-                SubmitterId = ticket.SubmitterId,
+                //SubmitterId = ticket.SubmitterId,
                 Name = ticket.Title,
                 CreatedAt = ticket.CreatedAt.ToString(),
                 UpdatedAt = ticket.UpdatedAt.ToString(),
                 Priority = ticket.Priority,
-                ProjectId = ticket.ProjectId
+                ProjectId = ticket.ProjectId,
             });
 
             return Ok(ticketResponse);
@@ -49,7 +49,7 @@ namespace Bugtracker.Controllers
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                SubmitterId = ticket.SubmitterId,
+                //SubmitterId = ticket.SubmitterId,
                 Name = ticket.Title,
                 CreatedAt = ticket.CreatedAt.ToString(),
                 Priority = ticket.Priority

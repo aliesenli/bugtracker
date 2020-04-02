@@ -47,8 +47,12 @@ namespace Bugtracker.Services
 
         public async Task<List<Project>> GetProjectsAsync()
         {
-            var queryable = _applicationDbContext.Projects.AsQueryable();
+            var queryable = _applicationDbContext.Projects
+              .Include(p => p.Tickets).ThenInclude(t => t.Submitter)
+              .Include(p => p.Tickets).ThenInclude(t => t.Assignee);
+            //.AsQueryable();
 
+            //return await queryable.ToListAsync();
             return await queryable.ToListAsync();
         }
 

@@ -1,10 +1,12 @@
 ﻿using Bugtracker.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Bugtracker.Contracts.Responses
+namespace Bugtracker.Dto
 {
-    public class ProjectResponse
+    public class ProjectDto
     {
         public Guid Id { get; set; }
 
@@ -16,6 +18,6 @@ namespace Bugtracker.Contracts.Responses
 
         public string Completion { get; set; }
 
-        public IEnumerable<Ticket> Tickets { get; set; }
+        public ICollection<string> Tickets { get; set; } = new HashSet<string>();
     }
 }

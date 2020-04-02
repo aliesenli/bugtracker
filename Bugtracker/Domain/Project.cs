@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,6 +18,6 @@ namespace Bugtracker.Domain
 
         public DateTime Completion { get; set; }
 
-        public virtual List<Ticket> Tickets { get; set; }
+        public virtual IEnumerable<Ticket> Tickets { get; set; } = new List<Ticket>();
     }
 }

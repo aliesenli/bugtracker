@@ -24,14 +24,23 @@ namespace Bugtracker.Installers
 
             services.AddScoped<IIdentityService, IdentityService>();
 
-            services
-                .AddMvc(options =>
-                {
-                    options.EnableEndpointRouting = false;
-                }).AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
+            /*
+            services.AddMvc().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+ */
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
+
+
+            /*.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });*/
 
             var tokenValidationParameters = new TokenValidationParameters
             {
