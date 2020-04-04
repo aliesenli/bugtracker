@@ -3,7 +3,7 @@
         <div class="main-content__body">
             <b-row>
                 <b-col cols="12">
-                    {{ getTicket.name }} / {{ getTicket.userId}}
+                    {{ getTicket.title }} / {{ getTicket.project}}
                 </b-col>
             </b-row>
             <b-row class="mt-4">
@@ -37,11 +37,11 @@
                             <b-row>
                                 <b-col cols="6" md="6">
                                     <p>Priority: {{ getTicket.priority }}</p>
-                                    <p>Status: {{ getTicket.priority }}</p>
+                                    <p>Status: {{ getTicket.status }}</p>
                                 </b-col>
                                 <b-col cols="6" md="6">
-                                    <p>Created: {{ getTicket.createdAt }}</p>
-                                    <p>Updated: {{ getTicket.updatedAt }}</p>
+                                    <p>Created: {{ getTicket.createdOn }}</p>
+                                    <p>Updated: {{ getTicket.updatedOn }}</p>
                                 </b-col>
                             </b-row>
                         </div>
@@ -68,9 +68,9 @@
                         </div>
                         <div class="p-2">
                             <h6>Assigned to:</h6>
-                            <b-icon icon="person-fill" font-scale="2"></b-icon> fsdafdsf
+                            <b-icon icon="person-fill" font-scale="2"></b-icon> {{ getTicket.assignee }}
                             <h6>Submitter:</h6>
-                            <b-icon icon="person-fill" font-scale="2"></b-icon> dsfsdtgrfh
+                            <b-icon icon="person-fill" font-scale="2"></b-icon> {{ getTicket.submitter }}
                         </div>
                         
                     </div>

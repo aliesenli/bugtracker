@@ -6,7 +6,6 @@ using Bugtracker.Contracts.Requests;
 using Bugtracker.Contracts.Responses;
 using Bugtracker.Converters;
 using Bugtracker.Domain;
-using Bugtracker.Dto;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,12 +18,12 @@ namespace Bugtracker.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly IUriService _uriService;
-        private readonly IConverter<Project, ProjectDto> _projectToDtoConverter;
-        private readonly IConverter<IList<Project>, IList<ProjectDto>> _projectToDtoListConverter;
+        private readonly IConverter<Project, ProjectResponse> _projectToDtoConverter;
+        private readonly IConverter<IList<Project>, IList<ProjectResponse>> _projectToDtoListConverter;
 
         public ProjectController(IProjectService projectService, IUriService uriService,
-            IConverter<Project, ProjectDto> projectToDtoConverter,
-            IConverter<IList<Project>, IList<ProjectDto>> projectToDtoListConverter)
+            IConverter<Project, ProjectResponse> projectToDtoConverter,
+            IConverter<IList<Project>, IList<ProjectResponse>> projectToDtoListConverter)
         {
             _projectService = projectService;
             _uriService = uriService;
@@ -37,19 +36,8 @@ namespace Bugtracker.Controllers
         {
             var projects = await _projectService.GetProjectsAsync();
 
-            var projectResponse = projects.Select(project => new ProjectResponse
-            {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
-                CreatedOn = project.CreatedOn.ToString(),
-                Completion = project.Completion.ToString(),
-                Tickets = project.Tickets
-            });
-
             var projectsDto = _projectToDtoListConverter.Convert(projects);
 
-            //return Ok(projectResponse);
             return Ok(projectsDto);
         }
 
@@ -68,7 +56,10 @@ namespace Bugtracker.Controllers
                 //Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
             };
 
-            return Ok(projectResponse);
+            var projectDto = _projectToDtoConverter.Convert(project);
+
+            //return Ok(projectResponse);
+            return Ok(projectDto);
         }
 
         [HttpPost("api/projects/create")]

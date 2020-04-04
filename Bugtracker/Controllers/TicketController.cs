@@ -31,12 +31,14 @@ namespace Bugtracker.Controllers
             var ticketResponse = tickets.Select(ticket => new TicketResponse
             {
                 Id = ticket.Id,
-                //SubmitterId = ticket.SubmitterId,
-                Name = ticket.Title,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                UpdatedAt = ticket.UpdatedAt.ToString(),
-                Priority = ticket.Priority,
-                ProjectId = ticket.ProjectId,
+                Title = ticket.Title,
+                Description = ticket.Description,
+                Priority = ticket.Priority.ToString(),
+                CreatedOn = ticket.CreatedAt.ToString(),
+                UpdatedOn = ticket.UpdatedAt.ToString(),
+                Project = ticket.Project.Name,
+                Submitter = ticket.Submitter.UserName,
+                Assignee = ticket.Assignee.UserName
             });
 
             return Ok(ticketResponse);
@@ -49,10 +51,14 @@ namespace Bugtracker.Controllers
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                //SubmitterId = ticket.SubmitterId,
-                Name = ticket.Title,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                Priority = ticket.Priority
+                Title = ticket.Title,
+                Description = ticket.Description,
+                Priority = ticket.Priority.ToString(),
+                CreatedOn = ticket.CreatedAt.ToString(),
+                UpdatedOn = ticket.UpdatedAt.ToString(),
+                Project = ticket.Project.Name,
+                Submitter = ticket.Submitter.UserName,
+                Assignee = ticket.Assignee.UserName
             };
 
             return Ok(ticketResponse);
@@ -80,11 +86,11 @@ namespace Bugtracker.Controllers
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                Name = ticket.Title,
-                SubmitterId = ticket.SubmitterId,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                Priority = ticket.Priority,
-                ProjectId = ticket.ProjectId
+                Title = ticket.Title,
+                //SubmitterId = ticket.SubmitterId,
+                CreatedOn = ticket.CreatedAt.ToString(),
+                //Priority = ticket.Priority,
+                //ProjectId = ticket.ProjectId
             };
 
             await _ticketService.CreateTicketAsync(ticket);
@@ -107,11 +113,11 @@ namespace Bugtracker.Controllers
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                SubmitterId = ticket.SubmitterId,
-                Name = ticket.Title,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                UpdatedAt = ticket.UpdatedAt.ToString(),
-                Priority = ticket.Priority
+                //  SubmitterId = ticket.SubmitterId,
+                Title = ticket.Title,
+                CreatedOn = ticket.CreatedAt.ToString(),
+                UpdatedOn = ticket.UpdatedAt.ToString(),
+                //  Priority = ticket.Priority
             };
 
             if (updated)

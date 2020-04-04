@@ -51,7 +51,8 @@ const mutations = {
     setProjectDetails: (state, data) => { 
         state.projectDescription = data.description,
         state.projectName = data.name,
-        state.projectTickets = data.tickets 
+        state.projectTickets = data.tickets,
+        console.log(state.projectTickets) 
     },
     addTicket: (state, ticket) => state.tickets.unshift(ticket),
     deleteTicket: (state, ticketId) => state.tickets.filter(ticketId)

@@ -16,6 +16,6 @@ namespace Bugtracker.Contracts.Responses
 
         public string Completion { get; set; }
 
-        public IEnumerable<Ticket> Tickets { get; set; }
+        public ICollection<TicketResponse> Tickets { get; set; } = new HashSet<TicketResponse>();
     }
 }

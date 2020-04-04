@@ -1,7 +1,7 @@
-﻿using Bugtracker.Converters;
+﻿using Bugtracker.Contracts.Responses;
+using Bugtracker.Converters;
 using Bugtracker.Data;
 using Bugtracker.Domain;
-using Bugtracker.Dto;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,8 +26,8 @@ namespace Bugtracker.Installers
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IStaffService, StaffService>();
 
-            services.AddTransient<IConverter<Project, ProjectDto>, ProjectToDtoConverter>();
-            services.AddTransient<IConverter<IList<Project>, IList<ProjectDto>>, ProjectToDtoConverter>();
+            services.AddTransient<IConverter<Project, ProjectResponse>, ProjectToDtoConverter>();
+            services.AddTransient<IConverter<IList<Project>, IList<ProjectResponse>>, ProjectToDtoConverter>();
         }
     }
 }

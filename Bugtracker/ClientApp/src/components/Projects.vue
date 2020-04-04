@@ -1,6 +1,47 @@
 <template>
     <div>
-        <h2>Projects</h2>
+        <div>
+            <b-button v-b-modal.modal-footer-sm variant="outline-primary">
+                <b-icon icon="inbox-fill"></b-icon> Create New Project
+            </b-button>
+
+            <b-modal id="modal-footer-sm" size="lg" title="Create New Project" hide-footer>
+                <b-form @submit="onSubmit">
+                    <b-form-group
+                        id="input-group-1"
+                        label="Project Name:"
+                        label-for="input-1"
+                    >
+                        <b-form-input
+                        id="input-1"
+                        type="email"
+                        required
+                        placeholder="Project XYZ"
+                        ></b-form-input>
+
+                        <b-form-group
+                        class="mb-0"
+                        label="Textarea with formatter (on input)"
+                        label-for="textarea-formatter"
+                        >
+
+                        <b-form-textarea
+                        required
+                            id="textarea-formatter"
+                            v-model="text1"
+                            placeholder="Enter your text"
+                        ></b-form-textarea>
+                        </b-form-group>
+
+                        <label for="example-datepicker">Choose a date:</label>
+                        <b-form-datepicker id="example-datepicker" aria-required="true" v-model="value" class="mb-2"></b-form-datepicker>
+                    </b-form-group>
+                    <b-button type="submit" variant="primary">Submit</b-button>
+                </b-form>
+            </b-modal>
+        </div>
+
+        <h2 class="mt-3">Projects</h2>
         <div class="p-3">
             <b-row align-h="between" class="mb-2">
                 <b-col sm="2" class="my-1">

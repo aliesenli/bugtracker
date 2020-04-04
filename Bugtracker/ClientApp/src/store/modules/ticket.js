@@ -18,6 +18,7 @@ const actions = {
             }
         });
 
+        console.log(response.data);
         commit('setTicket', response.data)
     },
 

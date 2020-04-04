@@ -1,37 +1,46 @@
-﻿using Bugtracker.Domain;
-using Bugtracker.Dto;
-using System;
+﻿using Bugtracker.Contracts.Responses;
+using Bugtracker.Domain;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bugtracker.Converters
 {
-    public class ProjectToDtoConverter : IConverter<Project, ProjectDto>, IConverter<IList<Project>, IList<ProjectDto>>
+    public class ProjectToDtoConverter : IConverter<Project, ProjectResponse>, IConverter<IList<Project>, IList<ProjectResponse>>
     {
-        public ProjectDto Convert(Project project)
+        public ProjectResponse Convert(Project project)
         {
-            var projectDto = new ProjectDto
+            var projectDto = new ProjectResponse
             {
                 Id = project.Id,
-                Name = project.Name
+                Name = project.Name,
+                Description = project.Description,
+                CreatedOn = project.CreatedOn.ToString(),
+                Completion = project.Completion.ToString()
             };
 
             foreach (var ticket in project.Tickets)
             {
+                var ticketDtos = new TicketResponse
+                {
+                    Id = ticket.Id,
+                    Title = ticket.Title,
+                    Description = ticket.Description,
+                    Status = ticket.Status.ToString(),
+                    CreatedOn = ticket.CreatedAt.ToString(),
+                    UpdatedOn = ticket.UpdatedAt.ToString(),
+                    Priority = ticket.Priority.ToString(),
+                    Project = ticket.Project.Name,
+                    Submitter = ticket.Submitter.UserName,
+                    Assignee = ticket.Assignee.UserName
+                };
 
-                var ticketDto = $"Id: {ticket.Id}, Title: {ticket.Title}, Description: {ticket.Description}," +
-                    $" Priority: {ticket.Priority}, CreatedAt: {ticket.CreatedAt}, UpdatedAt: {ticket.UpdatedAt}," +
-                    $" Status: {ticket.Status}, Assignee: {ticket.Assignee}, AssigneeId: {ticket.AssigneeId}," +
-                    $" Submitter: {ticket.Submitter}, SubmitterId: {ticket.SubmitterId}, ProjectId: {ticket.ProjectId}," +
-                    $" Project: {ticket.Project}";
-
-                projectDto.Tickets.Add(ticketDto);
+                projectDto.Tickets.Add(ticketDtos);
             }
+
             return projectDto;
         }
 
-        public IList<ProjectDto> Convert(IList<Project> projects)
+        public IList<ProjectResponse> Convert(IList<Project> projects)
         {
             return projects.Select(cmp =>
             {

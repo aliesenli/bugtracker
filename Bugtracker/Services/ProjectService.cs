@@ -42,6 +42,8 @@ namespace Bugtracker.Services
         public async Task<Project> GetProjectByIdAsync(Guid projectId)
         {
             return await _applicationDbContext.Projects
+                .Include(p => p.Tickets).ThenInclude(t => t.Submitter)
+                .Include(p => p.Tickets).ThenInclude(t => t.Assignee)
                 .SingleOrDefaultAsync(x => x.Id == projectId);
         }
 
