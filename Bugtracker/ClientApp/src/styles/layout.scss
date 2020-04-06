@@ -27,30 +27,3 @@ body {
   margin-top: 63px;
   padding: 15px;
 }
-
-.card {
-  box-shadow: 0 0 4px 0 silver;
-}
-
-.card-title-shifted {
-  margin-top: -40px;
-  position: relative;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: flex;
-  -ms-flex-direction: column;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  min-width: 0;
-  word-wrap: break-word;
-  background-color:#4b6782;
-  background-clip: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
-  padding: 1rem;
-}
-
-.card-title-shifted h5 {
-  color: white
-}

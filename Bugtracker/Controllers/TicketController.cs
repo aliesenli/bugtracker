@@ -87,9 +87,10 @@ namespace Bugtracker.Controllers
             {
                 Id = ticket.Id,
                 Title = ticket.Title,
-                //SubmitterId = ticket.SubmitterId,
+                Submitter = ticket.Submitter.UserName,
                 CreatedOn = ticket.CreatedAt.ToString(),
-                //Priority = ticket.Priority,
+                Priority = ticket.Priority.ToString(),
+                Status = ticket.Status.ToString()
                 //ProjectId = ticket.ProjectId
             };
 

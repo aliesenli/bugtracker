@@ -1,5 +1,4 @@
-﻿using Bugtracker.Domain;
-using System;
+﻿using System;
 
 namespace Bugtracker.Contracts.Responses
 {

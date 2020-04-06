@@ -8,35 +8,45 @@
             <b-modal id="modal-footer-sm" size="lg" title="Create New Project" hide-footer>
                 <b-form @submit="onSubmit">
                     <b-form-group
-                        id="input-group-1"
-                        label="Project Name:"
-                        label-for="input-1"
+                    class="mb-2"
+                    id="input-group-1"
+                    label="Project Name"
+                    label-for="input-1"
                     >
                         <b-form-input
                         id="input-1"
-                        type="email"
+                        type="text"
                         required
+                        v-model="projectName"
                         placeholder="Project XYZ"
                         ></b-form-input>
+                    </b-form-group>
 
-                        <b-form-group
-                        class="mb-0"
-                        label="Textarea with formatter (on input)"
-                        label-for="textarea-formatter"
-                        >
-
+                    <b-form-group
+                    class="mb-2"
+                    label="Description"
+                    label-for="textarea"
+                    >
                         <b-form-textarea
                         required
-                            id="textarea-formatter"
-                            v-model="text1"
-                            placeholder="Enter your text"
+                        id="textarea"
+                        v-model="projectDescription"
+                        placeholder="Enter your text"
                         ></b-form-textarea>
-                        </b-form-group>
-
-                        <label for="example-datepicker">Choose a date:</label>
-                        <b-form-datepicker id="example-datepicker" aria-required="true" v-model="value" class="mb-2"></b-form-datepicker>
                     </b-form-group>
-                    <b-button type="submit" variant="primary">Submit</b-button>
+
+                    <b-form-group
+                    label="Test"
+                    label-for="datepicker"
+                    class="mb-2"
+                    >
+                        <b-form-datepicker
+                        id="datepicker"
+                        v-model="completionDate"
+                        ></b-form-datepicker>
+                    </b-form-group>
+
+                    <b-button type="submit" class="float-right" variant="primary">Submit</b-button>
                 </b-form>
             </b-modal>
         </div>
@@ -93,6 +103,7 @@
                 stacked="sm"
                 responsive="sm"
                 sort-icon-left
+                :filter-ignored-fields="ignoreFilterFields"
                 :busy="isBusy"
                 :items="allProjects"
                 :fields="fields"
@@ -143,7 +154,8 @@ export default {
 
     methods: {
         ...mapActions([
-            'fetchProjects'
+            'fetchProjects',
+            'createProject'
         ]),
         onFiltered(filteredItems) {
             this.totalRows = filteredItems.length
@@ -151,6 +163,12 @@ export default {
         },
         info(item) {
             this.$router.push({ name: 'Project', params: { projectId: item.id }})
+        },
+
+        onSubmit(e) {
+            e.preventDefault();
+            console.log(this.completionDate);
+            this.createProject(this.projectName, this.projectDescription, this.completionDate);
         }
     },
 
@@ -181,7 +199,18 @@ export default {
             sortDesc: false,
             sortDirection: 'asc',
             filter: null,
-            filterOn: []
+            filterOn: [],
+            ignoreFilterFields: ["id", "Id"],
+
+            projectName: "",
+            projectDescription: "",
+            completionDate: "",
+
+        }
+    },
+    watch: {
+        allProjects: function () {
+            this.totalRows = this.allProjects.length
         }
     }
 }
