@@ -1,4 +1,5 @@
 ﻿using Bugtracker.Domain;
+using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace Bugtracker.Contracts.Requests
@@ -9,6 +10,8 @@ namespace Bugtracker.Contracts.Requests
         public string Name { get; set; }
 
         public string Description { get; set; }
+
+        public string SubmitterId { get; set; }
 
         public string AssigneeId { get; set; }
 

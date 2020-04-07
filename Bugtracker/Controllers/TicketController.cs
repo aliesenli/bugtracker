@@ -76,10 +76,9 @@ namespace Bugtracker.Controllers
                 Description = postRequest.Description,
                 SubmitterId = HttpContext.GetUserId(),
                 AssigneeId = postRequest.AssigneeId,
+                Status = 0,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = null,
                 Priority = postRequest.Priority,
-                Status = 0, // Enum 0 means status "Open"
                 ProjectId = postRequest.ProjectId,
             };
 
@@ -87,11 +86,11 @@ namespace Bugtracker.Controllers
             {
                 Id = ticket.Id,
                 Title = ticket.Title,
-                Submitter = ticket.Submitter.UserName,
+                //Submitter = ticket.Submitter.UserName,
                 CreatedOn = ticket.CreatedAt.ToString(),
                 Priority = ticket.Priority.ToString(),
-                Status = ticket.Status.ToString()
-                //ProjectId = ticket.ProjectId
+                Status = ticket.Status.ToString(),
+                Project = ticket.ProjectId.ToString()
             };
 
             await _ticketService.CreateTicketAsync(ticket);

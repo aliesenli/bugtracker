@@ -35,7 +35,6 @@ namespace Bugtracker.Controllers
         public async Task<IActionResult> GetAll([FromQuery] GetAllProjectsRequest query)
         {
             var projects = await _projectService.GetProjectsAsync();
-
             var projectsDto = _projectToDtoListConverter.Convert(projects);
 
             return Ok(projectsDto);
@@ -45,20 +44,8 @@ namespace Bugtracker.Controllers
         public async Task<IActionResult> Get([FromRoute]Guid projectId)
         {
             var project = await _projectService.GetProjectByIdAsync(projectId);
-
-            var projectResponse = new ProjectResponse
-            {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
-                CreatedOn = project.CreatedOn.ToString(),
-                Completion = project.Completion.ToString(),
-                //Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
-            };
-
             var projectDto = _projectToDtoConverter.Convert(project);
 
-            //return Ok(projectResponse);
             return Ok(projectDto);
         }
 
