@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const state = {
+    projectDetails: {},
     projectName: "",
     projectDescription: "",
     projectTickets: []
@@ -9,7 +10,8 @@ const state = {
 const getters = {
     projectTickets: (state) => state.projectTickets,
     projectName: (state) => state.projectName,
-    projectDescription: (state) => state.projectDescription
+    projectDescription: (state) => state.projectDescription,
+    projectDetails: (state) => state.projectDetails
 };
 
 const actions = {
@@ -52,7 +54,8 @@ const mutations = {
         state.projectDescription = data.description,
         state.projectName = data.name,
         state.projectTickets = data.tickets,
-        console.log(state.projectTickets) 
+        state.projectDetails = data,
+        console.log(data)
     },
     addTicket: (state, ticket) => state.tickets.unshift(ticket),
     deleteTicket: (state, ticketId) => state.tickets.filter(ticketId)

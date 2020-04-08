@@ -28,6 +28,9 @@ namespace Bugtracker.Installers
 
             services.AddTransient<IConverter<Project, ProjectResponse>, ProjectToDtoConverter>();
             services.AddTransient<IConverter<IList<Project>, IList<ProjectResponse>>, ProjectToDtoConverter>();
+
+            services.AddTransient<IConverter<Ticket, TicketResponse>, TicketToDtoConverter>();
+            services.AddTransient<IConverter<IList<Ticket>, IList<TicketResponse>>, TicketToDtoConverter>();
         }
     }
 }

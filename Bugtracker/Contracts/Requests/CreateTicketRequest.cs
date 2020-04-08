@@ -1,10 +1,8 @@
 ﻿using Bugtracker.Domain;
-using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace Bugtracker.Contracts.Requests
 {
-
     public class CreateTicketRequest
     {
         public string Name { get; set; }

@@ -36,7 +36,7 @@
                     </b-form-group>
 
                     <b-form-group
-                    label="Test"
+                    label="Completion date"
                     label-for="datepicker"
                     class="mb-2"
                     >
@@ -46,7 +46,7 @@
                         ></b-form-datepicker>
                     </b-form-group>
 
-                    <b-button type="submit" class="float-right" variant="primary">Submit</b-button>
+                    <b-button type="submit" class="float-right mt-1" variant="primary">Submit</b-button>
                 </b-form>
             </b-modal>
         </div>

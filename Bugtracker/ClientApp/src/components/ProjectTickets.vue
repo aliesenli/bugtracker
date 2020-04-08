@@ -1,5 +1,10 @@
 ﻿<template>
     <div class="hello mt-4">
+        <b-button-group class="mb-3">
+            <b-button variant="outline-primary">
+                <b-icon icon="inbox-fill"></b-icon> Create New Ticket
+            </b-button>
+        </b-button-group>
         <h5>Tickets for this project</h5>
         <div class="p-3">
             <b-row align-h="between" class="mb-2">
@@ -48,27 +53,27 @@
 
             <!-- Main table element -->
             <b-table
-                show-empty
-                stacked="sm"
-                responsive="sm"
-                sort-icon-left
-                fixed
-                striped
-                :filter-ignored-fields="ignoreFilterFields"
-                :busy="isBusy"
-                :items="projectTickets"
-                :fields="fields"
-                :current-page="currentPage"
-                :per-page="perPage"
-                :filter="filter"
-                :sort-by.sync="sortBy"
-                :sort-desc.sync="sortDesc"
-                :sort-direction="sortDirection"
-                @filtered="onFiltered"
+            show-empty
+            stacked="sm"
+            responsive="sm"
+            sort-icon-left
+            fixed
+            striped
+            :filter-ignored-fields="ignoreFilterFields"
+            :busy="isBusy"
+            :items="projectTickets"
+            :fields="fields"
+            :current-page="currentPage"
+            :per-page="perPage"
+            :filter="filter"
+            :sort-by.sync="sortBy"
+            :sort-desc.sync="sortDesc"
+            :sort-direction="sortDirection"
+            @filtered="onFiltered"
             >
 
                 <template v-slot:cell(title)="row">
-                    {{row.item.title}}
+                    <b-icon icon="app-indicator"></b-icon> {{ row.item.title }}
                 </template>/
 
                 <template v-slot:table-busy>

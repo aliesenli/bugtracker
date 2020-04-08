@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bugtracker.Services
 {
@@ -14,7 +11,7 @@ namespace Bugtracker.Services
             _baseUri = baseUri;
         }
 
-        public Uri GetPostUri(string ticketId)
+        public Uri GetTicketUri(string ticketId)
         {
             return new Uri(_baseUri + "api/tickets/{postId}".Replace("{postId}", ticketId));
         }

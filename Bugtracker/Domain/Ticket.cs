@@ -27,21 +27,6 @@ namespace Bugtracker.Domain
 
         public string Description { get; set; }
 
-        [ForeignKey(nameof(Project))]
-        public Guid ProjectId { get; set; }
-
-        public Project Project { get; set; }
-
-        [ForeignKey(nameof(Assignee))]
-        public string AssigneeId { get; set; }
-
-        public IdentityUser Assignee { get; set; }
-
-        [ForeignKey(nameof(Submitter))]
-        public string SubmitterId { get; set; }
-
-        public IdentityUser Submitter { get; set; }
-
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
@@ -49,5 +34,20 @@ namespace Bugtracker.Domain
         public Priority Priority { get; set; }
 
         public Status Status { get; set; }
+
+        public Project Project { get; set; }
+
+        public IdentityUser Assignee { get; set; }
+
+        public IdentityUser Submitter { get; set; }
+
+        [ForeignKey(nameof(Project))]
+        public Guid ProjectId { get; set; }
+
+        [ForeignKey(nameof(Assignee))]
+        public string AssigneeId { get; set; }
+
+        [ForeignKey(nameof(Submitter))]
+        public string SubmitterId { get; set; }
     }
 }
