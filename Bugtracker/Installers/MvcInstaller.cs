@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace Bugtracker.Installers
 {
@@ -23,11 +24,23 @@ namespace Bugtracker.Installers
 
             services.AddScoped<IIdentityService, IdentityService>();
 
-            services
-                .AddMvc(options =>
-                {
-                    options.EnableEndpointRouting = false;
-                });
+            /*
+            services.AddMvc().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+ */
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
+
+
+
+            /*.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });*/
 
             var tokenValidationParameters = new TokenValidationParameters
             {

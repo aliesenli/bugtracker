@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bugtracker.Data;
 using Bugtracker.Domain;
@@ -20,7 +19,11 @@ namespace Bugtracker.Services
 
         public async Task<List<Ticket>> GetTicketsAsync()
         {
-            var queryable = _applicationDbContext.Tickets.AsQueryable();
+            var queryable = _applicationDbContext.Tickets
+                .Include(t => t.Project)
+                .Include(t => t.Assignee)
+                .Include(t => t.Submitter)
+                .AsQueryable();
 
             return await queryable.ToListAsync();
         }
@@ -28,7 +31,10 @@ namespace Bugtracker.Services
         public async Task<Ticket> GetTicketByIdAsync(Guid postId)
         {
             return await _applicationDbContext.Tickets
-                 .SingleOrDefaultAsync(x => x.Id == postId);
+                .Include(t => t.Project)
+                .Include(t => t.Assignee)
+                .Include(t => t.Submitter)
+                .SingleOrDefaultAsync(x => x.Id == postId);
         }
 
         public async Task<bool> CreateTicketAsync(Ticket post)

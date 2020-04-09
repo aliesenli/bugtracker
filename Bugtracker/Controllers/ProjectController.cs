@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bugtracker.Contracts.Requests;
 using Bugtracker.Contracts.Responses;
+using Bugtracker.Converters;
 using Bugtracker.Domain;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,50 +17,35 @@ namespace Bugtracker.Controllers
     {
         private readonly IProjectService _projectService;
         private readonly IUriService _uriService;
-        private readonly ITicketService _ticketService;
+        private readonly IConverter<Project, ProjectResponse> _projectToDtoConverter;
+        private readonly IConverter<IList<Project>, IList<ProjectResponse>> _projectToDtoListConverter;
 
-        public ProjectController(IProjectService projectService, IUriService uriService, ITicketService ticketService)
+        public ProjectController(IProjectService projectService, IUriService uriService,
+            IConverter<Project, ProjectResponse> projectToDtoConverter,
+            IConverter<IList<Project>, IList<ProjectResponse>> projectToDtoListConverter)
         {
             _projectService = projectService;
             _uriService = uriService;
-            _ticketService = ticketService;
+            _projectToDtoConverter = projectToDtoConverter;
+            _projectToDtoListConverter = projectToDtoListConverter;
         }
 
         [HttpGet("api/projects")]
         public async Task<IActionResult> GetAll([FromQuery] GetAllProjectsRequest query)
         {
-            var tickets = await _ticketService.GetTicketsAsync();
             var projects = await _projectService.GetProjectsAsync();
+            var projectsDto = _projectToDtoListConverter.Convert(projects);
 
-            var projectResponse = projects.Select(project => new ProjectResponse
-            {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
-                CreatedOn = project.CreatedOn,
-                Completion = project.Completion,
-                Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
-            });
-
-            return Ok(projectResponse);
+            return Ok(projectsDto);
         }
 
         [HttpGet("api/projects/{projectId}")]
         public async Task<IActionResult> Get([FromRoute]Guid projectId)
         {
-            var tickets = await _ticketService.GetTicketsAsync();
             var project = await _projectService.GetProjectByIdAsync(projectId);
-            var projectResponse = new ProjectResponse
-            {
-                Id = project.Id,
-                Name = project.Name,
-                Description = project.Description,
-                CreatedOn = project.CreatedOn,
-                Completion = project.Completion,
-                Tickets = tickets.FindAll(x => x.ProjectId == project.Id)
-            };
+            var projectDto = _projectToDtoConverter.Convert(project);
 
-            return Ok(projectResponse);
+            return Ok(projectDto);
         }
 
         [HttpPost("api/projects/create")]
@@ -81,8 +67,8 @@ namespace Bugtracker.Controllers
                 Id = project.Id,
                 Name = project.Name,
                 Description = project.Description,
-                CreatedOn = project.CreatedOn,
-                Completion = project.Completion
+                CreatedOn = project.CreatedOn.ToString(),
+                Completion = project.Completion.ToString()
             };
 
             await _projectService.CreateProjectAsync(project);

@@ -94,7 +94,7 @@ ul {
   left: 48px;
   width: 230px;
   height: 100%;
-  top: 60px;
+  top: 64px;
   background: rgb(5, 27, 48);
 }
 
@@ -145,6 +145,22 @@ ul {
 
   &:visited {
     color: #fff;
+  }
+}
+
+#context-menu-logout__link {
+  display: block;
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  background: transparent;
+
+  &:hover {
+    color: #fff;
+    text-decoration: none;
+    background: #3c444b;
+    cursor: pointer;
+    transition: all 500ms ease-out;
   }
 }
 

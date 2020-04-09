@@ -1,197 +1,132 @@
-﻿<template>
-    <div class="hello">
-        <b-container fluid>
-            <div class="mb-2">
-                <b-card>
-                    <div class="card-title-shifted">
-                        <h5>Project-Details</h5>
-                        <b-row>
-                            <b-col>
-                                      <a href="#" class="card-link">Card link</a>
-                            <b-link href="#" class="card-link">Another link</b-link>     
-                            </b-col>
-                     
-                        </b-row>
+<template>
+    <div class="main-content"> 
+        <div class="main-content__body">
+            <b-row>
+                <b-col cols="12">
+                    {{ getTicket.title }} / {{ getTicket.project}}
+                </b-col>
+            </b-row>
+            <b-row class="mt-4">
+                <b-col cols="12">
+                    <div>
+                        <b-button-group>
+                        <b-button variant="outline-primary">
+                            <b-icon icon="pencil"></b-icon> Edit
+                        </b-button>
+                        <b-button variant="outline-primary">
+                            <b-icon icon="person-fill"></b-icon> Account
+                        </b-button>
+                        <b-button variant="outline-primary">
+                            <b-icon icon="inbox-fill"></b-icon> Messages
+                        </b-button>
+                        </b-button-group>
                     </div>
-                    <b-card-text>
-                    Some quick example text to build on the <em>card title</em> and make up the bulk of the card's
-                    content.
-                    </b-card-text>
+                </b-col>
+            </b-row>
 
-                    <b-card-text>A second paragraph of text in the card.</b-card-text>
-                </b-card>
-                
-                <hr>
-
-                <b-card
-                    header="Tickets for this Project"
-                    header-text-variant="white"
-                    header-tag="header"
-                    header-bg-variant="dark"
-                    border-variant="default"
-                >
-
-                    <b-row align-h="between" class="mb-2">
-                        <b-col sm="2" class="my-1">
-                            <b-form-group
-                            label="Per page"
-                            label-cols-sm="12"
-                            label-align-sm="left"
-                            label-size="sm"
-                            label-for="perPageSelect"
-                            class="mb-0"
-                            >
-                            <b-form-select
-                                v-model="perPage"
-                                id="perPageSelect"
-                                size="sm"
-                                :options="pageOptions"
-                            ></b-form-select>
-                            </b-form-group>
-                        </b-col>
-
-                        <b-col sm="4" class="my-1">
-                            <b-form-group
-                            label="Filter"
-                            label-cols-sm="12"
-                            label-align-sm="left"
-                            label-size="sm"
-                            label-for="perPageSelect"
-                            class="mb-0"
-                            >
-                                <b-input-group size="sm">
-                                    <b-form-input
-                                    v-model="filter"
-                                    type="search"
-                                    id="filterInput"
-                                    placeholder="Type to Search"
-                                    >
-                                    </b-form-input>
-                                        <b-input-group-append>
-                                            <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-                                        </b-input-group-append>
-                                </b-input-group>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-
-                    <!-- Main table element -->
-                    <b-table
-                        show-empty
-                        stacked="sm"
-                        responsive="sm"
-                        sort-icon-left
-                        fixed
-                        striped
-                        :busy="isBusy"
-                        :items="allTickets"
-                        :fields="fields"
-                        :current-page="currentPage"
-                        :per-page="perPage"
-                        :filter="filter"
-                        :filterIncludedFields="filterOn"
-                        :sort-by.sync="sortBy"
-                        :sort-desc.sync="sortDesc"
-                        :sort-direction="sortDirection"
-                        @filtered="onFiltered"
-                    >
-                        <template v-slot:table-busy>
-                            <div class="text-center text-danger my-2">
-                            <b-spinner class="align-middle"></b-spinner>
-                            <strong>Loading...</strong>
+            <b-row class="mt-4">
+                <b-col cols="12" md="8">
+                    <div>
+                        <div class="mytextdiv">
+                            <div class="mytexttitle">
+                                Details
                             </div>
-                        </template>
-                    </b-table> 
+                            <div class="divider"></div>
+                        </div>
+                        <div class="p-2">
+                            <b-row>
+                                <b-col cols="6" md="6">
+                                    <p>Priority: {{ getTicket.priority }}</p>
+                                    <p>Status: {{ getTicket.status }}</p>
+                                </b-col>
+                                <b-col cols="6" md="6">
+                                    <p>Created: {{ getTicket.createdOn }}</p>
+                                    <p>Updated: {{ getTicket.updatedOn }}</p>
+                                </b-col>
+                            </b-row>
+                        </div>
 
-                    <b-row>
-                        <b-col sm="7" md="3" class="my-1">
-                            <b-pagination
-                                v-model="currentPage"
-                                :total-rows="totalRows"
-                                :per-page="perPage"
-                                align="fill"
-                                size="sm"
-                                class="my-0"
-                            ></b-pagination>
-                        </b-col>
-                    </b-row> 
-                </b-card>
-            </div>
-        </b-container>
+                        <div class="mytextdiv">
+                            <div class="mytexttitle">
+                                Description
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="p-2">
+                            <p>{{ getTicket.description }}</p>
+                        </div>
+                    </div>
+                </b-col>
+                
+                <b-col cols="6" md="4">
+                    <div>
+                        <div class="mytextdiv">
+                            <div class="mytexttitle">
+                                People
+                            </div>
+                            <div class="divider"></div>
+                        </div>
+                        <div class="p-2">
+                            <h6>Assigned to:</h6>
+                            <b-icon icon="person-fill" font-scale="2"></b-icon> {{ getTicket.assignee }}
+                            <h6>Submitter:</h6>
+                            <b-icon icon="person-fill" font-scale="2"></b-icon> {{ getTicket.submitter }}
+                        </div>
+                        
+                    </div>
+                </b-col>
+            </b-row>
+
+        </div>
     </div>
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
-    export default {
-        name: 'Ticket',
-        methods: {
-            ...mapActions([
-                'fetchTickets'
-            ]),
+export default {
+    name: 'Ticket',
 
-            onFiltered(filteredItems) {
-                // Trigger pagination to update the number of buttons/pages due to filtering
-                this.totalRows = filteredItems.length
-                this.currentPage = 1
-            }
-        },
-        computed: {
-            ...mapGetters([
-                'allTickets',
-                'pagination'
-            ]),      
-        },
-        created() {
-            this.fetchTickets();
-        },
-        data() {
-            return {
-                fields: [
-                    { key: 'name', label: 'Ticket name', sortable: true, sortDirection: 'desc' },
-                    { key: 'id', label: 'Ticket id', sortable: true },
-                    { key: 'isActive', label: 'is Active', sortable: true },
-                    { key: 'actions', label: 'Actions' }
-                ],
-                isBusy: true,
-                totalRows: 1,
-                currentPage: 1,
-                perPage: 5,
-                pageOptions: [5, 10, 15],
-                sortBy: '',
-                sortDesc: false,
-                sortDirection: 'asc',
-                filter: null,
-                filterOn: [],
-            }
-        },
-        watch: {
-            allTickets: function () {
-                this.totalRows = this.allTickets.length
-                this.isBusy = !this.isBusy;
-            },
+    methods: {
+        ...mapActions([
+            'fetchTicket'
+        ]),
+    },
+
+    computed: {
+        ...mapGetters([
+            'getTicket'
+        ]),
+    },
+    
+    created() {
+        this.fetchTicket(this.$route.params.ticketId);
+        console.log(this.getTicket)
+    },
+
+    data() {
+        return {
+            
         }
     }
+}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h3 {
-        margin: 40px 0 0;
-    }
+.mytextdiv {
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+}
 
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
+.mytexttitle {
+    flex-grow:0;
+    font-weight: bold;
+}
 
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-
-    a {
-        color: #42b983;
-    }
+.divider {
+    flex-grow:1;
+    height: 1px;
+    background-color: silver;
+}
 </style>

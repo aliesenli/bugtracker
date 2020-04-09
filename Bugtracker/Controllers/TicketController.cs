@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Bugtracker.Contracts.Requests;
 using Bugtracker.Contracts.Responses;
@@ -7,98 +6,83 @@ using Bugtracker.Domain;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Mvc;
 using Bugtracker.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Bugtracker.Converters;
+using System.Collections.Generic;
 
 namespace Bugtracker.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TicketController : Controller
     {
         private readonly ITicketService _ticketService;
         private readonly IUriService _uriService;
+        private readonly IConverter<Ticket, TicketResponse> _ticketToDtoConverter;
+        private readonly IConverter<IList<Ticket>, IList<TicketResponse>> _ticketToDtoListConverter;
 
-        public TicketController(ITicketService ticketService, IUriService uriService)
+        public TicketController(
+            ITicketService ticketService,
+            IUriService uriService,
+            IConverter<Ticket, TicketResponse> ticketToDtoConverter,
+            IConverter<IList<Ticket>, IList<TicketResponse>> ticketToDtoListConverter)
         {
             _ticketService = ticketService;
             _uriService = uriService;
+            _ticketToDtoConverter = ticketToDtoConverter;
+            _ticketToDtoListConverter = ticketToDtoListConverter;
         }
 
         [HttpGet("api/tickets")]
         public async Task<IActionResult> GetAll([FromQuery] GetAllTicketsRequest query)
         {
             var tickets = await _ticketService.GetTicketsAsync();
-            var ticketResponse = tickets.Select(ticket => new TicketResponse
-            {
-                Id = ticket.Id,
-                UserId = ticket.UserId,
-                Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                UpdatedAt = ticket.UpdatedAt.ToString(),
-                Priority = ticket.Priority,
-                ProjectId = ticket.ProjectId
-            });
+            var ticketsDto = _ticketToDtoListConverter.Convert(tickets);
 
-            return Ok(ticketResponse);
+            return Ok(ticketsDto);
         }
 
         [HttpGet("api/tickets/{ticketId}")]
         public async Task<IActionResult> Get([FromRoute]Guid ticketId)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
-            var ticketResponse = new TicketResponse
-            {
-                Id = ticket.Id,
-                UserId = ticket.UserId,
-                Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                Priority = ticket.Priority
-            };
+            var ticketDto = _ticketToDtoConverter.Convert(ticket);
 
-            return Ok(ticketResponse);
+            return Ok(ticketDto);
         }
 
         [HttpPost("api/tickets/create")]
         public async Task<IActionResult> Create([FromBody] CreateTicketRequest postRequest)
         {
             var newTicketId = Guid.NewGuid();
-            var userId = Guid.NewGuid();
 
             var ticket = new Ticket
             {
                 Id = newTicketId,
-                Name = postRequest.Name,
-                //TODO
-                //UserId = HttpContext.GetUserId(),
-                UserId = userId.ToString(),
+                Title = postRequest.Name,
+                Description = postRequest.Description,
+                SubmitterId = HttpContext.GetUserId(),
+                AssigneeId = postRequest.AssigneeId,
+                Status = 0,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = null,
                 Priority = postRequest.Priority,
-                ProjectId = postRequest.ProjectId
-            };
-
-            var ticketResponse = new TicketResponse
-            {
-                Id = ticket.Id,
-                Name = ticket.Name,
-                UserId = ticket.UserId,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                Priority = ticket.Priority,
-                ProjectId = ticket.ProjectId
+                ProjectId = postRequest.ProjectId,
             };
 
             await _ticketService.CreateTicketAsync(ticket);
 
+            var getTicketAfterCreation = await _ticketService.GetTicketByIdAsync(ticket.Id);
+            var ticketDto = _ticketToDtoConverter.Convert(getTicketAfterCreation);
+            var locationUri = _uriService.GetTicketUri(ticket.Id.ToString());
 
-            var locationUri = _uriService.GetPostUri(ticket.Id.ToString());
-            return Created(locationUri, ticketResponse);
+            return Created(locationUri, ticketDto);
         }
 
         [HttpPut("api/ticket/{ticketId}")]
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
-            //TODO
-            //var userOwnsPost = await _ticketService.UserOwnsPostAsync(ticketId, HttpContext.GetUserId());
-
             var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
-            ticket.Name = request.Name;
+            ticket.Title = request.Name;
             ticket.UpdatedAt = DateTime.UtcNow;
             ticket.Priority = request.Priority;
 
@@ -107,11 +91,10 @@ namespace Bugtracker.Controllers
             var ticketResponse = new TicketResponse
             {
                 Id = ticket.Id,
-                UserId = ticket.UserId,
-                Name = ticket.Name,
-                CreatedAt = ticket.CreatedAt.ToString(),
-                UpdatedAt = ticket.UpdatedAt.ToString(),
-                Priority = ticket.Priority
+                //  SubmitterId = ticket.SubmitterId,
+                Title = ticket.Title,
+                CreatedOn = ticket.CreatedAt.ToString(),
+                UpdatedOn = ticket.UpdatedAt.ToString(),
             };
 
             if (updated)
@@ -123,8 +106,6 @@ namespace Bugtracker.Controllers
         [HttpDelete("api/tickets/{ticketId}")]
         public async Task<IActionResult> Delete([FromRoute] Guid ticketId)
         {
-            //TODO
-            //var userOwnsPost = await _ticketService.UserOwnsTicketAsync(postId);
             var deleted = await _ticketService.DeleteTicketAsync(ticketId);
 
             if (deleted)

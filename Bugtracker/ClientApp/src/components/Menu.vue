@@ -1,13 +1,11 @@
 <template>
+  <div class="menu-container" v-show="!$route.meta.hideNavigation">
 
-  <div class="menu-container">
-
-    <!-- root level itens -->
+    <!-- root level items -->
     <ul class="menu">
-
       <li class="menu__top">
         <router-link to="/" class="menu__logo">
-          <img src="/icon-32.png" alt="icon">
+          <img src="/logo.png" alt="icon" width="35px">
         </router-link>
         <a
         href="#"
@@ -34,7 +32,7 @@
         @click.prevent="updateMenu('projects')"
         :class="highlightSection('projects')"
         >
-          <i class="fa fa-tag menu__icon" aria-hidden="true"></i>
+          <i class="fas fa-project-diagram menu__icon"></i>
           Projects
           <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
         </a>
@@ -63,20 +61,17 @@
           <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
         </a>
       </li>
-
     </ul>
 
-    <!-- context menu: childs of root level itens -->
+    <!-- context menu: childs of root level items -->
     <transition name="slide-fade">
 
       <div class="context-menu-container" v-show="showContextMenu">
 
         <ul class="context-menu">
-
           <li v-for="(item, index) in menuItems" :key="index">
 
             <h6 v-if="item.type === 'title'" class="context-menu__title">
-
               <i :class="item.icon" aria-hidden="true"></i>
 
               {{item.txt}}
@@ -89,11 +84,10 @@
               >
                 <i class="fa fa-window-close" aria-hidden="true"></i>
               </a>
-
             </h6>
 
             <a
-            v-else
+            v-else-if="item.type === 'link'"
             href="#"
             @click.prevent="openSection(item)"
             :class="subMenuClass(item.txt)"
@@ -101,8 +95,12 @@
               {{item.txt}}
             </a>
 
+            <a id="context-menu-logout__link" v-else-if="item.type === 'logout'"
+            @click="logout"
+            >
+             {{item.txt}}
+            </a>
           </li>
-
         </ul>
 
       </div>
@@ -110,7 +108,6 @@
     </transition>
 
   </div>
-
 </template>
 
 <script>
@@ -138,7 +135,9 @@ export default {
       this.menuItems = this.menuData[context];
 
       if (context === 'home') {
-        this.$router.push('/');
+        /* eslint-disable no-unused-vars */
+          this.$router.push('/').catch(err => {});
+        /* eslint-enable no-unused-vars */
         window.bus.$emit('menu/closeMobileMenu');
       }
     },
@@ -173,6 +172,13 @@ export default {
       let sectionSlug = kebabCase(item.txt);
 
       return `${item.link}/${sectionSlug}`;
+    },
+
+    logout: function () {
+        this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login')
+        })
     }
 
   },
@@ -180,8 +186,9 @@ export default {
   computed: {
     showContextMenu() {
       return this.menuItems.length;
-    },
+    }
   }
 
 }
 </script>
+

@@ -1,92 +1,94 @@
 <template>
-    <div  id="wrapper" :class="wrapperClass">
-        <MenuToggleBtn></MenuToggleBtn>
+    <div id="app" :class="spacingClass">
+        <div id="wrapper" :class="wrapperClass" v-show="spacingClass">
+            <MenuToggleBtn></MenuToggleBtn>
 
-        <Menu></Menu>
+            <Menu></Menu>
 
-        <ContentOverlay></ContentOverlay>
-
+            <ContentOverlay></ContentOverlay>
+        </div>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    // @ is an alias to /src
-    import MenuToggleBtn from '@/components/MenuToggleBtn.vue'
-    import Menu from '@/components/Menu.vue'
-    import ContentOverlay from '@/components/ContentOverlay.vue'
+import { mapState } from 'vuex'
+// @ is an alias to /src
+import MenuToggleBtn from '@/components/MenuToggleBtn.vue'
+import Menu from '@/components/Menu.vue'
+import ContentOverlay from '@/components/ContentOverlay.vue'
 
-    export default {
+export default {
 
-        components: {
-            MenuToggleBtn,
-            Menu,
-            ContentOverlay,
-        },
+    components: {
+        MenuToggleBtn,
+        Menu,
+        ContentOverlay,
+    },
 
-        created() {
+    created() {
+        window.bus.$on('menu/toggle', () => {
+            window.setTimeout(() => {
+                this.isOpenMobileMenu = !this.isOpenMobileMenu;
+            }, 200);
+        });
 
-            window.bus.$on('menu/toggle', () => {
-                window.setTimeout(() => {
-                    this.isOpenMobileMenu = !this.isOpenMobileMenu;
-                }, 200);
-            });
-
-            window.bus.$on('menu/closeMobileMenu', () => {
-                this.isOpenMobileMenu = false;
-            });
-
-        },
-
-
-        data() {
-            return {
-                isOpenMobileMenu: false,
-            };
-        },
-
-        computed: {
-            wrapperClass() {
-                return {
-                    'toggled': this.isOpenMobileMenu === true,
-                };
-            },
+        window.bus.$on('menu/closeMobileMenu', () => {
+            this.isOpenMobileMenu = false;
+        });
+    
+        if(this.$route.path == "/login") {
+            this.$store.dispatch("clear");
         }
+    },
 
-    }
+    data() {
+        return {
+            isOpenMobileMenu: false,
+        };
+    },
 
+     computed: {
+         wrapperClass() {
+            return {
+                'toggled': this.isOpenMobileMenu === true
+            }
+        },
+        spacingClass() {
+            return {
+                'spacing': this.spacing
+            }
+        },
+          ...mapState({
+        spacing: state => state.menu.spacing,
+        })
+    },
+
+    watch:{
+        $route (){
+            if (this.$route.path == "/login" || this.$route.path == "/register") {
+                this.$store.dispatch('clear')
+            } else {
+                this.$store.dispatch('set')
+            }
+        }
+    } 
+    
+}
 </script>
 
 <style>
-
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-    }
-
     #nav {
         padding: 30px;
     }
 
-        #nav a {
-            font-weight: bold;
-            color: #2c3e50;
-        }
+    #nav a {
+        font-weight: bold;
+        color: #2c3e50;
+    }
 
-            #nav a.router-link-exact-active {
-                color: #42b983;
-            }
-</style>
-
-
-<style lang="scss">
-    @import 'styles/layout.scss';
-    @import 'styles/menu-toggle-btn.scss';
-    @import 'styles/menu.scss';
-    @import 'styles/content-overlay.scss';
-    @import 'styles/media-queries.scss';
+    #nav a.router-link-exact-active {
+        color: #42b983;
+    }
 </style>
 

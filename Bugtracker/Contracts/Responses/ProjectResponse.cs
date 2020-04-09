@@ -12,10 +12,10 @@ namespace Bugtracker.Contracts.Responses
 
         public string Description { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
-        public DateTime Completion { get; set; }
+        public string Completion { get; set; }
 
-        public List<Ticket> Tickets { get; set; }
+        public ICollection<TicketResponse> Tickets { get; set; } = new HashSet<TicketResponse>();
     }
 }

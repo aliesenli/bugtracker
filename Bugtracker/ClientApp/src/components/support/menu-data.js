@@ -8,13 +8,14 @@ export default {
     {
       type: 'title',
       txt: 'Projects',
-      icon: 'fa fa-tag context-menu__title-icon',
+      //icon: 'fa fa-tag context-menu__title-icon',
+      icon: 'fas fa-project-diagram context-menu__title-icon'
     },
 
     {
       type: 'link',
-      txt: 'List Products',
-      link: '/page',
+      txt: 'Projects',
+      link: '',
     },
 
     {
@@ -80,9 +81,8 @@ export default {
     },
 
     {
-      type: 'link',
+      type: 'logout',
       txt: 'Logout',
-      link: '/page',
     },
 
     {

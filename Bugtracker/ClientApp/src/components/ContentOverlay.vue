@@ -12,7 +12,6 @@
 export default {
 
    methods: {
-
     closeMobileMenu() {
       window.bus.$emit('menu/toggle');
     },
