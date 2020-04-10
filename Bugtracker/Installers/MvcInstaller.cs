@@ -24,18 +24,11 @@ namespace Bugtracker.Installers
 
             services.AddScoped<IIdentityService, IdentityService>();
 
-            /*
-            services.AddMvc().AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
- */
+            // Ignore Json ReferenceLoop
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
-
-
 
             /*.AddMvc(options =>
             {

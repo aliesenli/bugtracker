@@ -17,8 +17,7 @@ const actions = {
                 "cache-control": "no-cache"
             }
         });
-
-        console.log(response.data);
+        
         commit('setTicket', response.data)
     },
 

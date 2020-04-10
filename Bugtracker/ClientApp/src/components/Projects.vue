@@ -167,7 +167,6 @@ export default {
 
         onSubmit(e) {
             e.preventDefault();
-            console.log(this.completionDate);
             this.createProject(this.projectName, this.projectDescription, this.completionDate);
         }
     },

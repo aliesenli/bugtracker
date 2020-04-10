@@ -14,10 +14,10 @@
                             <b-icon icon="pencil"></b-icon> Edit
                         </b-button>
                         <b-button variant="outline-primary">
-                            <b-icon icon="person-fill"></b-icon> Account
+                            <b-icon icon="person-fill"></b-icon> Assign
                         </b-button>
                         <b-button variant="outline-primary">
-                            <b-icon icon="inbox-fill"></b-icon> Messages
+                            <b-icon icon="inbox-fill"></b-icon> Comment
                         </b-button>
                         </b-button-group>
                     </div>

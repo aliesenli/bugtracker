@@ -59,7 +59,7 @@ namespace Bugtracker.Controllers
             var ticket = new Ticket
             {
                 Id = newTicketId,
-                Title = postRequest.Name,
+                Title = postRequest.Title,
                 Description = postRequest.Description,
                 SubmitterId = HttpContext.GetUserId(),
                 AssigneeId = postRequest.AssigneeId,
