@@ -55,6 +55,11 @@
                         <div class="p-2">
                             <p>{{ getTicket.description }}</p>
                         </div>
+
+                        <b-tabs content-class="mt-3" lazy>
+                            <b-tab title="History"><b-alert show>I'm lazy mounted!</b-alert></b-tab>
+                            <b-tab title="Comments"><b-alert show>I'm lazy mounted too!</b-alert></b-tab>
+                        </b-tabs>
                     </div>
                 </b-col>
                 
@@ -68,13 +73,14 @@
                         </div>
                         <div class="p-2">
                             <h6>Assigned to:</h6>
-                            <b-icon icon="person-fill" font-scale="2"></b-icon> {{ getTicket.assignee }}
-                            <h6>Submitter:</h6>
-                            <b-icon icon="person-fill" font-scale="2"></b-icon> {{ getTicket.submitter }}
+                            <b-avatar variant="primary"></b-avatar> {{ getTicket.assignee }}
+                            <h6 class="mt-3">Submitter:</h6>
+                            <b-avatar variant="secondary"></b-avatar> {{ getTicket.submitter }}
                         </div>
                         
                     </div>
                 </b-col>
+                
             </b-row>
 
         </div>

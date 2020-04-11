@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
@@ -49,5 +50,9 @@ namespace Bugtracker.Domain
 
         [ForeignKey(nameof(Submitter))]
         public string SubmitterId { get; set; }
+
+        public virtual IEnumerable<Comment> Comments { get; set; }
+
+        public virtual IEnumerable<Audit> Audits { get; set; }
     }
 }

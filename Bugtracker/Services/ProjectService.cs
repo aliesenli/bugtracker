@@ -54,7 +54,6 @@ namespace Bugtracker.Services
               .Include(p => p.Tickets).ThenInclude(t => t.Assignee);
             //.AsQueryable();
 
-            //return await queryable.ToListAsync();
             return await queryable.ToListAsync();
         }
 

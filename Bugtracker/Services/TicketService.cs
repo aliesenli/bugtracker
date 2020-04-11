@@ -59,6 +59,18 @@ namespace Bugtracker.Services
 
         public async Task<bool> UpdateTicketAsync(Ticket ticketToUpdate)
         {
+
+            var ttu = await _applicationDbContext.Tickets.FirstAsync(x => x.Id == ticketToUpdate.Id);
+
+            foreach (var entry in _applicationDbContext.Entry(ttu).Properties)
+            {
+                Console.WriteLine(
+                    $"Property '{entry.Metadata.Name}'" +
+                    $" is {(entry.IsModified ? "modified" : "not modified")} " +
+                    $"Current value: '{entry.CurrentValue}' " +
+                    $"Original value: '{entry.OriginalValue}'");
+            }
+
             _applicationDbContext.Tickets.Update(ticketToUpdate);
             var updated = await _applicationDbContext.SaveChangesAsync();
             return updated > 0;

@@ -77,5 +77,22 @@ namespace Bugtracker.Controllers
             return Created(locationUri, projectResponse);
         }
 
+        [HttpPut("api/projects/{projectId}")]
+        public async Task<IActionResult> Update([FromRoute]Guid projectId, [FromBody] UpdateProjectRequest request)
+        {
+            var project = await _projectService.GetProjectByIdAsync(projectId);
+            project.Name = request.Name;
+            project.Description = request.Description;
+
+            var updated = await _projectService.UpdateProjectAsync(project);
+
+            var projectDto = _projectToDtoConverter.Convert(project);
+
+            if (updated)
+                return Ok(projectDto);
+
+            return NotFound();
+        }
+
     }
 }

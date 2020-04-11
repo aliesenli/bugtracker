@@ -30,7 +30,7 @@ namespace Bugtracker
                 builder =>
                 {
                     builder.WithOrigins("http://localhost:8080");
-                    builder.AllowAnyHeader();
+                    builder.AllowAnyHeader().AllowAnyMethod();
                 });
             });
         }

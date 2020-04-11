@@ -2,6 +2,7 @@
     <div class="hello mt-4">
 
         <div class="mb-3">
+
             <b-button v-b-modal.modal-footer-sm variant="outline-primary">
                 <b-icon icon="inbox-fill"></b-icon> Create New Ticket
             </b-button>
@@ -175,7 +176,6 @@
             ...mapActions([
                 'fetchProjectTickets',
                 'createTicket',
-                'createTicket2',
                 'fetchStaffs'
             ]), 
 
@@ -188,15 +188,6 @@
                     assigneeId: this.assigneeId,
                     projectId: this.projectId
                 })
-                /*
-                this.createTicket(
-                    this.ticketTitle,
-                    this.ticketDescription,
-                    this.priority,
-                    this.assignee,
-                    //this.projectId
-                );
-                */
             },
 
             onFiltered(filteredItems) {
@@ -240,7 +231,7 @@
                 sortDesc: false,
                 sortDirection: 'asc',
                 filter: null,
-                ignoreFilterFields: ["id", "createdOn", "completion", "description", "submitter", "assignee", 'priority', "projectId"],
+                ignoreFilterFields: ["id", "createdOn", "completion", "description", "submitter", "assignee", "projectId"],
 
                 options: this.staffs,
 
