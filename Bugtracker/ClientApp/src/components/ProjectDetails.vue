@@ -20,7 +20,6 @@
                                 type="text"
                                 required
                                 v-model="name"
-                                value="tmm"
                                 ></b-form-input>
                             </b-form-group>
 

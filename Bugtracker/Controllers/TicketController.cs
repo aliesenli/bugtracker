@@ -78,27 +78,23 @@ namespace Bugtracker.Controllers
             return Created(locationUri, ticketDto);
         }
 
-        [HttpPut("api/ticket/{ticketId}")]
+        [HttpPut("api/tickets/{ticketId}")]
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
-            ticket.Title = request.Name;
-            ticket.UpdatedAt = DateTime.UtcNow;
+            ticket.Title = request.Title;
+            ticket.Description = request.Description;
             ticket.Priority = request.Priority;
+            ticket.Status = request.Status;
+            ticket.UpdatedAt = DateTime.UtcNow;
+            ticket.AssigneeId = request.AssigneeId;
 
             var updated = await _ticketService.UpdateTicketAsync(ticket);
 
-            var ticketResponse = new TicketResponse
-            {
-                Id = ticket.Id,
-                //  SubmitterId = ticket.SubmitterId,
-                Title = ticket.Title,
-                CreatedOn = ticket.CreatedAt.ToString(),
-                UpdatedOn = ticket.UpdatedAt.ToString(),
-            };
+            var ticketDto = _ticketToDtoConverter.Convert(ticket);
 
             if (updated)
-                return Ok(ticketResponse);
+                return Ok(ticketDto);
 
             return NotFound();
         }

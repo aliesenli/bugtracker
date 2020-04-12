@@ -10,19 +10,97 @@
                 <b-col cols="12">
                     <div>
                         <b-button-group>
-                        <b-button variant="outline-primary">
-                            <b-icon icon="pencil"></b-icon> Edit
-                        </b-button>
-                        <b-button variant="outline-primary">
-                            <b-icon icon="person-fill"></b-icon> Assign
-                        </b-button>
-                        <b-button variant="outline-primary">
-                            <b-icon icon="inbox-fill"></b-icon> Comment
-                        </b-button>
+                            <b-button v-b-modal.modal-footer-sm variant="outline-primary" @click="setCurrentAssignee()">
+                                <b-icon icon="pencil"></b-icon> Edit Ticket
+                            </b-button>
+                            <b-button variant="outline-primary">
+                                <b-icon icon="person-fill"></b-icon> Assign
+                            </b-button>
+                            <b-button variant="outline-primary">
+                                <b-icon icon="inbox-fill"></b-icon> Comment
+                            </b-button>
                         </b-button-group>
                     </div>
                 </b-col>
             </b-row>
+
+            <div>
+                <b-modal id="modal-footer-sm" size="lg" title="Edit Ticket" hide-footer>
+                    <b-form @submit="onEditTicket">
+                        <b-form-group
+                        class="mb-2"
+                        label="Title"
+                        label-for="input-title"
+                        >
+                            <b-form-input
+                            id="input-title"
+                            type="text"
+                            required
+                            v-model="ticketTitle"
+                            placeholder="Ticket Title"
+                            ></b-form-input>
+                        </b-form-group>
+
+                        <b-form-group
+                        class="mb-2"
+                        label="Description"
+                        label-for="textarea"
+                        >
+                            <b-form-textarea
+                            required
+                            id="textarea"
+                            v-model="ticketDescription"
+                            placeholder="Enter your text"
+                            ></b-form-textarea>
+                        </b-form-group>
+
+                        <b-row>
+                            <b-col cols="6">
+                                <b-form-group
+                                label="Priority"
+                                label-for="priority-1"
+                                >
+                                    <b-form-select v-model="ticketPriority" class="mb-1" id="priority-1">
+                                        <template v-slot:first>
+                                            <b-form-select-option :value="getTicket.priority">{{ getTicket.priority }}</b-form-select-option>
+                                        </template>
+                                        <b-form-select-option v-show="getTicket.priority != 'High'" value=High>High</b-form-select-option>
+                                        <b-form-select-option v-show="getTicket.priority != 'Medium'" value=Medium>Medium</b-form-select-option>
+                                        <b-form-select-option v-show="getTicket.priority != 'Low'" value=Low>Low</b-form-select-option>
+                                    </b-form-select>
+                                </b-form-group>
+                            </b-col>
+                            <b-col cols="6">
+                                <b-form-group
+                                label="Status"
+                                label-for="status-1"
+                                >
+                                    <b-form-select v-model="ticketStatus" class="mb-1" id="status-1">
+                                        <template v-slot:first>
+                                            <b-form-select-option :value="getTicket.status">{{getTicket.status}}</b-form-select-option>
+                                        </template>
+                                        <b-form-select-option v-show="getTicket.status != 'Closed'" value=Closed>Closed</b-form-select-option>
+                                        <b-form-select-option v-show="getTicket.status != 'Open'" value=Open>Open</b-form-select-option>
+                                    </b-form-select>
+                                </b-form-group>
+                            </b-col>
+                        </b-row>
+
+                        <b-form-group
+                        label="Assign To"
+                        label-for="assign-1"
+                        >
+                            <b-form-select v-model="ticketAssignee" :options="options" class="mb-1" id="assign-1">
+                                <template v-slot:first>
+                                    <b-form-select-option :value="currentAssignee.value">{{ currentAssignee.text }}</b-form-select-option>
+                                </template>
+                            </b-form-select>
+                        </b-form-group>
+
+                        <b-button type="submit" class="float-right mt-1" variant="primary">Submit</b-button>
+                    </b-form>
+                </b-modal>
+            </div>
 
             <b-row class="mt-4">
                 <b-col cols="12" md="8">
@@ -80,7 +158,6 @@
                         
                     </div>
                 </b-col>
-                
             </b-row>
 
         </div>
@@ -95,26 +172,71 @@ export default {
 
     methods: {
         ...mapActions([
-            'fetchTicket'
+            'fetchTicket',
+            'fetchStaffs'
         ]),
+
+        setCurrentAssignee() {
+            var currentAssignee = this.staffs.find(element => 
+                element.text == this.getTicket.assignee)
+    
+            this.currentAssignee = currentAssignee;
+        },
+
+        onEditTicket(e) {
+            e.preventDefault()
+            this.$store.dispatch('editTicket', {
+                ticketId: this.$route.params.ticketId,
+                title: this.ticketTitle,
+                description: this.ticketDescription,
+                priority: this.ticketPriority,
+                status: this.ticketStatus,
+                assigneeId: this.ticketAssignee
+            });
+        }
     },
 
     computed: {
         ...mapGetters([
-            'getTicket'
+            'getTicket',
+            'staffs'
         ]),
     },
     
     created() {
         this.fetchTicket(this.$route.params.ticketId);
-        console.log(this.getTicket)
+        this.fetchStaffs();
     },
 
     data() {
         return {
-            
+            ticketId: this.$route.params.ticketId,
+
+            ticketTitle: "",
+            ticketDescription: "",
+            ticketStatus: 0,
+            ticketPriority: 0,
+            ticketAssignee: "",
+
+            currentPriority: "",
+            currentAssignee: "",
+            options: this.staffs
+        }
+    },
+    watch: {
+        getTicket: function() {
+            this.ticketTitle = this.getTicket.title
+            this.ticketDescription = this.getTicket.description
+            this.ticketPriority = this.getTicket.priority
+            this.ticketStatus = this.getTicket.status
+        },
+        staffs: function() {
+            this.options = this.staffs.filter(e => e.text !== this.getTicket.assignee)
+            this.ticketAssignee = this.staffs.find(element => 
+                element.text == this.getTicket.assignee).value
         }
     }
+
 }
 </script>
 
