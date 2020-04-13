@@ -97,7 +97,7 @@
                             </b-form-select>
                         </b-form-group>
 
-                        <b-button type="submit" class="float-right mt-1" variant="primary">Submit</b-button>
+                        <b-button type="submit" class="float-right mt-1" variant="primary">Update</b-button>
                     </b-form>
                 </b-modal>
             </div>
@@ -135,7 +135,13 @@
                         </div>
 
                         <b-tabs content-class="mt-3" lazy>
-                            <b-tab title="History"><b-alert show>I'm lazy mounted!</b-alert></b-tab>
+                            <b-tab title="History"><b-alert show>
+                                <p v-for="audit in getTicket.audits" v-bind:key="audit.id">
+                                    <span class="audit-date">{{ audit.date }}</span>  
+                                    {{ audit.property }} changed from 
+                                    <span class="">{{ audit.oldValue }}</span> <b-icon icon="arrow-right"></b-icon>
+                                    <span class=""> {{ audit.newValue }}</span>
+                                </p></b-alert></b-tab>
                             <b-tab title="Comments"><b-alert show>I'm lazy mounted too!</b-alert></b-tab>
                         </b-tabs>
                     </div>
@@ -189,10 +195,21 @@ export default {
                 ticketId: this.$route.params.ticketId,
                 title: this.ticketTitle,
                 description: this.ticketDescription,
-                priority: this.ticketPriority,
-                status: this.ticketStatus,
+                priority: this.priorityToNumber(),
+                status: this.statusToNumber(),
                 assigneeId: this.ticketAssignee
             });
+        },
+
+        priorityToNumber() {
+            if(this.ticketPriority == 'Low') return 0;
+            else if(this.ticketPriority == 'Medium') return 1;
+            else return 2;
+        },
+
+        statusToNumber() {
+            if(this.ticketStatus == 'Open') return 0;
+            else if(this.ticketStatus == 'Closed') return 1;
         }
     },
 
@@ -257,4 +274,12 @@ export default {
     height: 1px;
     background-color: silver;
 }
+
+.audit-date {
+    border: 1px solid #ff00008f;
+    background-color: #ff00005c;
+    border-radius: 3px;
+    padding: 2px;
+}
+
 </style>

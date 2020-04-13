@@ -49,6 +49,7 @@ const mutations = {
     updateTicket: (state, data) => {
         state.ticket.title = data.title
         state.ticket.description = data.description,
+        state.ticket.updatedOn = data.updatedOn,
         state.ticket.status = data.status,
         state.ticket.priority = data.priority,
         state.ticket.assignee = data.assignee

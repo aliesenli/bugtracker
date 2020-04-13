@@ -23,6 +23,7 @@ namespace Bugtracker.Services
                 .Include(t => t.Project)
                 .Include(t => t.Assignee)
                 .Include(t => t.Submitter)
+                .Include(t => t.Audits)
                 .AsQueryable();
 
             return await queryable.ToListAsync();
@@ -34,6 +35,7 @@ namespace Bugtracker.Services
                 .Include(t => t.Project)
                 .Include(t => t.Assignee)
                 .Include(t => t.Submitter)
+                .Include(t => t.Audits)
                 .SingleOrDefaultAsync(x => x.Id == postId);
         }
 
@@ -64,11 +66,18 @@ namespace Bugtracker.Services
 
             foreach (var entry in _applicationDbContext.Entry(ttu).Properties)
             {
-                Console.WriteLine(
-                    $"Property '{entry.Metadata.Name}'" +
-                    $" is {(entry.IsModified ? "modified" : "not modified")} " +
-                    $"Current value: '{entry.CurrentValue}' " +
-                    $"Original value: '{entry.OriginalValue}'");
+                if (entry.IsModified && !(entry.Metadata.Name == "UpdatedAt"))
+                {
+                    var ticketAudit = new Audit
+                    {
+                        TicketId = ticketToUpdate.Id,
+                        Property = entry.Metadata.Name,
+                        OldValue = entry.OriginalValue.ToString(),
+                        NewValue = entry.CurrentValue.ToString(),
+                        Date = DateTime.Now,
+                    };
+                    _applicationDbContext.Audits.Add(ticketAudit);
+                }
             }
 
             _applicationDbContext.Tickets.Update(ticketToUpdate);
