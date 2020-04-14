@@ -28,9 +28,15 @@ namespace Bugtracker
                     await roleManager.CreateAsync(adminRole);
                 }
 
-                if (!await roleManager.RoleExistsAsync("Poster"))
+                if (!await roleManager.RoleExistsAsync("Submitter"))
                 {
-                    var posterRole = new IdentityRole("Poster");
+                    var posterRole = new IdentityRole("Submitter");
+                    await roleManager.CreateAsync(posterRole);
+                }
+
+                if (!await roleManager.RoleExistsAsync("Developer"))
+                {
+                    var posterRole = new IdentityRole("Developer");
                     await roleManager.CreateAsync(posterRole);
                 }
             }

@@ -41,11 +41,11 @@
       <li>
         <a
         href="#"
-        @click.prevent="updateMenu('customers')"
-        :class="highlightSection('customers')"
+        @click.prevent="updateMenu('manage')"
+        :class="highlightSection('manage')"
         >
           <i class="fa fa-users menu__icon" aria-hidden="true"></i>
-          Customers
+          Manage
           <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
         </a>
       </li>

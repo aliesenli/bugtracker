@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Projects from '../views/Projects.vue'
 import Project from '../views/Project.vue'
 import Ticket from '../components/Ticket.vue'
+import Manage from '../views/Manage.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/ticket/:ticketId',
     name: 'Ticket',
     component: Ticket
+  },
+  {
+    path: '/manage-roles',
+    name: 'Manage',
+    component: Manage
   },
   {
     path: '/login',

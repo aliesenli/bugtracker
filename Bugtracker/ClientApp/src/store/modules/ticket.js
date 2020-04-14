@@ -39,9 +39,6 @@ const actions = {
         
         commit('updateTicket', response.data)
     },
-
-
-
 };
 
 const mutations = {

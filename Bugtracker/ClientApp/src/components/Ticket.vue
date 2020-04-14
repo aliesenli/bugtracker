@@ -136,12 +136,12 @@
 
                         <b-tabs content-class="mt-3" lazy>
                             <b-tab title="History"><b-alert show>
-                                <p v-for="audit in getTicket.audits" v-bind:key="audit.id">
+                                <div class="mt-3" v-for="audit in getTicket.audits" v-bind:key="audit.id">
                                     <span class="audit-date">{{ audit.date }}</span>  
                                     {{ audit.property }} changed from 
                                     <span class="">{{ audit.oldValue }}</span> <b-icon icon="arrow-right"></b-icon>
                                     <span class=""> {{ audit.newValue }}</span>
-                                </p></b-alert></b-tab>
+                                </div></b-alert></b-tab>
                             <b-tab title="Comments"><b-alert show>I'm lazy mounted too!</b-alert></b-tab>
                         </b-tabs>
                     </div>
@@ -276,10 +276,14 @@ export default {
 }
 
 .audit-date {
-    border: 1px solid #ff00008f;
-    background-color: #ff00005c;
+    border: 1px solid #ff0000c2;
+    background-color: #ff000018;
     border-radius: 3px;
-    padding: 2px;
+    padding: 3px;
+}
+
+.alert-info {
+    background-color: rgba(40, 101, 255, 0.034);
 }
 
 </style>

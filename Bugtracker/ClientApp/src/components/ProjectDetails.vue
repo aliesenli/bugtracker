@@ -87,7 +87,7 @@
                     </div>
                     <div class="p-2">
                         <p>Created: {{ projectCreatedOn }}</p>
-                        <p>Updated: {{ projectCompletion }}</p>
+                        <p>Completion: {{ projectCompletion }}</p>
                     </div>
                     
                 </div>

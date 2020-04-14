@@ -13,7 +13,7 @@
 
 <script>
 import { mapState } from 'vuex'
-// @ is an alias to /src
+
 import MenuToggleBtn from '@/components/MenuToggleBtn.vue'
 import Menu from '@/components/Menu.vue'
 import ContentOverlay from '@/components/ContentOverlay.vue'
