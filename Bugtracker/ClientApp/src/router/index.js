@@ -45,7 +45,7 @@ const routes = [
     name: 'login',
     component: Login,
     meta: {
-      hideNavigation: true
+      layout: "no-sidebar"
     }
   },
   {
@@ -53,7 +53,7 @@ const routes = [
     name: 'register',
     component: Register,
     meta: {
-      hideNavigation: true
+      layout: "no-sidebar"
     }
   },
 ]

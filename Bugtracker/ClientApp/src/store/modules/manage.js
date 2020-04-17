@@ -19,6 +19,23 @@ const actions = {
         });
 
         commit('setTableStaffs', response.data);
+    },
+
+    async assignRole({commit}, payload) {
+        const response = await axios.post('https://localhost:5001/api/staffs/role', 
+        {
+            user: payload.user,
+            role: payload.role
+        }, 
+        {
+            headers: {
+                "Authorization": "bearer "+ localStorage.getItem('token') ,
+                "Accept": "application/json",
+                "cache-control": "no-cache"
+            }
+        });
+
+        commit('updateTable', response.data);
     }
 
 };
@@ -26,6 +43,10 @@ const actions = {
 const mutations = {
     setTableStaffs: (state, staffs) => {
         state.tableStaffs = staffs
+    },
+    updateTable: (state, staff) => {
+       state.tableStaffs.find(element => element.staffId == staff.staffId).role = staff.role
+    
     }
 };
 

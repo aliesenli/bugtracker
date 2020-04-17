@@ -20,16 +20,16 @@
 </template>
 
 <script>
+  import jwt_decode from 'jwt-decode'
 
 export default {
 
   computed : {
       isLoggedIn : function(){ return this.$store.getters.isLoggedIn },
-      loggedInAs : function(){ return this.$store.getters.loggedInAs }
+      loggedInAs : function(){ return jwt_decode(this.$store.state.auth.token) }
     },
 
    methods: {
-
     toggleMenu() {
       window.bus.$emit('menu/toggle');
     },

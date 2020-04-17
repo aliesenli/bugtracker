@@ -1,4 +1,5 @@
 import axios from 'axios'
+//import jwt_decode from 'jwt-decode';
 
 const state = {
     status: '',
@@ -9,7 +10,6 @@ const state = {
 
 const getters = {
     isLoggedIn: state => !!state.token,
-    loggedInAs: state => JSON.parse(atob(state.token.split('.')[1])),
     authStatus: state => state.status,
 };
 
@@ -41,7 +41,7 @@ const actions = {
                 const token = resp.data.token
                 const user = resp.data.user
                 localStorage.setItem('token', token)
-                // Add the following line:
+
                 axios.defaults.headers.common['Authorization'] = token
                 commit('auth_success', token, user)
                 resolve(resp)
@@ -54,12 +54,11 @@ const actions = {
         })
     },
       logout({commit}){
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
               commit('logout')
               localStorage.removeItem('token')
               delete axios.defaults.headers.common['Authorization']
               resolve()
-            console.log(reject) // -----------------------------------------------------------> ?
         })
       }
 };
@@ -67,8 +66,8 @@ const actions = {
 const mutations = {
 
     auth_request(state) {
-        state.status = 'loading',
-        state.loading = true
+    state.status = 'loading',
+    state.loading = true
     },
     auth_success(state, token, user) {
     state.status = 'success'

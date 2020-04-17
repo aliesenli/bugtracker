@@ -6,8 +6,10 @@ namespace Bugtracker.Services
 {
     public interface IStaffService
     {
-        Task<List<IdentityUser>> getStaffsAsync();
+        Task<List<IdentityUser>> GetStaffsAsync();
 
-        Task<IdentityUser> assignStaffRoleAsync(IdentityUser user);
+        Task<IdentityUser> GetStaffByUserIdAsync(string userId);
+
+        Task<bool> AssignUserRoleAsync(string userId, string rolename);
     }
 }

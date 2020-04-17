@@ -23,6 +23,8 @@ namespace Bugtracker.Contracts.Responses
 
         public string Assignee { get; set; }
 
+        public string AssigneeId { get; set; }
+
         public string Status { get; set; }
 
         public ICollection<AuditResponse> Audits { get; set; } = new HashSet<AuditResponse>();

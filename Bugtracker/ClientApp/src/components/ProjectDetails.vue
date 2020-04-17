@@ -19,7 +19,8 @@
                                 id="input-title"
                                 type="text"
                                 required
-                                v-model="name"
+                                ref="project_name"
+                                :value="projectName"
                                 ></b-form-input>
                             </b-form-group>
 
@@ -32,8 +33,8 @@
                                 id="textarea"
                                 type="text"
                                 required
-                                v-model="description"
-                                
+                                ref="project_description"
+                                :value="projectDescription"
                                 ></b-form-textarea>
                             </b-form-group>
 
@@ -45,7 +46,7 @@
             </b-col>
         </b-row>
 
-            <b-row class="mt-4">
+        <b-row class="mt-4">
             <b-col cols="12" md="8">
                 <div>
                     <div class="mytextdiv">
@@ -106,8 +107,9 @@
                 e.preventDefault();
                 this.$store.dispatch('editProject', {
                     projectId: this.$route.params.projectId,
-                    projectName: this.name,
-                    projectDescription: this.description
+                    projectName: this.$refs.project_name.localValue,
+                    projectDescription: this.$refs.project_description.localValue,
+                
                 });
             },
         },
@@ -121,16 +123,9 @@
         },
         data() {
             return {
-                name: "",
-                description: "",
+
             }
         },
-        watch: {
-            projectName: function() {
-                this.name = this.projectName
-                this.description = this.projectDescription
-            }
-        }
     }
 </script>
 

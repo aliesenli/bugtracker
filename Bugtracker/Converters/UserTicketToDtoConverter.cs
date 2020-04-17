@@ -1,11 +1,13 @@
 ﻿using Bugtracker.Contracts.Responses;
 using Bugtracker.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bugtracker.Converters
 {
-    public class TicketToDtoConverter : IConverter<Ticket, TicketResponse>, IConverter<IList<Ticket>, IList<TicketResponse>>
+    public class UserTicketToDtoConverter : IConverter<Ticket, TicketResponse>, IConverter<IList<Ticket>, IList<TicketResponse>>
     {
         public TicketResponse Convert(Ticket ticket)
         {
@@ -19,24 +21,8 @@ namespace Bugtracker.Converters
                 CreatedOn = ticket.CreatedAt.ToString(),
                 UpdatedOn = ticket.UpdatedAt.ToString(),
                 Assignee = ticket.Assignee.UserName,
-                AssigneeId = ticket.Assignee.Id,
-                Submitter = ticket.Submitter.UserName,
                 Project = ticket.Project.Name
             };
-
-            foreach (var audit in ticket.Audits)
-            {
-                var auditDto = new AuditResponse
-                {
-                    Id = audit.Id,
-                    Property = audit.Property,
-                    NewValue = audit.NewValue,
-                    OldValue = audit.OldValue,
-                    Date = audit.Date.ToString()
-                };
-
-                ticketDto.Audits.Add(auditDto);
-            }
 
             return ticketDto;
         }
@@ -49,5 +35,6 @@ namespace Bugtracker.Converters
                 return ticketDto;
             }).ToList();
         }
+
     }
 }

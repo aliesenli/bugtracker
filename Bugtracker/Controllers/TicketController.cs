@@ -20,21 +20,33 @@ namespace Bugtracker.Controllers
         private readonly IUriService _uriService;
         private readonly IConverter<Ticket, TicketResponse> _ticketToDtoConverter;
         private readonly IConverter<IList<Ticket>, IList<TicketResponse>> _ticketToDtoListConverter;
+        private readonly IConverter<IList<Ticket>, IList<TicketResponse>> _userTicketToDtoListConverter;
 
         public TicketController(
             ITicketService ticketService,
             IUriService uriService,
             IConverter<Ticket, TicketResponse> ticketToDtoConverter,
-            IConverter<IList<Ticket>, IList<TicketResponse>> ticketToDtoListConverter)
+            IConverter<IList<Ticket>, IList<TicketResponse>> ticketToDtoListConverter,
+            IConverter<IList<Ticket>, IList<TicketResponse>> userTicketToDtoListConverter)
         {
             _ticketService = ticketService;
             _uriService = uriService;
             _ticketToDtoConverter = ticketToDtoConverter;
             _ticketToDtoListConverter = ticketToDtoListConverter;
+            _userTicketToDtoListConverter = userTicketToDtoListConverter;
+        }
+
+        [HttpGet("api/tickets/user/{userId}")]
+        public async Task<IActionResult> GetAllFromUser([FromRoute] GetAllTicketsRequest query)
+        {
+            var tickets = await _ticketService.GetUserTicketsAsync(query.UserId);
+            var ticketsDto = _userTicketToDtoListConverter.Convert(tickets);
+
+            return Ok(ticketsDto);
         }
 
         [HttpGet("api/tickets")]
-        public async Task<IActionResult> GetAll([FromQuery] GetAllTicketsRequest query)
+        public async Task<IActionResult> GetAll()
         {
             var tickets = await _ticketService.GetTicketsAsync();
             var ticketsDto = _ticketToDtoListConverter.Convert(tickets);
@@ -61,11 +73,11 @@ namespace Bugtracker.Controllers
                 Id = newTicketId,
                 Title = postRequest.Title,
                 Description = postRequest.Description,
-                SubmitterId = HttpContext.GetUserId(),
-                AssigneeId = postRequest.AssigneeId,
+                Priority = postRequest.Priority,
                 Status = 0,
                 CreatedAt = DateTime.Now,
-                Priority = postRequest.Priority,
+                AssigneeId = postRequest.AssigneeId,
+                SubmitterId = HttpContext.GetUserId(),
                 ProjectId = postRequest.ProjectId,
             };
 

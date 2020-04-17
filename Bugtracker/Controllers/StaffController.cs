@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bugtracker.Contracts.Requests;
 using Bugtracker.Contracts.Responses;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,7 +26,7 @@ namespace Bugtracker.Controllers
         [HttpGet("api/staffs")]
         public async Task<IActionResult> GetAll()
         {
-            var staffs = await _staffService.getStaffsAsync();
+            var staffs = await _staffService.GetStaffsAsync();
 
             var staffResponse = staffs.Select(staff => new StaffResponse
             {
@@ -44,11 +45,29 @@ namespace Bugtracker.Controllers
             return Ok(staffResponse);
         }
 
-        public async Task<IActionResult> AssignRole()
+        [HttpPost("api/staffs/role")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AssignRole([FromBody] AssignRoleRequest request)
         {
-            //var x = await _staffService.assignStaffRoleAsync();
+            await _staffService.AssignUserRoleAsync(request.User, request.Role);
 
-            return Ok();
+            var staff = await _staffService.GetStaffByUserIdAsync(request.User);
+
+            var staffResponse = new StaffResponse
+            {
+                StaffId = staff.Id,
+                Name = staff.UserName,
+                Role = getRole(staff)
+            };
+
+            IList<string> getRole(IdentityUser staff)
+            {
+                var role = _userManager.GetRolesAsync(staff);
+
+                return role.Result;
+            }
+
+            return Ok(staffResponse);
         }
     }
 }

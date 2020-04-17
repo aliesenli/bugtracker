@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content"> 
+    <div class="main-content" id="wrapper"> 
         <div class="main-content__body">
             <b-row>
                 <b-col cols="12">
@@ -10,7 +10,7 @@
                 <b-col cols="12">
                     <div>
                         <b-button-group>
-                            <b-button v-b-modal.modal-footer-sm variant="outline-primary" @click="setCurrentAssignee()">
+                            <b-button v-b-modal.modal-footer-sm variant="outline-primary">
                                 <b-icon icon="pencil"></b-icon> Edit Ticket
                             </b-button>
                             <b-button variant="outline-primary">
@@ -36,8 +36,9 @@
                             id="input-title"
                             type="text"
                             required
-                            v-model="ticketTitle"
                             placeholder="Ticket Title"
+                            ref="ticket_title"
+                            :value="getTicket.title"
                             ></b-form-input>
                         </b-form-group>
 
@@ -49,8 +50,9 @@
                             <b-form-textarea
                             required
                             id="textarea"
-                            v-model="ticketDescription"
                             placeholder="Enter your text"
+                            ref="ticket_description"
+                            :value="getTicket.description"
                             ></b-form-textarea>
                         </b-form-group>
 
@@ -60,13 +62,10 @@
                                 label="Priority"
                                 label-for="priority-1"
                                 >
-                                    <b-form-select v-model="ticketPriority" class="mb-1" id="priority-1">
-                                        <template v-slot:first>
-                                            <b-form-select-option :value="getTicket.priority">{{ getTicket.priority }}</b-form-select-option>
-                                        </template>
-                                        <b-form-select-option v-show="getTicket.priority != 'High'" value=High>High</b-form-select-option>
-                                        <b-form-select-option v-show="getTicket.priority != 'Medium'" value=Medium>Medium</b-form-select-option>
-                                        <b-form-select-option v-show="getTicket.priority != 'Low'" value=Low>Low</b-form-select-option>
+                                    <b-form-select :value="getTicket.priority" class="mb-1" id="priority-1" ref="ticket_priority">
+                                        <b-form-select-option value=High>High</b-form-select-option>
+                                        <b-form-select-option value=Medium>Medium</b-form-select-option>
+                                        <b-form-select-option value=Low>Low</b-form-select-option>
                                     </b-form-select>
                                 </b-form-group>
                             </b-col>
@@ -75,12 +74,9 @@
                                 label="Status"
                                 label-for="status-1"
                                 >
-                                    <b-form-select v-model="ticketStatus" class="mb-1" id="status-1">
-                                        <template v-slot:first>
-                                            <b-form-select-option :value="getTicket.status">{{getTicket.status}}</b-form-select-option>
-                                        </template>
-                                        <b-form-select-option v-show="getTicket.status != 'Closed'" value=Closed>Closed</b-form-select-option>
-                                        <b-form-select-option v-show="getTicket.status != 'Open'" value=Open>Open</b-form-select-option>
+                                    <b-form-select :value="getTicket.status" class="mb-1" id="status-1" ref="ticket_status">
+                                        <b-form-select-option value=Closed>Closed</b-form-select-option>
+                                        <b-form-select-option value=Open>Open</b-form-select-option>
                                     </b-form-select>
                                 </b-form-group>
                             </b-col>
@@ -90,13 +86,10 @@
                         label="Assign To"
                         label-for="assign-1"
                         >
-                            <b-form-select v-model="ticketAssignee" :options="options" class="mb-1" id="assign-1">
-                                <template v-slot:first>
-                                    <b-form-select-option :value="currentAssignee.value">{{ currentAssignee.text }}</b-form-select-option>
-                                </template>
+                            <b-form-select :value="getTicket.assigneeId" :options="staffs" class="mb-1" id="assign-1">
                             </b-form-select>
                         </b-form-group>
-
+                        
                         <b-button type="submit" class="float-right mt-1" variant="primary">Update</b-button>
                     </b-form>
                 </b-modal>
@@ -182,34 +175,27 @@ export default {
             'fetchStaffs'
         ]),
 
-        setCurrentAssignee() {
-            var currentAssignee = this.staffs.find(element => 
-                element.text == this.getTicket.assignee)
-    
-            this.currentAssignee = currentAssignee;
-        },
-
         onEditTicket(e) {
             e.preventDefault()
             this.$store.dispatch('editTicket', {
                 ticketId: this.$route.params.ticketId,
-                title: this.ticketTitle,
-                description: this.ticketDescription,
+                title: this.$refs.ticket_title.localValue,
+                description: this.$refs.ticket_description.localValue,
                 priority: this.priorityToNumber(),
                 status: this.statusToNumber(),
-                assigneeId: this.ticketAssignee
+                assigneeId: this.currentAssignee
             });
         },
 
         priorityToNumber() {
-            if(this.ticketPriority == 'Low') return 0;
-            else if(this.ticketPriority == 'Medium') return 1;
+            if(this.$refs.ticket_priority.localValue == 'Low') return 0;
+            else if(this.$refs.ticket_priority.localValue == 'Medium') return 1;
             else return 2;
         },
 
         statusToNumber() {
-            if(this.ticketStatus == 'Open') return 0;
-            else if(this.ticketStatus == 'Closed') return 1;
+            if(this.$refs.ticket_status.localValue == 'Open') return 0;
+            else if(this.$refs.ticket_status.localValue == 'Closed') return 1;
         }
     },
 
@@ -228,32 +214,8 @@ export default {
     data() {
         return {
             ticketId: this.$route.params.ticketId,
-
-            ticketTitle: "",
-            ticketDescription: "",
-            ticketStatus: 0,
-            ticketPriority: 0,
-            ticketAssignee: "",
-
-            currentPriority: "",
-            currentAssignee: "",
-            options: this.staffs
         }
     },
-    watch: {
-        getTicket: function() {
-            this.ticketTitle = this.getTicket.title
-            this.ticketDescription = this.getTicket.description
-            this.ticketPriority = this.getTicket.priority
-            this.ticketStatus = this.getTicket.status
-        },
-        staffs: function() {
-            this.options = this.staffs.filter(e => e.text !== this.getTicket.assignee)
-            this.ticketAssignee = this.staffs.find(element => 
-                element.text == this.getTicket.assignee).value
-        }
-    }
-
 }
 </script>
 
@@ -285,5 +247,4 @@ export default {
 .alert-info {
     background-color: rgba(40, 101, 255, 0.034);
 }
-
 </style>

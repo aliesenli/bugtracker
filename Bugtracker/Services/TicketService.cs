@@ -36,7 +36,7 @@ namespace Bugtracker.Services
                 .Include(t => t.Assignee)
                 .Include(t => t.Submitter)
                 .Include(t => t.Audits)
-                .SingleOrDefaultAsync(x => x.Id == postId);
+                .SingleOrDefaultAsync(t => t.Id == postId);
         }
 
         public async Task<bool> CreateTicketAsync(Ticket post)
@@ -62,7 +62,7 @@ namespace Bugtracker.Services
         public async Task<bool> UpdateTicketAsync(Ticket ticketToUpdate)
         {
 
-            var ttu = await _applicationDbContext.Tickets.FirstAsync(x => x.Id == ticketToUpdate.Id);
+            var ttu = await _applicationDbContext.Tickets.FirstAsync(t => t.Id == ticketToUpdate.Id);
 
             foreach (var entry in _applicationDbContext.Entry(ttu).Properties)
             {
@@ -85,9 +85,14 @@ namespace Bugtracker.Services
             return updated > 0;
         }
 
-        public Task<bool> UserOwnsTicketAsync(Guid ticketId, string userId)
+        public async Task<List<Ticket>> GetUserTicketsAsync(string userId)
         {
-            throw new NotImplementedException();
+            var queryable = _applicationDbContext.Tickets.Where(t => t.Assignee.Id == userId)
+                .Include(t => t.Project)
+                .Include(t => t.Assignee)
+                .AsQueryable();
+
+            return await queryable.ToListAsync();
         }
     }
 }

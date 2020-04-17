@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content"> 
+    <div class="main-content" id="wrapper"> 
         <div class="main-content__body">
             <Manage/>
         </div>
@@ -7,7 +7,6 @@
 </template>
 
 <script>
-    // @ is an alias to /src
     import Manage from '@/components/Manage.vue'
 
     export default {

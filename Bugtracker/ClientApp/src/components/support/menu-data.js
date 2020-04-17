@@ -1,10 +1,8 @@
 export default {
-
   // home is a section without childs, set as an empty array
   home: [],
 
   projects: [
-
     {
       type: 'title',
       txt: 'Projects',
@@ -20,7 +18,6 @@ export default {
   ],
 
   manage: [
-
     {
       type: 'title',
       txt: 'Manage',
@@ -35,7 +32,6 @@ export default {
   ],
 
   account: [
-
     {
       type: 'title',
       txt: 'My Account',
@@ -47,5 +43,4 @@ export default {
       txt: 'Logout',
     },
   ],
-
 };

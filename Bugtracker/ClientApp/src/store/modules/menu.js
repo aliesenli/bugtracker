@@ -1,6 +1,10 @@
 const state = {
-    spacing: true
+    spacing: false
 };
+
+const getters = {
+    spacing: (state) => state.spacing
+}
 
 const actions = {
     set({commit}){
@@ -24,6 +28,7 @@ const mutations = {
 
 export default ({
     state,
+    getters,
     actions,
     mutations
 })

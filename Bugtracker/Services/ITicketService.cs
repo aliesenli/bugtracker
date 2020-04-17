@@ -1,7 +1,6 @@
 ﻿using Bugtracker.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bugtracker.Services
@@ -18,6 +17,6 @@ namespace Bugtracker.Services
 
         Task<bool> DeleteTicketAsync(Guid ticketId);
 
-        Task<bool> UserOwnsTicketAsync(Guid ticketId, string userId);
+        Task<List<Ticket>> GetUserTicketsAsync(string userId);
     }
 }

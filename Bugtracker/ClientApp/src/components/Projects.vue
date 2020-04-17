@@ -52,7 +52,7 @@
         </div>
 
         <h2 class="mt-3">Projects</h2>
-        <div class="p-3">
+        <div class="p-2">
             <b-row align-h="between" class="mb-2">
                 <b-col sm="2" class="my-1">
                     <b-form-group
@@ -199,7 +199,7 @@ export default {
             sortDirection: 'asc',
             filter: null,
             filterOn: [],
-            ignoreFilterFields: ["id", "Id"],
+            ignoreFilterFields: ["id", "description"],
 
             projectName: "",
             projectDescription: "",
