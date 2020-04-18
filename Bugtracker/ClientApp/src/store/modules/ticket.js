@@ -22,7 +22,6 @@ const actions = {
     },
 
     async editTicket({ commit }, payload) {
-        console.log(payload)
         const response = await axios.put(`https://localhost:5001/api/tickets/${payload.ticketId}`, {
             title: payload.title,
             description: payload.description,
@@ -37,8 +36,7 @@ const actions = {
                 "cache-control": "no-cache"
             }
         });
-        
-        console.log(response)
+  
         commit('updateTicket', response.data)
     },
 };

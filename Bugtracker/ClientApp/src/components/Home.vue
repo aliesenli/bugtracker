@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <h5>Your Tickets</h5>
         <div class="p-2">
             <b-row align-h="between" class="mb-2">
@@ -157,8 +156,6 @@
                 sortDirection: 'asc',
                 filter: null,
                 ignoreFilterFields: ["id", "createdOn", "completion", "description", "submitter", "assignee", "projectId"],
-
-                options: this.staffs,
 
                 projectId: this.$route.params.projectId,
             }

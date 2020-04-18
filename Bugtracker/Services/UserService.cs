@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bugtracker.Services
 {
-    public class StaffService : IStaffService
+    public class UserService : IUserService
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public StaffService(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
+        public UserService(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
         {
             _applicationDbContext = applicationDbContext;
             _userManager = userManager;
@@ -27,7 +27,7 @@ namespace Bugtracker.Services
             return await queryable.ToListAsync();
         }
 
-        public async Task<IdentityUser> GetStaffByUserIdAsync(string userId)
+        public async Task<IdentityUser> GetUserByUserIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
 

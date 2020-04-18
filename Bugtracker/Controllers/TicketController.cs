@@ -17,6 +17,7 @@ namespace Bugtracker.Controllers
     public class TicketController : Controller
     {
         private readonly ITicketService _ticketService;
+        private readonly IUserService _userService;
         private readonly IUriService _uriService;
         private readonly IConverter<Ticket, TicketResponse> _ticketToDtoConverter;
         private readonly IConverter<IList<Ticket>, IList<TicketResponse>> _ticketToDtoListConverter;
@@ -25,12 +26,14 @@ namespace Bugtracker.Controllers
         public TicketController(
             ITicketService ticketService,
             IUriService uriService,
+            IUserService userService,
             IConverter<Ticket, TicketResponse> ticketToDtoConverter,
             IConverter<IList<Ticket>, IList<TicketResponse>> ticketToDtoListConverter,
             IConverter<IList<Ticket>, IList<TicketResponse>> userTicketToDtoListConverter)
         {
             _ticketService = ticketService;
             _uriService = uriService;
+            _userService = userService;
             _ticketToDtoConverter = ticketToDtoConverter;
             _ticketToDtoListConverter = ticketToDtoListConverter;
             _userTicketToDtoListConverter = userTicketToDtoListConverter;
@@ -93,12 +96,15 @@ namespace Bugtracker.Controllers
         [HttpPut("api/tickets/{ticketId}")]
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
+            var newAssignee = await _userService.GetUserByUserIdAsync(request.AssigneeId);
             var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
+
             ticket.Title = request.Title;
             ticket.Description = request.Description;
             ticket.Priority = request.Priority;
             ticket.Status = request.Status;
             ticket.UpdatedAt = DateTime.UtcNow;
+            ticket.Assignee = newAssignee;
             ticket.AssigneeId = request.AssigneeId;
 
             var updated = await _ticketService.UpdateTicketAsync(ticket);

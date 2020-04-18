@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace Bugtracker.Services
 {
-    public interface IStaffService
+    public interface IUserService
     {
         Task<List<IdentityUser>> GetStaffsAsync();
 
-        Task<IdentityUser> GetStaffByUserIdAsync(string userId);
+        Task<IdentityUser> GetUserByUserIdAsync(string userId);
 
         Task<bool> AssignUserRoleAsync(string userId, string rolename);
     }

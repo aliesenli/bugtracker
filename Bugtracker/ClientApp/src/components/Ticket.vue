@@ -86,7 +86,7 @@
                         label="Assign To"
                         label-for="assign-1"
                         >
-                            <b-form-select :value="getTicket.assigneeId" :options="staffs" class="mb-1" id="assign-1">
+                            <b-form-select :value="getTicket.assigneeId" :options="staffs" class="mb-1" id="assign-1" ref="ticket_assigneeId">
                             </b-form-select>
                         </b-form-group>
                         
@@ -183,7 +183,7 @@ export default {
                 description: this.$refs.ticket_description.localValue,
                 priority: this.priorityToNumber(),
                 status: this.statusToNumber(),
-                assigneeId: this.currentAssignee
+                assigneeId: this.$refs.ticket_assigneeId.localValue
             });
         },
 

@@ -1,9 +1,8 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Bugtracker.Contracts.Responses
 {
-    public class StaffResponse
+    public class UserResponse
     {
         public string StaffId { get; set; }
 

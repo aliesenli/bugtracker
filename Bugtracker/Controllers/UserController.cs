@@ -12,23 +12,23 @@ using Microsoft.AspNetCore.Mvc;
 namespace Bugtracker.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class StaffController : Controller
+    public class UserController : Controller
     {
-        private readonly IStaffService _staffService;
+        private readonly IUserService _userService;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public StaffController(IStaffService staffService, UserManager<IdentityUser> userManager)
+        public UserController(IUserService userService, UserManager<IdentityUser> userManager)
         {
-            _staffService = staffService;
+            _userService = userService;
             _userManager = userManager;
         }
 
         [HttpGet("api/staffs")]
         public async Task<IActionResult> GetAll()
         {
-            var staffs = await _staffService.GetStaffsAsync();
+            var staffs = await _userService.GetStaffsAsync();
 
-            var staffResponse = staffs.Select(staff => new StaffResponse
+            var staffResponse = staffs.Select(staff => new UserResponse
             {
                 StaffId = staff.Id,
                 Name = staff.UserName,
@@ -49,15 +49,15 @@ namespace Bugtracker.Controllers
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleRequest request)
         {
-            await _staffService.AssignUserRoleAsync(request.User, request.Role);
+            await _userService.AssignUserRoleAsync(request.User, request.Role);
 
-            var staff = await _staffService.GetStaffByUserIdAsync(request.User);
+            var user = await _userService.GetUserByUserIdAsync(request.User);
 
-            var staffResponse = new StaffResponse
+            var userResponse = new UserResponse
             {
-                StaffId = staff.Id,
-                Name = staff.UserName,
-                Role = getRole(staff)
+                StaffId = user.Id,
+                Name = user.UserName,
+                Role = getRole(user)
             };
 
             IList<string> getRole(IdentityUser staff)
@@ -67,7 +67,7 @@ namespace Bugtracker.Controllers
                 return role.Result;
             }
 
-            return Ok(staffResponse);
+            return Ok(userResponse);
         }
     }
 }
