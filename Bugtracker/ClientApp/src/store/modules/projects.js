@@ -21,8 +21,13 @@ const actions = {
         commit('setProjects', response.data);
     },
 
-    async createProject({ commit }, name, description, completion ) {
-        const response = await axios.post('https://localhost:5001/api/projects/create', { name, description, completion },
+    async createProject({ commit }, payload) {
+        const response = await axios.post('https://localhost:5001/api/projects/create', 
+        { 
+            name: payload.name, 
+            description: payload.description, 
+            completion: payload.completion
+        },
         {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
@@ -37,7 +42,7 @@ const actions = {
 
 const mutations = {
     setProjects: (state, projects) => state.projects = projects,
-    addProject: (state, project) => state.projects.push(project)
+    addProject: (state, project) => state.projects.unshift(project)
 };
 
 export default ({

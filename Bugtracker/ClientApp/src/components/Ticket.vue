@@ -25,7 +25,7 @@
             </b-row>
 
             <div>
-                <b-modal id="modal-footer-sm" size="lg" title="Edit Ticket" hide-footer>
+                <b-modal id="modal-footer-sm" size="lg" title="Edit Ticket" ref="edit-ticket" hide-footer>
                     <b-form @submit="onEditTicket">
                         <b-form-group
                         class="mb-2"
@@ -185,6 +185,8 @@ export default {
                 status: this.statusToNumber(),
                 assigneeId: this.$refs.ticket_assigneeId.localValue
             });
+
+            this.$refs['edit-ticket'].hide()
         },
 
         priorityToNumber() {

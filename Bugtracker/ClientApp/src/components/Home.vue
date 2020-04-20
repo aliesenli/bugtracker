@@ -69,7 +69,7 @@
 
                 <template v-slot:cell(title)="row">
                     <b-icon icon="app-indicator"></b-icon> {{ row.item.title }}
-                </template>/
+                </template>
 
                 <template v-slot:table-busy>
                     <div class="text-center text-danger my-2">
@@ -78,10 +78,10 @@
                     </div>
                 </template>
 
-                <template v-slot:cell(actions)="row">
-                    <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret>
+                <template v-slot:cell(actions)="row" class="gully">
+                    <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret class="deckel">
                         <template v-slot:button-content>
-                        <b-icon icon="grid3x2-gap"></b-icon><span class="sr-only">Search</span>
+                            <b-icon icon="grid3x2-gap"></b-icon><span class="sr-only">Search</span>
                         </template>
                         <b-dropdown-item @click="info(row.item)">Details</b-dropdown-item>
                         <b-dropdown-item href="#">Another action</b-dropdown-item>
@@ -168,3 +168,9 @@
         }
     }
 </script>
+
+<style>
+    .deckel .btn {
+        padding: 0;
+    }
+</style>

@@ -61,7 +61,8 @@ const actions = {
     },
 
     async editProject({ commit }, payload) {
-        const response = await axios.put(`https://localhost:5001/api/projects/${payload.projectId}`, {
+        const response = await axios.put(`https://localhost:5001/api/projects/${payload.projectId}`, 
+        {
             name: payload.projectName,
             description: payload.projectDescription
         }, 

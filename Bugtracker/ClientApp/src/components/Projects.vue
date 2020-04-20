@@ -5,7 +5,7 @@
                 <b-icon icon="inbox-fill"></b-icon> Create New Project
             </b-button>
 
-            <b-modal id="modal-footer-sm" size="lg" title="Create New Project" hide-footer>
+            <b-modal id="modal-footer-sm" size="lg" title="Create New Project" ref="new-project" hide-footer>
                 <b-form @submit="onSubmit">
                     <b-form-group
                     class="mb-2"
@@ -167,7 +167,13 @@ export default {
 
         onSubmit(e) {
             e.preventDefault();
-            this.createProject(this.projectName, this.projectDescription, this.completionDate);
+            this.createProject({
+                name: this.projectName,
+                description: this.projectDescription,
+                completions: this.completionDate
+            });
+            
+            this.$refs['new-project'].hide()
         }
     },
 

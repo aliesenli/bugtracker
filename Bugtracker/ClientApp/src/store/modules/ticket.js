@@ -9,8 +9,8 @@ const getters = {
 };
 
 const actions = {
-    async fetchTicket({ commit }, test) {
-        const response = await axios(`https://localhost:5001/api/tickets/${test}`, {
+    async fetchTicket({ commit }, payload) {
+        const response = await axios(`https://localhost:5001/api/tickets/${payload}`, {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",

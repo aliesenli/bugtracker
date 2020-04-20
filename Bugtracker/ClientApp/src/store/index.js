@@ -6,7 +6,6 @@ import ticket from './modules/ticket.js'
 import userTickets from './modules/userTickets.js'
 import manage from './modules/manage.js'
 import auth from './modules/auth'
-import menu from './modules/menu'
 
 //load Vuex
 Vue.use(Vuex);
@@ -19,6 +18,5 @@ export default new Vuex.Store({
         userTickets,
         manage,
         auth,
-        menu
     }
 });

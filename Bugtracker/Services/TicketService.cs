@@ -26,17 +26,35 @@ namespace Bugtracker.Services
                 .Include(t => t.Audits)
                 .AsQueryable();
 
+            foreach (var item in queryable)
+            {
+                item.Audits = item.Audits.OrderByDescending(a => a.Date.Date).ToList();
+            }
+
             return await queryable.ToListAsync();
         }
 
         public async Task<Ticket> GetTicketByIdAsync(Guid postId)
         {
+            /*
             return await _applicationDbContext.Tickets
                 .Include(t => t.Project)
                 .Include(t => t.Assignee)
                 .Include(t => t.Submitter)
                 .Include(t => t.Audits)
                 .SingleOrDefaultAsync(t => t.Id == postId);
+                */
+
+            var queryable = _applicationDbContext.Tickets
+                .Include(t => t.Project)
+                .Include(t => t.Assignee)
+                .Include(t => t.Submitter)
+                .Include(t => t.Audits)
+                .SingleOrDefaultAsync(t => t.Id == postId);
+
+            queryable.Result.Audits = queryable.Result.Audits.OrderByDescending(a => a.Date.Date).ToList();
+
+            return await queryable;
         }
 
         public async Task<bool> CreateTicketAsync(Ticket post)

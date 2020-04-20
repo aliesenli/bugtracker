@@ -11,7 +11,6 @@
       <div class="main-content__title">
           <span v-if="isLoggedIn">
             <span>Logged in as: {{ loggedInAs.sub }} </span>
-            <b-button @click="logout">Logout</b-button>
           </span>
       </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-container" v-show="!$route.meta.hideNavigation">
+  <div class="menu-container">
 
     <!-- root level items -->
     <ul class="menu">
@@ -65,9 +65,7 @@
 
     <!-- context menu: childs of root level items -->
     <transition name="slide-fade">
-
       <div class="context-menu-container" v-show="showContextMenu">
-
         <ul class="context-menu">
           <li v-for="(item, index) in menuItems" :key="index">
 
@@ -102,9 +100,7 @@
             </a>
           </li>
         </ul>
-
       </div>
-
     </transition>
 
   </div>
@@ -120,11 +116,8 @@ export default {
   data(){
     return {
       contextSection: '',
-
       menuItems: [],
-
       menuData: menuData,
-
       activeSubMenu: ''
     }
   },

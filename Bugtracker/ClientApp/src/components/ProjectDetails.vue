@@ -109,7 +109,6 @@
                     projectId: this.$route.params.projectId,
                     projectName: this.$refs.project_name.localValue,
                     projectDescription: this.$refs.project_description.localValue,
-                
                 });
             },
         },
