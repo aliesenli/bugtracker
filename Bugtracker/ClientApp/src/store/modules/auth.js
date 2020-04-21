@@ -3,7 +3,7 @@ import axios from 'axios'
 const state = {
     status: '',
     loading: false,
-    token: localStorage.getItem('token') || '',
+    token: localStorage.getItem('access_token') || '',
     user : {}
 };
 
@@ -18,15 +18,17 @@ const actions = {
             commit('auth_request')
             axios({url: 'https://localhost:5001/api/identity/login', data: user, method: 'POST' })
             .then(resp => {
-                const token = resp.data.token
-                const user = resp.data.user
-                localStorage.setItem('token', token)
-                axios.defaults.headers.common['Authorization'] = token
-                commit('auth_success', token, user)
+                const access_token = resp.data.token
+                const refresh_token = resp.data.refreshToken
+                localStorage.setItem('access_token', access_token);
+                localStorage.setItem('refresh_token', refresh_token);
+                axios.defaults.headers.common['Authorization'] = access_token
+                commit('auth_success', access_token, user)
                 resolve(resp)
             })
             .catch(err => {
                 commit('auth_error')
+                console.log(err)
                 localStorage.removeItem('token')
                 reject(err)
             })
@@ -40,7 +42,7 @@ const actions = {
                 const token = resp.data.token
                 const user = resp.data.user
                 localStorage.setItem('token', token)
-
+                //localStorageService._setToken(token);
                 axios.defaults.headers.common['Authorization'] = token
                 commit('auth_success', token, user)
                 resolve(resp)

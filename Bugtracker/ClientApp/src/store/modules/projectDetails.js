@@ -78,7 +78,7 @@ const actions = {
     },
 
     async fetchStaffs({commit}) {
-        const response = await axios('https://localhost:5001/api/staffs', {
+        const response = await axios('https://localhost:5001/api/users', {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
@@ -108,7 +108,7 @@ const mutations = {
     setStaffs: (state, staffs) => state.staffs = staffs.map(element => {
         return {
             text: element.name,
-            value: element.staffId
+            value: element.userId
         }
     })
 };

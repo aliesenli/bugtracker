@@ -41,7 +41,7 @@ namespace Bugtracker.IntegrationTests
         protected async Task<TicketResponse> CreateTicketAsync(CreateTicketRequest request)
         {
             var response = await TestClient.PostAsJsonAsync("api/tickets/create", request);
-            return (await response.Content.ReadAsAsync<Response<TicketResponse>>()).Data;
+            return (await response.Content.ReadAsAsync<TicketResponse>());
         }
 
         protected async Task<ProjectResponse> CreateProjectAsync(CreateProjectRequest request)
@@ -62,6 +62,7 @@ namespace Bugtracker.IntegrationTests
             return registrationResponse.Token;
         }
 
+        //Dispose Database
         public void Dispose()
         {
             using var serviceScope = _serviceProvider.CreateScope();

@@ -24,7 +24,7 @@ namespace Bugtracker.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            (await response.Content.ReadAsAsync<Responses<TicketResponse>>()).Data.Should().BeEmpty();
+            (await response.Content.ReadAsAsync<IEnumerable<TicketResponse>>()).Should().BeEmpty();
         }
 
         /*
@@ -39,7 +39,6 @@ namespace Bugtracker.IntegrationTests
                 Title = "Test Title",
                 Description = "Test Description",
                 Priority = 0,
-                AssigneeId = "c55ef821-f493-4fe5-9703-7ca22331f048",
                 ProjectId = testProjectId
             });
 
@@ -48,11 +47,12 @@ namespace Bugtracker.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            var returnedPost = await response.Content.ReadAsAsync<Response<TicketResponse>>();
-            returnedPost.Data.Id.Should().Be(createdTicket.Id);
-            returnedPost.Data.Title.Should().Be("Test Title");
-            returnedPost.Data.Description.Should().Be("Test Description");
+            var returnedPost = await response.Content.ReadAsAsync<TicketResponse>();
+            returnedPost.Id.Should().Be(createdTicket.Id);
+            returnedPost.Title.Should().Be("Test Title");
+            returnedPost.Description.Should().Be("Test Description");
         }
         */
+
     }
 }

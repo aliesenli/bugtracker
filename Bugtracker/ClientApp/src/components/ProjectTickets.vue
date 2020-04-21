@@ -7,7 +7,7 @@
                 <b-icon icon="inbox-fill"></b-icon> Create New Ticket
             </b-button>
 
-            <b-modal id="modal-footer-sm" size="lg" title="Create New Ticket" hide-footer>
+            <b-modal id="modal-footer-sm" size="lg" title="Create New Ticket"  ref="new-ticket" hide-footer>
                 <b-form @submit="onCreateTicket">
                     <b-form-group
                     class="mb-2"
@@ -54,7 +54,7 @@
                     label="Assign To"
                     label-for="assign-1"
                     >
-                        <b-form-select v-model="assigneeId" :options="options" class="mb-1" id="assign-1">
+                        <b-form-select v-model="assigneeId" :options="staffs" class="mb-1" id="assign-1">
                             <template v-slot:first>
                                 <b-form-select-option :value="null" disabled>-- Assign To --</b-form-select-option>
                             </template>
@@ -188,6 +188,7 @@
                     assigneeId: this.assigneeId,
                     projectId: this.projectId
                 })
+                this.$refs['new-ticket'].hide()
             },
 
             onFiltered(filteredItems) {
@@ -233,8 +234,6 @@
                 filter: null,
                 ignoreFilterFields: ["id", "createdOn", "completion", "description", "submitter", "assignee", "projectId"],
 
-                options: this.staffs,
-
                 ticketTitle: "",
                 ticketDescription: "",
                 priority: null,
@@ -246,9 +245,6 @@
             projectTickets: function () {
                this.totalRows = this.projectTickets.length
             },
-            staffs: function() {
-                this.options = this.staffs
-            }
 
         }
     }

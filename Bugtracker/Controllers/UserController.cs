@@ -23,29 +23,29 @@ namespace Bugtracker.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("api/staffs")]
+        [HttpGet("api/users")]
         public async Task<IActionResult> GetAll()
         {
-            var staffs = await _userService.GetStaffsAsync();
+            var users = await _userService.GetUsersAsync();
 
-            var staffResponse = staffs.Select(staff => new UserResponse
+            var userResponse = users.Select(user => new UserResponse
             {
-                StaffId = staff.Id,
-                Name = staff.UserName,
-                Role = getRole(staff)
+                UserId = user.Id,
+                Name = user.UserName,
+                Role = getRole(user)
             });
 
-            IList<string> getRole(IdentityUser staff)
+            IList<string> getRole(IdentityUser user)
             {
-                var role = _userManager.GetRolesAsync(staff);
+                var role = _userManager.GetRolesAsync(user);
 
                 return role.Result;
             }
 
-            return Ok(staffResponse);
+            return Ok(userResponse);
         }
 
-        [HttpPost("api/staffs/role")]
+        [HttpPost("api/users/role")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleRequest request)
         {
@@ -55,14 +55,14 @@ namespace Bugtracker.Controllers
 
             var userResponse = new UserResponse
             {
-                StaffId = user.Id,
+                UserId = user.Id,
                 Name = user.UserName,
                 Role = getRole(user)
             };
 
-            IList<string> getRole(IdentityUser staff)
+            IList<string> getRole(IdentityUser user)
             {
-                var role = _userManager.GetRolesAsync(staff);
+                var role = _userManager.GetRolesAsync(user);
 
                 return role.Result;
             }

@@ -6,7 +6,7 @@ namespace Bugtracker.Services
 {
     public interface IUserService
     {
-        Task<List<IdentityUser>> GetStaffsAsync();
+        Task<List<IdentityUser>> GetUsersAsync();
 
         Task<IdentityUser> GetUserByUserIdAsync(string userId);
 

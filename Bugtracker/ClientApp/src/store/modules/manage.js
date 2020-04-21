@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
     async fetchTableStaffs({commit}) {
-        const response = await axios('https://localhost:5001/api/staffs', {
+        const response = await axios('https://localhost:5001/api/users', {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
@@ -22,7 +22,7 @@ const actions = {
     },
 
     async assignRole({commit}, payload) {
-        const response = await axios.post('https://localhost:5001/api/staffs/role', 
+        const response = await axios.post('https://localhost:5001/api/users/role', 
         {
             user: payload.user,
             role: payload.role
@@ -46,7 +46,6 @@ const mutations = {
     },
     updateTable: (state, staff) => {
        state.tableStaffs.find(element => element.staffId == staff.staffId).role = staff.role
-    
     }
 };
 

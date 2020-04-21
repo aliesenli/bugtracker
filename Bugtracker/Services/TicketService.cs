@@ -34,7 +34,7 @@ namespace Bugtracker.Services
             return await queryable.ToListAsync();
         }
 
-        public async Task<Ticket> GetTicketByIdAsync(Guid postId)
+        public async Task<Ticket> GetTicketByIdAsync(Guid ticketId)
         {
             /*
             return await _applicationDbContext.Tickets
@@ -50,7 +50,7 @@ namespace Bugtracker.Services
                 .Include(t => t.Assignee)
                 .Include(t => t.Submitter)
                 .Include(t => t.Audits)
-                .SingleOrDefaultAsync(t => t.Id == postId);
+                .SingleOrDefaultAsync(t => t.Id == ticketId);
 
             queryable.Result.Audits = queryable.Result.Audits.OrderByDescending(a => a.Date.Date).ToList();
 

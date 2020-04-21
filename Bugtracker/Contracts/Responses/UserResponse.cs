@@ -4,7 +4,7 @@ namespace Bugtracker.Contracts.Responses
 {
     public class UserResponse
     {
-        public string StaffId { get; set; }
+        public string UserId { get; set; }
 
         public string Name { get; set; }
 

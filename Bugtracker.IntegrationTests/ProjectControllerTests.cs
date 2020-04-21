@@ -1,14 +1,12 @@
-﻿using Bugtracker.Contracts.Requests;
-using Bugtracker.Contracts.Responses;
-using FluentAssertions;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using Xunit;
+using FluentAssertions;
+using Bugtracker.Contracts.Requests;
+using Bugtracker.Contracts.Responses;
 
 namespace Bugtracker.IntegrationTests
 {
@@ -25,12 +23,11 @@ namespace Bugtracker.IntegrationTests
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            (await response.Content.ReadAsAsync<Responses<ProjectResponse>>()).Data.Should().BeEmpty();
+            (await response.Content.ReadAsAsync<IEnumerable<ProjectResponse>>()).Should().BeEmpty();
         }
 
-
         [Fact]
-        public async Task Get_ReturnsProject_WhenTicketExistsInTheDatabase()
+        public async Task Get_ReturnsProject_WhenProjectExistsInDatabase()
         {
             // Arrange
             await AuthenticateAsync();
@@ -53,6 +50,7 @@ namespace Bugtracker.IntegrationTests
             returnedProject.Name.Should().Be("Test Project");
             returnedProject.Description.Should().Be("Test Description");
             returnedProject.Completion.Should().Be(date.ToString());
+            returnedProject.Tickets.Should().BeEmpty();
         }
     }
 }

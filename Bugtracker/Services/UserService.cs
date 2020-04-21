@@ -19,7 +19,7 @@ namespace Bugtracker.Services
             _userManager = userManager;
         }
 
-        public async Task<List<IdentityUser>> GetStaffsAsync()
+        public async Task<List<IdentityUser>> GetUsersAsync()
         {
             var queryable = _applicationDbContext.Users
                 .AsQueryable();
