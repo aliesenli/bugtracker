@@ -205,7 +205,7 @@ export default {
             sortDirection: 'asc',
             filter: null,
             filterOn: [],
-            ignoreFilterFields: ["id", "description"],
+            ignoreFilterFields: ["id", "createdOn", "completion", "tickets", "submitter", "assignee"],
 
             projectName: "",
             projectDescription: "",

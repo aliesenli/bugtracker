@@ -9,12 +9,10 @@ const getters = {
 };
 
 const actions = {
-    async fetchUserTickets({ commit }, payload) {
-        const response = await axios(`https://localhost:5001/api/tickets/user/${payload}`, {
+    async fetchUserTickets({ commit }, userId) {
+        const response = await axios(`https://localhost:5001/api/tickets/user/${userId}`, {
             headers: {
-                "Authorization": "bearer "+ localStorage.getItem('token') ,
-                "Accept": "application/json",
-                "cache-control": "no-cache"
+                "Authorization": "bearer " + localStorage.getItem('access_token')
             }
         });
 

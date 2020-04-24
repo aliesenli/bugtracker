@@ -8,7 +8,7 @@
                         <b-icon icon="pencil"></b-icon> Edit Project
                     </b-button>
 
-                    <b-modal id="modal-edit-footer-sm" size="lg" title="Edit Project" hide-footer>
+                    <b-modal id="modal-edit-footer-sm" size="lg" title="Edit Project" ref="edit-project" hide-footer>
                         <b-form @submit="onEditProject">
                             <b-form-group
                             class="mb-2"
@@ -110,6 +110,7 @@
                     projectName: this.$refs.project_name.localValue,
                     projectDescription: this.$refs.project_description.localValue,
                 });
+                this.$refs['edit-project'].hide()
             },
         },
         computed: {

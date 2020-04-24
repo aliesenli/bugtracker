@@ -29,7 +29,7 @@ const actions = {
             .catch(err => {
                 commit('auth_error')
                 console.log(err)
-                localStorage.removeItem('token')
+                localStorage.removeItem('access_token')
                 reject(err)
             })
         })
@@ -40,16 +40,16 @@ const actions = {
             axios({url: 'https://localhost:5001/api/identity/register', data: user, method: 'POST' })
             .then(resp => {
                 const token = resp.data.token
-                const user = resp.data.user
-                localStorage.setItem('token', token)
-                //localStorageService._setToken(token);
+                const refreshToken = resp.data.refreshToken
+                localStorage.setItem('access_token', token)
+                localStorage.setItem('refresh_token', refreshToken);
                 axios.defaults.headers.common['Authorization'] = token
                 commit('auth_success', token, user)
                 resolve(resp)
             })
             .catch(err => {
                 commit('auth_error', err)
-                localStorage.removeItem('token')
+                localStorage.removeItem('access_token')
                 reject(err)
             })
         })

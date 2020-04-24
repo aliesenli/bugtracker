@@ -20,7 +20,6 @@
 
 <script>
 import jwt_decode from 'jwt-decode'
-
 import axios from "axios"
 import LocalStorageService from "./support/localStorageService"
 import router from "../router"
@@ -70,7 +69,7 @@ export default {
     }, function (error) {
       const originalRequest = error.config;
 
-      if (error.response.status === 401 && originalRequest.url === 'http://localhost:8080/api/identity/refresh') {
+      if (error.response.status === 401 && originalRequest.url === 'https://localhost:5001/api/identity/refresh') {
           router.push('/login');
           return Promise.reject(error);
       }
@@ -78,13 +77,15 @@ export default {
       if (error.response.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;
           const refreshToken = localStorageService.getRefreshToken();
-          return axios.post('/api/identity/refresh', {
-              "refresh_token": refreshToken
+          const accessToken = localStorageService.getAccessToken();
+          return axios.post('https://localhost:5001/api/identity/refresh', {
+              "token": accessToken,
+              "refreshToken": refreshToken
           })
           .then(res => {
-              if (res.status === 201) {
+              if (res.status === 200) {
                   localStorageService.setToken(res.data);
-                  console.log("new token set after refresh")
+                  localStorageService.setRefresh(res.data);
                   axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorageService.getAccessToken();
                   return axios(originalRequest);
               }

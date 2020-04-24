@@ -22,7 +22,7 @@ namespace Bugtracker.IntegrationTests
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
             (await response.Content.ReadAsAsync<IEnumerable<UserResponse>>()).Should().NotBeEmpty();
-            //----> Should not be empty beacause I need to be Authenticated to use the getUsers api endpoint. Basically test account will return it should not be empty.
+            //----> Should not be empty beacause I need to be Authenticated to use the getUsers api endpoint.
         }
     }
 }

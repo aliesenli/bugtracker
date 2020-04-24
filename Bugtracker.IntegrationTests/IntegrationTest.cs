@@ -55,7 +55,7 @@ namespace Bugtracker.IntegrationTests
             var response = await TestClient.PostAsJsonAsync("api/identity/register", new UserRegistrationRequest
             {
                 Email = "test@integration.com",
-                Password = "SomePass1234!"
+                Password = "Test1234!"
             });
 
             var registrationResponse = await response.Content.ReadAsAsync<AuthSuccessResponse>();

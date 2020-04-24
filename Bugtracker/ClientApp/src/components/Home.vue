@@ -134,7 +134,8 @@
             ]),
         },
         created() {
-            this.fetchUserTickets(jwt_decode(this.$store.state.auth.token).id);
+            const userId = jwt_decode(this.$store.state.auth.token).id
+            this.fetchUserTickets(userId);
         },
         data() {
             return {

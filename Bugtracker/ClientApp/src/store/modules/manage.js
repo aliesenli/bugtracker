@@ -12,9 +12,7 @@ const actions = {
     async fetchTableStaffs({commit}) {
         const response = await axios('https://localhost:5001/api/users', {
             headers: {
-                "Authorization": "bearer "+ localStorage.getItem('token') ,
-                "Accept": "application/json",
-                "cache-control": "no-cache"
+                "Authorization": "bearer "+ localStorage.getItem('access_token')
             }
         });
 
@@ -29,9 +27,7 @@ const actions = {
         }, 
         {
             headers: {
-                "Authorization": "bearer "+ localStorage.getItem('token') ,
-                "Accept": "application/json",
-                "cache-control": "no-cache"
+                "Authorization": "bearer "+ localStorage.getItem('access_token')
             }
         });
 

@@ -1,9 +1,6 @@
-﻿using Bugtracker.Contracts.Requests;
-using Bugtracker.Contracts.Responses;
+﻿using Bugtracker.Contracts.Responses;
 using FluentAssertions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,6 +10,7 @@ namespace Bugtracker.IntegrationTests
 {
     public class TicketControllerTests : IntegrationTest
     {
+
         [Fact]
         public async Task GetAll_WithoutAnyTickets_ReturnsEmptyResponse()
         {
@@ -39,7 +37,7 @@ namespace Bugtracker.IntegrationTests
                 Title = "Test Title",
                 Description = "Test Description",
                 Priority = 0,
-                ProjectId = testProjectId
+                ProjectId = testProjectId,
             });
 
             // Act
@@ -53,6 +51,5 @@ namespace Bugtracker.IntegrationTests
             returnedPost.Description.Should().Be("Test Description");
         }
         */
-
     }
 }

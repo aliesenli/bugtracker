@@ -87,7 +87,7 @@ import { mapGetters, mapActions } from 'vuex'
         roleSelected: null,
         roles: [
           { value: 'Admin', text: 'Admin' },
-          { value: 'Submitter', text: 'Submitter' },
+          { value: 'Manager', text: 'Manager' },
           { value: 'Developer', text: 'Developer'}
         ],
 
