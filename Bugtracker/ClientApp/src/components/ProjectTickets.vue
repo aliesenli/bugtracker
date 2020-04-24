@@ -1,12 +1,73 @@
 ﻿<template>
     <div class="hello mt-4">
-        <b-button-group class="mb-3">
-            <b-button variant="outline-primary">
+
+        <div class="mb-3">
+
+            <b-button v-b-modal.modal-footer-sm variant="outline-primary">
                 <b-icon icon="inbox-fill"></b-icon> Create New Ticket
             </b-button>
-        </b-button-group>
+
+            <b-modal id="modal-footer-sm" size="lg" title="Create New Ticket"  ref="new-ticket" hide-footer>
+                <b-form @submit="onCreateTicket">
+                    <b-form-group
+                    class="mb-2"
+                    label="Title"
+                    label-for="input-title"
+                    >
+                        <b-form-input
+                        id="input-title"
+                        type="text"
+                        required
+                        v-model="ticketTitle"
+                        placeholder="Ticket Title"
+                        ></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group
+                    class="mb-2"
+                    label="Description"
+                    label-for="textarea"
+                    >
+                        <b-form-textarea
+                        required
+                        id="textarea"
+                        v-model="ticketDescription"
+                        placeholder="Enter your text"
+                        ></b-form-textarea>
+                    </b-form-group>
+
+                    <b-form-group
+                    label="Priority"
+                    label-for="priority-1"
+                    >
+                        <b-form-select v-model="priority" class="mb-1" id="priority-1">
+                            <template v-slot:first>
+                                <b-form-select-option :value="null" disabled>-- Please select priority --</b-form-select-option>
+                            </template>
+                            <b-form-select-option value=2>High</b-form-select-option>
+                            <b-form-select-option value=1>Medium</b-form-select-option>
+                            <b-form-select-option value=0>Low</b-form-select-option>
+                        </b-form-select>
+                    </b-form-group>
+
+                    <b-form-group
+                    label="Assign To"
+                    label-for="assign-1"
+                    >
+                        <b-form-select v-model="assigneeId" :options="staffs" class="mb-1" id="assign-1">
+                            <template v-slot:first>
+                                <b-form-select-option :value="null" disabled>-- Assign To --</b-form-select-option>
+                            </template>
+                        </b-form-select>
+                    </b-form-group>
+
+                    <b-button type="submit" class="float-right mt-1" variant="primary">Submit</b-button>
+                </b-form>
+            </b-modal>
+        </div>
+
         <h5>Tickets for this project</h5>
-        <div class="p-3">
+        <div class="p-2">
             <b-row align-h="between" class="mb-2">
                 <b-col sm="2" class="my-1">
                     <b-form-group
@@ -114,11 +175,20 @@
         methods: {
             ...mapActions([
                 'fetchProjectTickets',
-                'createTicket'
+                'createTicket',
+                'fetchStaffs'
             ]), 
-            onSubmit(e) {
-                e.preventDefault();
-                this.createTicket(this.name, this.prio, this.projectId);
+
+            onCreateTicket(e) {
+                e.preventDefault()
+                this.$store.dispatch('createTicket', {
+                    title: this.ticketTitle,
+                    description: this.ticketDescription,
+                    priority: this.priority,
+                    assigneeId: this.assigneeId,
+                    projectId: this.projectId
+                })
+                this.$refs['new-ticket'].hide()
             },
 
             onFiltered(filteredItems) {
@@ -136,17 +206,21 @@
             ...mapGetters([
                 'projectTickets',
                 'projectName',
-                'projectDescription'
+                'projectDescription',
+                'staffs'
             ]),
         },
         created() {
             this.fetchProjectTickets(this.$route.params.projectId);
+            this.fetchStaffs();
         },
         data() {
             return {
                 fields: [
                     { key: 'title', label: 'Ticket title', sortable: true, sortDirection: 'desc' },
+                    { key: 'description', label: 'Description', sortable: false },
                     { key: 'priority', label: 'Priority', sortable: true, sortDirection: 'desc' },
+                    { key: 'status', label: 'Status', sortable: true, sortDirection: 'desc' },
                     { key: 'actions', label: 'Actions' }
                 ],
                 isBusy: false,
@@ -158,20 +232,20 @@
                 sortDesc: false,
                 sortDirection: 'asc',
                 filter: null,
-                ignoreFilterFields: ["id", "Id"],
+                ignoreFilterFields: ["id", "createdOn", "completion", "description", "submitter", "assignee", "projectId"],
 
-                name: '',
-                prio: 1,
-                projectId: '',
+                ticketTitle: "",
+                ticketDescription: "",
+                priority: null,
+                assigneeId: null,
+                projectId: this.$route.params.projectId,
             }
         },
         watch: {
             projectTickets: function () {
                this.totalRows = this.projectTickets.length
-               console.log(this.projectTickets);
             },
 
         }
     }
 </script>
-

@@ -1,17 +1,23 @@
 import axios from 'axios'
 
 const state = {
-    projectDetails: {},
     projectName: "",
     projectDescription: "",
-    projectTickets: []
+    projectCreatedOn: "",
+    projectCompletion: "",
+    projectTickets: [],
+    projectDetails: {},
+    staffs: []
 };
 
 const getters = {
-    projectTickets: (state) => state.projectTickets,
     projectName: (state) => state.projectName,
     projectDescription: (state) => state.projectDescription,
-    projectDetails: (state) => state.projectDetails
+    projectCreatedOn: (state) => state.projectCreatedOn,
+    projectCompletion: (state) => state.projectCompletion,
+    projectTickets: (state) => state.projectTickets,
+    projectDetails: (state) => state.projectDetails,
+    staffs: (state) => state.staffs
 };
 
 const actions = {
@@ -27,8 +33,15 @@ const actions = {
         commit('setProjectDetails', response.data)
     },
 
-    async createTicket({ commit }, name, prio, projectId) {
-        const response = await axios.post('https://localhost:5001/api/tickets/create', { name: name, priority: prio, projectId: projectId },
+
+    async createTicket({ commit }, payload ) {
+        const response = await axios.post('https://localhost:5001/api/tickets/create', { 
+            title: payload.title,
+            description: payload.description,
+            priority: payload.priority, 
+            assigneeId: payload.assigneeId, 
+            projectId: payload.projectId 
+        },
         {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
@@ -36,7 +49,7 @@ const actions = {
                 "cache-control": "no-cache"
             },
         });
-
+ 
         commit('addTicket', response.data);
     },
 
@@ -45,20 +58,59 @@ const actions = {
         console.log(respone.data);
         
         commit('deleteTicket', ticketId);
+    },
+
+    async editProject({ commit }, payload) {
+        const response = await axios.put(`https://localhost:5001/api/projects/${payload.projectId}`, 
+        {
+            name: payload.projectName,
+            description: payload.projectDescription
+        }, 
+        {
+            headers: {
+                "Authorization": "bearer "+ localStorage.getItem('token') ,
+                "Accept": "application/json",
+                "cache-control": "no-cache"
+            }
+        });
+        
+        commit('editProject', response.data);
+    },
+
+    async fetchStaffs({commit}) {
+        const response = await axios('https://localhost:5001/api/users', {
+            headers: {
+                "Authorization": "bearer "+ localStorage.getItem('token') ,
+                "Accept": "application/json",
+                "cache-control": "no-cache"
+            }
+        });
+
+        commit('setStaffs', response.data);
     }
 
 };
 
 const mutations = {
     setProjectDetails: (state, data) => { 
-        state.projectDescription = data.description,
         state.projectName = data.name,
-        state.projectTickets = data.tickets,
-        state.projectDetails = data,
-        console.log(data)
+        state.projectDescription = data.description,
+        state.projectCreatedOn = data.createdOn,
+        state.projectCompletion = data.compleation,
+        state.projectTickets = data.tickets
     },
-    addTicket: (state, ticket) => state.tickets.unshift(ticket),
-    deleteTicket: (state, ticketId) => state.tickets.filter(ticketId)
+    editProject: (state, data) => {
+        state.projectName = data.name 
+        state.projectDescription = data.description
+    },
+    addTicket: (state, ticket) => state.projectTickets.unshift(ticket),
+    deleteTicket: (state, ticketId) => state.tickets.filter(ticketId),
+    setStaffs: (state, staffs) => state.staffs = staffs.map(element => {
+        return {
+            text: element.name,
+            value: element.userId
+        }
+    })
 };
 
 export default ({

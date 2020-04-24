@@ -19,9 +19,24 @@ namespace Bugtracker.Converters
                 CreatedOn = ticket.CreatedAt.ToString(),
                 UpdatedOn = ticket.UpdatedAt.ToString(),
                 Assignee = ticket.Assignee.UserName,
+                AssigneeId = ticket.Assignee.Id,
                 Submitter = ticket.Submitter.UserName,
                 Project = ticket.Project.Name
             };
+
+            foreach (var audit in ticket.Audits)
+            {
+                var auditDto = new AuditResponse
+                {
+                    Id = audit.Id,
+                    Property = audit.Property,
+                    NewValue = audit.NewValue,
+                    OldValue = audit.OldValue,
+                    Date = audit.Date.ToString()
+                };
+
+                ticketDto.Audits.Add(auditDto);
+            }
 
             return ticketDto;
         }

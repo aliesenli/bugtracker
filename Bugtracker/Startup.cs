@@ -30,9 +30,10 @@ namespace Bugtracker
                 builder =>
                 {
                     builder.WithOrigins("http://localhost:8080");
-                    builder.AllowAnyHeader();
+                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
                 });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

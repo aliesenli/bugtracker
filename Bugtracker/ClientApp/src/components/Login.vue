@@ -1,46 +1,36 @@
 <template>
     <div>
-        <b-container>
-            <div>
-                <h1>Sign in</h1>
-                <b-overlay :show="this.loading" rounded="sm">
-                    <b-card title="Card with overlay" :aria-hidden="show ? 'true' : null">
-                        <b-form @submit.prevent="login">
-                            <b-form-group
-                            id="input-group-1"
-                            label="Email address:"
-                            label-for="input-1"
-                            >
-                                <b-form-input
-                                id="input-1"
-                                v-model="email"
-                                type="email"
-                                required
-                                placeholder="Enter email"
-                                >
-                                </b-form-input>
-                            </b-form-group>
-
-                            <b-form-group 
-                            id="input-group-2" 
-                            label="Your Password:" 
-                            label-for="input-2"
-                            >
-                                <b-form-input
-                                type="password"
-                                id="input-2"
-                                v-model="password"
-                                required
-                                placeholder="Enter name"
-                                >
-                                </b-form-input>
-                            </b-form-group>
-                            <b-button type="submit" variant="primary">Submit</b-button>
-                        </b-form>
-                    </b-card>
-                </b-overlay>
-            </div>
-        </b-container>
+        <div class="d-flex align-items-center min-vh-100" id="bg">
+            <b-container class="bv-example-row">
+                <b-row class="justify-content-md-center">
+                    <b-col cols="12" md="5">
+                        <b-overlay :show="this.loading" rounded="sm">
+                            <b-card title="Login" :aria-hidden="show ? 'true' : null">
+                                <b-form @submit.prevent="login">
+                                    <b-form-input
+                                    class="mt-2"
+                                    v-model="email"
+                                    type="email"
+                                    required
+                                    placeholder="Email"
+                                    >
+                                    </b-form-input>
+                                    <b-form-input
+                                    class="mt-2"
+                                    type="password"
+                                    v-model="password"
+                                    required
+                                    placeholder="Password"
+                                    >
+                                    </b-form-input>
+                                    <b-button type="submit" variant="primary" class="w-100 mt-3">Sign In</b-button>
+                                </b-form>
+                            </b-card>
+                        </b-overlay>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
     </div>
 </template>
 
@@ -72,4 +62,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    #bg {
+        background-color: #062646;
+    }
+</style>
 

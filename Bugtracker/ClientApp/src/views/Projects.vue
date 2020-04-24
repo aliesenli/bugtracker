@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content"> 
+    <div class="main-content" id="wrapper"> 
         <div class="main-content__body">
             <Projects />
         </div>

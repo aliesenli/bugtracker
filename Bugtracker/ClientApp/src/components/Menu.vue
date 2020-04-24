@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-container" v-show="!$route.meta.hideNavigation">
+  <div class="menu-container">
 
     <!-- root level items -->
     <ul class="menu">
@@ -41,11 +41,11 @@
       <li>
         <a
         href="#"
-        @click.prevent="updateMenu('customers')"
-        :class="highlightSection('customers')"
+        @click.prevent="updateMenu('manage')"
+        :class="highlightSection('manage')"
         >
           <i class="fa fa-users menu__icon" aria-hidden="true"></i>
-          Customers
+          Manage
           <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
         </a>
       </li>
@@ -65,9 +65,7 @@
 
     <!-- context menu: childs of root level items -->
     <transition name="slide-fade">
-
       <div class="context-menu-container" v-show="showContextMenu">
-
         <ul class="context-menu">
           <li v-for="(item, index) in menuItems" :key="index">
 
@@ -102,9 +100,7 @@
             </a>
           </li>
         </ul>
-
       </div>
-
     </transition>
 
   </div>
@@ -120,11 +116,8 @@ export default {
   data(){
     return {
       contextSection: '',
-
       menuItems: [],
-
       menuData: menuData,
-
       activeSubMenu: ''
     }
   },

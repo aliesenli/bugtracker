@@ -3,16 +3,50 @@
         <b-row>
             <b-col cols="12">
                 <div>
-                    <b-button-group>
-                        <b-button variant="outline-primary">
-                            <b-icon icon="pencil"></b-icon> Edit Project
-                        </b-button>
-                    </b-button-group>
+
+                    <b-button v-b-modal.modal-edit-footer-sm variant="outline-primary">
+                        <b-icon icon="pencil"></b-icon> Edit Project
+                    </b-button>
+
+                    <b-modal id="modal-edit-footer-sm" size="lg" title="Edit Project" ref="edit-project" hide-footer>
+                        <b-form @submit="onEditProject">
+                            <b-form-group
+                            class="mb-2"
+                            label="Title"
+                            label-for="input-title"
+                            >
+                                <b-form-input
+                                id="input-title"
+                                type="text"
+                                required
+                                ref="project_name"
+                                :value="projectName"
+                                ></b-form-input>
+                            </b-form-group>
+
+                            <b-form-group
+                            class="mb-2"
+                            label="Description"
+                            label-for="textarea"
+                            >
+                                <b-form-textarea
+                                id="textarea"
+                                type="text"
+                                required
+                                ref="project_description"
+                                :value="projectDescription"
+                                ></b-form-textarea>
+                            </b-form-group>
+
+                            <b-button type="submit" class="float-right mt-1" variant="primary">Update</b-button>
+                        </b-form>
+                    </b-modal>
+
                 </div>
             </b-col>
         </b-row>
 
-            <b-row class="mt-4">
+        <b-row class="mt-4">
             <b-col cols="12" md="8">
                 <div>
                     <div class="mytextdiv">
@@ -39,7 +73,7 @@
                         <div class="divider"></div>
                     </div>
                     <div class="p-2">
-                        {{ projectDetails.description }}
+                        {{ projectDescription }}
                     </div>
                 </div>
             </b-col>
@@ -53,8 +87,8 @@
                         <div class="divider"></div>
                     </div>
                     <div class="p-2">
-                        <p>Created: {{ projectDetails.createdOn }}</p>
-                        <p>Updated: {{ projectDetails.completion }}</p>
+                        <p>Created: {{ projectCreatedOn }}</p>
+                        <p>Completion: {{ projectCompletion }}</p>
                     </div>
                     
                 </div>
@@ -69,14 +103,28 @@
     export default {
         name: 'ProjectDetail',
         methods: {
-
+            onEditProject(e) {
+                e.preventDefault();
+                this.$store.dispatch('editProject', {
+                    projectId: this.$route.params.projectId,
+                    projectName: this.$refs.project_name.localValue,
+                    projectDescription: this.$refs.project_description.localValue,
+                });
+                this.$refs['edit-project'].hide()
+            },
         },
         computed: {
             ...mapGetters([
                 'projectName',
                 'projectDescription',
-                'projectDetails'
+                'projectCreatedOn',
+                'projectCompletion',
             ]),      
+        },
+        data() {
+            return {
+
+            }
         },
     }
 </script>

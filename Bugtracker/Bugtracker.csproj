@@ -12,10 +12,6 @@
     <Compile Remove="Data\Migrations\20200311224549_test.Designer.cs" />
     <Compile Remove="Data\Migrations\20200317151450_init2.cs" />
     <Compile Remove="Data\Migrations\20200317151450_init2.Designer.cs" />
-    <Compile Remove="Data\Migrations\Migrations\20200317185642_jwt-installed.cs" />
-    <Compile Remove="Data\Migrations\Migrations\20200317185642_jwt-installed.Designer.cs" />
-    <Compile Remove="Data\Migrations\Migrations\20200330174303_domain_changes2.cs" />
-    <Compile Remove="Data\Migrations\Migrations\20200330174303_domain_changes2.Designer.cs" />
   </ItemGroup>
 
 

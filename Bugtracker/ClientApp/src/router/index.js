@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Projects from '../views/Projects.vue'
 import Project from '../views/Project.vue'
 import Ticket from '../components/Ticket.vue'
+import Manage from '../views/Manage.vue'
 import Login from '../components/Login.vue'
 import Register from '../components/Register.vue'
 
@@ -35,11 +36,16 @@ const routes = [
     component: Ticket
   },
   {
+    path: '/manage-roles',
+    name: 'Manage',
+    component: Manage
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login,
     meta: {
-      hideNavigation: true
+      layout: "no-sidebar"
     }
   },
   {
@@ -47,7 +53,7 @@ const routes = [
     name: 'register',
     component: Register,
     meta: {
-      hideNavigation: true
+      layout: "no-sidebar"
     }
   },
 ]

@@ -17,24 +17,39 @@ namespace Bugtracker.Controllers
     public class TicketController : Controller
     {
         private readonly ITicketService _ticketService;
+        private readonly IUserService _userService;
         private readonly IUriService _uriService;
         private readonly IConverter<Ticket, TicketResponse> _ticketToDtoConverter;
         private readonly IConverter<IList<Ticket>, IList<TicketResponse>> _ticketToDtoListConverter;
+        private readonly IConverter<IList<Ticket>, IList<TicketResponse>> _userTicketToDtoListConverter;
 
         public TicketController(
             ITicketService ticketService,
             IUriService uriService,
+            IUserService userService,
             IConverter<Ticket, TicketResponse> ticketToDtoConverter,
-            IConverter<IList<Ticket>, IList<TicketResponse>> ticketToDtoListConverter)
+            IConverter<IList<Ticket>, IList<TicketResponse>> ticketToDtoListConverter,
+            IConverter<IList<Ticket>, IList<TicketResponse>> userTicketToDtoListConverter)
         {
             _ticketService = ticketService;
             _uriService = uriService;
+            _userService = userService;
             _ticketToDtoConverter = ticketToDtoConverter;
             _ticketToDtoListConverter = ticketToDtoListConverter;
+            _userTicketToDtoListConverter = userTicketToDtoListConverter;
+        }
+
+        [HttpGet("api/tickets/user/{userId}")]
+        public async Task<IActionResult> GetAllFromUser([FromRoute] GetAllTicketsRequest query)
+        {
+            var tickets = await _ticketService.GetUserTicketsAsync(query.UserId);
+            var ticketsDto = _userTicketToDtoListConverter.Convert(tickets);
+
+            return Ok(ticketsDto);
         }
 
         [HttpGet("api/tickets")]
-        public async Task<IActionResult> GetAll([FromQuery] GetAllTicketsRequest query)
+        public async Task<IActionResult> GetAll()
         {
             var tickets = await _ticketService.GetTicketsAsync();
             var ticketsDto = _ticketToDtoListConverter.Convert(tickets);
@@ -59,13 +74,13 @@ namespace Bugtracker.Controllers
             var ticket = new Ticket
             {
                 Id = newTicketId,
-                Title = postRequest.Name,
+                Title = postRequest.Title,
                 Description = postRequest.Description,
-                SubmitterId = HttpContext.GetUserId(),
-                AssigneeId = postRequest.AssigneeId,
+                Priority = postRequest.Priority,
                 Status = 0,
                 CreatedAt = DateTime.Now,
-                Priority = postRequest.Priority,
+                AssigneeId = postRequest.AssigneeId,
+                SubmitterId = HttpContext.GetUserId(),
                 ProjectId = postRequest.ProjectId,
             };
 
@@ -78,27 +93,26 @@ namespace Bugtracker.Controllers
             return Created(locationUri, ticketDto);
         }
 
-        [HttpPut("api/ticket/{ticketId}")]
+        [HttpPut("api/tickets/{ticketId}")]
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
+            var newAssignee = await _userService.GetUserByUserIdAsync(request.AssigneeId);
             var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
-            ticket.Title = request.Name;
-            ticket.UpdatedAt = DateTime.UtcNow;
+
+            ticket.Title = request.Title;
+            ticket.Description = request.Description;
             ticket.Priority = request.Priority;
+            ticket.Status = request.Status;
+            ticket.UpdatedAt = DateTime.UtcNow;
+            ticket.Assignee = newAssignee;
+            ticket.AssigneeId = request.AssigneeId;
 
             var updated = await _ticketService.UpdateTicketAsync(ticket);
 
-            var ticketResponse = new TicketResponse
-            {
-                Id = ticket.Id,
-                //  SubmitterId = ticket.SubmitterId,
-                Title = ticket.Title,
-                CreatedOn = ticket.CreatedAt.ToString(),
-                UpdatedOn = ticket.UpdatedAt.ToString(),
-            };
+            var ticketDto = _ticketToDtoConverter.Convert(ticket);
 
             if (updated)
-                return Ok(ticketResponse);
+                return Ok(ticketDto);
 
             return NotFound();
         }

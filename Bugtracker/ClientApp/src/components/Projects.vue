@@ -5,7 +5,7 @@
                 <b-icon icon="inbox-fill"></b-icon> Create New Project
             </b-button>
 
-            <b-modal id="modal-footer-sm" size="lg" title="Create New Project" hide-footer>
+            <b-modal id="modal-footer-sm" size="lg" title="Create New Project" ref="new-project" hide-footer>
                 <b-form @submit="onSubmit">
                     <b-form-group
                     class="mb-2"
@@ -52,7 +52,7 @@
         </div>
 
         <h2 class="mt-3">Projects</h2>
-        <div class="p-3">
+        <div class="p-2">
             <b-row align-h="between" class="mb-2">
                 <b-col sm="2" class="my-1">
                     <b-form-group
@@ -167,8 +167,13 @@ export default {
 
         onSubmit(e) {
             e.preventDefault();
-            console.log(this.completionDate);
-            this.createProject(this.projectName, this.projectDescription, this.completionDate);
+            this.createProject({
+                name: this.projectName,
+                description: this.projectDescription,
+                completions: this.completionDate
+            });
+            
+            this.$refs['new-project'].hide()
         }
     },
 
@@ -200,7 +205,7 @@ export default {
             sortDirection: 'asc',
             filter: null,
             filterOn: [],
-            ignoreFilterFields: ["id", "Id"],
+            ignoreFilterFields: ["id", "createdOn", "completion", "tickets", "submitter", "assignee"],
 
             projectName: "",
             projectDescription: "",
