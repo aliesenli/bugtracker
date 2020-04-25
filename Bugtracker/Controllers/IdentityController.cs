@@ -1,9 +1,9 @@
-﻿using Bugtracker.Contracts.Requests;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Bugtracker.Contracts.Requests;
 using Bugtracker.Contracts.Responses;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Bugtracker.Controllers
 {
