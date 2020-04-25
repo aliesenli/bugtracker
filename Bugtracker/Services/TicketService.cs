@@ -28,7 +28,10 @@ namespace Bugtracker.Services
 
             foreach (var item in queryable)
             {
-                item.Audits = item.Audits.OrderByDescending(a => a.Date.Date).ToList();
+                item.Audits = item.Audits
+                    .OrderByDescending(a => a.Date.Date)
+                    .ThenByDescending(a => a.Date.Hour)
+                    .ToList();
             }
 
             return await queryable.ToListAsync();
@@ -36,15 +39,6 @@ namespace Bugtracker.Services
 
         public async Task<Ticket> GetTicketByIdAsync(Guid ticketId)
         {
-            /*
-            return await _applicationDbContext.Tickets
-                .Include(t => t.Project)
-                .Include(t => t.Assignee)
-                .Include(t => t.Submitter)
-                .Include(t => t.Audits)
-                .SingleOrDefaultAsync(t => t.Id == postId);
-                */
-
             var queryable = _applicationDbContext.Tickets
                 .Include(t => t.Project)
                 .Include(t => t.Assignee)
@@ -52,7 +46,10 @@ namespace Bugtracker.Services
                 .Include(t => t.Audits)
                 .SingleOrDefaultAsync(t => t.Id == ticketId);
 
-            queryable.Result.Audits = queryable.Result.Audits.OrderByDescending(a => a.Date.Date).ToList();
+            queryable.Result.Audits = queryable.Result.Audits
+                .OrderByDescending(a => a.Date.Date)
+                .ThenByDescending(a => a.Date.Hour)
+                .ToList();
 
             return await queryable;
         }
