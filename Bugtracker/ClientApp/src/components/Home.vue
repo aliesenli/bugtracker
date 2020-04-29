@@ -84,8 +84,7 @@
                             <b-icon icon="grid3x2-gap"></b-icon><span class="sr-only">Search</span>
                         </template>
                         <b-dropdown-item @click="info(row.item)">Details</b-dropdown-item>
-                        <b-dropdown-item href="#">Another action</b-dropdown-item>
-                        <b-dropdown-item href="#">Something else here...</b-dropdown-item>
+                        <b-dropdown-item href="#">Delete</b-dropdown-item>
                     </b-dropdown>           
                 </template>
             </b-table> 
