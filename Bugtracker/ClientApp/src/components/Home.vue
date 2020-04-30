@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h5>Your Tickets</h5>
+        <h4>Your Tickets</h4>
         <div class="p-2">
             <b-row align-h="between" class="mb-2">
                 <b-col sm="2" class="my-1">

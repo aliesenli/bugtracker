@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Bugtracker.Converters;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace Bugtracker.Controllers
 {
@@ -40,6 +41,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpGet("api/tickets/user/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllFromUser([FromRoute] GetAllTicketsRequest query)
         {
             var tickets = await _ticketService.GetUserTicketsAsync(query.UserId);
@@ -49,6 +51,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpGet("api/tickets")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             var tickets = await _ticketService.GetTicketsAsync();
@@ -58,6 +61,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpGet("api/tickets/{ticketId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromRoute]Guid ticketId)
         {
             var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
@@ -67,6 +71,8 @@ namespace Bugtracker.Controllers
         }
 
         [HttpPost("api/tickets/create")]
+        [Authorize(Roles = "Admin, Manager")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Create([FromBody] CreateTicketRequest postRequest)
         {
             var newTicketId = Guid.NewGuid();
@@ -94,6 +100,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpPut("api/tickets/{ticketId}")]
+        [Authorize(Roles = "Admin, Manager, Developer")]
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
             var newAssignee = await _userService.GetUserByUserIdAsync(request.AssigneeId);
@@ -118,6 +125,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpDelete("api/tickets/{ticketId}")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Delete([FromRoute] Guid ticketId)
         {
             var deleted = await _ticketService.DeleteTicketAsync(ticketId);

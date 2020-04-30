@@ -49,6 +49,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpPost("api/projects/create")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Create([FromBody] CreateProjectRequest postRequest)
         {
             var newProjectId = Guid.NewGuid();
@@ -78,6 +79,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpPut("api/projects/{projectId}")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Update([FromRoute]Guid projectId, [FromBody] UpdateProjectRequest request)
         {
             var project = await _projectService.GetProjectByIdAsync(projectId);

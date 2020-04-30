@@ -46,7 +46,7 @@ namespace Bugtracker.Controllers
         }
 
         [HttpPost("api/users/role")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleRequest request)
         {
             await _userService.AssignUserRoleAsync(request.User, request.Role);
