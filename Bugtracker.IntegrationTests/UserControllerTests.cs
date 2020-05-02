@@ -11,7 +11,7 @@ namespace Bugtracker.IntegrationTests
     public class UserControllerTests : IntegrationTest
     {
         [Fact]
-        public async Task GetAll_WithoutAnyUsers_ReturnsEmptyResponse()
+        public async Task GetAll_WithoutAnyUsers_ReturnsNotEmptyResponse()
         {
             // Arrange
             await AuthenticateAsync();

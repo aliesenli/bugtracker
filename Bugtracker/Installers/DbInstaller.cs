@@ -2,6 +2,7 @@
 using Bugtracker.Converters;
 using Bugtracker.Data;
 using Bugtracker.Domain;
+using Bugtracker.Repositories;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,8 @@ namespace Bugtracker.Installers
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<ITicketRepository, TicketRepository>();
 
             services.AddTransient<IConverter<Project, ProjectResponse>, ProjectToDtoConverter>();
             services.AddTransient<IConverter<IList<Project>, IList<ProjectResponse>>, ProjectToDtoConverter>();
