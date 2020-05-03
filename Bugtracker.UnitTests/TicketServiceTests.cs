@@ -25,11 +25,13 @@ namespace Bugtracker.UnitTests
             var id = Guid.NewGuid();
             var title = "MoqTest";
             var priority = Priority.High;
+            var status = Status.Open;
             var ticket = new Ticket
             {
                 Id = id,
                 Title = title,
-                Priority = priority
+                Priority = priority,
+                Status = status
             };
 
             _ticketRepoMock.Setup(x => x.GetByIdAsync(id))
@@ -42,6 +44,7 @@ namespace Bugtracker.UnitTests
             Assert.Equal(id, ticketResponse.Id);
             Assert.Equal(title, ticket.Title);
             Assert.Equal(priority, ticket.Priority);
+            Assert.Equal(status, ticket.Status);
         }
     }
 }

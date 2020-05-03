@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Identity;
+using System.Collections;
 
 namespace Bugtracker.IntegrationTests
 {
@@ -57,6 +59,23 @@ namespace Bugtracker.IntegrationTests
                 Email = "test@integration.com",
                 Password = "Test1234!"
             });
+
+            using (var provider = _serviceProvider.CreateScope())
+            {
+                var userManager = provider.ServiceProvider.GetService<UserManager<IdentityUser>>();
+                var roleManager = provider.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+
+                var roleExists = await roleManager.RoleExistsAsync("Manager");
+                if (!roleExists)
+                {
+                    var adminRole = new IdentityRole("Manager");
+                    await roleManager.CreateAsync(adminRole);
+                    var testUser = await userManager.FindByNameAsync("test@integration.com");
+                    await userManager.AddToRoleAsync(testUser, "Manager");
+                }
+
+            }
+
 
             var registrationResponse = await response.Content.ReadAsAsync<AuthSuccessResponse>();
             return registrationResponse.Token;
