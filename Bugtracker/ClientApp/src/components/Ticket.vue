@@ -130,8 +130,8 @@
                         <b-tabs content-class="mt-3" lazy>
                                 <b-tab title="History">
                                     <b-alert show >
-                                        <template v-if="getTicket.audits > 0">
-                                            <div class="mt-3" v-for="audit in getTicket.audits" v-bind:key="audit.id">
+                                        <template v-if="getTicket.audits && getTicket.audits.length > 0">
+                                            <div class="mt-2 mb-2" v-for="audit in getTicket.audits" v-bind:key="audit.id">
                                                 <span class="audit-date">{{ audit.date }}</span>  
                                                 {{ audit.property }} changed from 
                                                 <span>{{ audit.oldValue }}</span> <b-icon icon="arrow-right"></b-icon>
@@ -207,7 +207,7 @@ export default {
         statusToNumber() {
             if(this.$refs.ticket_status.localValue == 'Open') return 0;
             else if(this.$refs.ticket_status.localValue == 'Closed') return 1;
-        }
+        },
     },
 
     computed: {

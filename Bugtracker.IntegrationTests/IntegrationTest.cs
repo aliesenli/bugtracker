@@ -40,16 +40,21 @@ namespace Bugtracker.IntegrationTests
             TestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await GetJwtAsync());
         }
 
-        protected async Task<TicketResponse> CreateTicketAsync(CreateTicketRequest request)
+        protected async Task AuthenticateWithRoleAsync()
         {
-            var response = await TestClient.PostAsJsonAsync("api/tickets/create", request);
-            return (await response.Content.ReadAsAsync<TicketResponse>());
+            TestClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await GetJwtWithManagerRoleAsync());
         }
 
         protected async Task<ProjectResponse> CreateProjectAsync(CreateProjectRequest request)
         {
             var response = await TestClient.PostAsJsonAsync("api/projects/create", request);
             return (await response.Content.ReadAsAsync<ProjectResponse>());
+        }
+
+        protected async Task<TicketResponse> CreateTicketAsync(CreateTicketRequest request)
+        {
+            var response = await TestClient.PostAsJsonAsync("api/tickets/create", request);
+            return (await response.Content.ReadAsAsync<TicketResponse>());
         }
 
         private async Task<string> GetJwtAsync()
@@ -60,28 +65,37 @@ namespace Bugtracker.IntegrationTests
                 Password = "Test1234!"
             });
 
-            using (var provider = _serviceProvider.CreateScope())
+            var registrationResponse = await response.Content.ReadAsAsync<AuthSuccessResponse>();
+            return registrationResponse.Token;
+        }
+
+        private async Task<string> GetJwtWithManagerRoleAsync()
+        {
+
+            await TestClient.PostAsJsonAsync("api/identity/register", new UserRegistrationRequest
             {
-                var userManager = provider.ServiceProvider.GetService<UserManager<IdentityUser>>();
-                var roleManager = provider.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                Email = "test@integration.com",
+                Password = "Test1234!"
+            });
 
-                var roleExists = await roleManager.RoleExistsAsync("Manager");
-                if (!roleExists)
-                {
-                    var adminRole = new IdentityRole("Manager");
-                    await roleManager.CreateAsync(adminRole);
-                    var testUser = await userManager.FindByNameAsync("test@integration.com");
-                    await userManager.AddToRoleAsync(testUser, "Manager");
-                }
+            using var serviceScope = _serviceProvider.CreateScope();
+            var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+            var userManager = serviceScope.ServiceProvider.GetService<UserManager<IdentityUser>>();
+            var testAccount = await userManager.FindByNameAsync("test@integration.com");
+            await roleManager.CreateAsync(new IdentityRole("Manager"));
+            await userManager.AddToRoleAsync(testAccount, "Manager");
 
-            }
-
+            var response = await TestClient.PostAsJsonAsync("api/identity/login", new UserLoginRequest
+            {
+                Email = "test@integration.com",
+                Password = "Test1234!"
+            });
 
             var registrationResponse = await response.Content.ReadAsAsync<AuthSuccessResponse>();
             return registrationResponse.Token;
         }
 
-        //Dispose Database
+        //Dispose In-Memory Database
         public void Dispose()
         {
             using var serviceScope = _serviceProvider.CreateScope();

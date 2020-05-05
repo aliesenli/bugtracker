@@ -136,5 +136,4 @@ namespace Bugtracker.Controllers
             return NotFound();
         }
     }
-
 }
