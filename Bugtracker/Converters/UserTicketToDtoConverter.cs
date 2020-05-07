@@ -18,7 +18,8 @@ namespace Bugtracker.Converters
                 Status = ticket.Status.ToString(),
                 CreatedOn = ticket.CreatedAt.ToString(),
                 UpdatedOn = ticket.UpdatedAt.ToString(),
-                Assignee = ticket.Assignee.UserName,
+                //Assignee = ticket.Assignee.UserName,
+                Assignee = ticket.Assignee == null ? "" : ticket.Assignee.UserName,
                 Project = ticket.Project.Name
             };
 

@@ -27,6 +27,7 @@ namespace Bugtracker.Installers
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IUserService, UserService>();
 
+            services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<ITicketRepository, TicketRepository>();
 
             services.AddTransient<IConverter<Project, ProjectResponse>, ProjectToDtoConverter>();

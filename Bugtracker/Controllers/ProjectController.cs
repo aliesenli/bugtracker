@@ -38,7 +38,7 @@ namespace Bugtracker.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll([FromQuery] GetAllProjectsRequest query)
         {
-            var projects = await _projectService.GetProjectsAsync();
+            var projects = await _projectService.GetAllAsync();
             var projectsDto = _projectToDtoListConverter.Convert(projects);
 
             return Ok(projectsDto);
@@ -49,7 +49,7 @@ namespace Bugtracker.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromRoute]Guid projectId)
         {
-            var project = await _projectService.GetProjectByIdAsync(projectId);
+            var project = await _projectService.GetByIdAsync(projectId);
             var projectDto = _projectToDtoConverter.Convert(project);
 
             return Ok(projectDto);
@@ -80,7 +80,7 @@ namespace Bugtracker.Controllers
                 Completion = project.Completion.ToString()
             };
 
-            await _projectService.CreateProjectAsync(project);
+            await _projectService.CreateAsync(project);
 
             var locationUri = _uriService.GetProjectUri(project.Id.ToString());
             return Created(locationUri, projectResponse);
@@ -90,11 +90,11 @@ namespace Bugtracker.Controllers
         [HttpPut("api/projects/{projectId}")]
         public async Task<IActionResult> Update([FromRoute]Guid projectId, [FromBody] UpdateProjectRequest request)
         {
-            var project = await _projectService.GetProjectByIdAsync(projectId);
+            var project = await _projectService.GetByIdAsync(projectId);
             project.Name = request.Name;
             project.Description = request.Description;
 
-            var updated = await _projectService.UpdateProjectAsync(project);
+            var updated = await _projectService.UpdateAsync(project);
 
             var projectDto = _projectToDtoConverter.Convert(project);
 

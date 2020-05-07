@@ -1,68 +1,50 @@
 ﻿using Bugtracker.Data;
 using Bugtracker.Domain;
+using Bugtracker.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bugtracker.Services
 {
     public class ProjectService : IProjectService
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IProjectRepository _projectRepository;
 
-        public ProjectService(ApplicationDbContext applicationDbContext)
+        public ProjectService(IProjectRepository projectRepository)
         {
-            _applicationDbContext = applicationDbContext;
+            _projectRepository = projectRepository;
         }
 
-        public async Task<bool> CreateProjectAsync(Project project)
+        public async Task<bool> CreateAsync(Project project)
         {
-            await _applicationDbContext.Projects.AddAsync(project);
-
-            var created = await _applicationDbContext.SaveChangesAsync();
-
-            return created > 0;
+            var created = await _projectRepository.CreateAsync(project);
+            return created;
         }
 
-        public async Task<bool> DeleteProjectAsync(Guid projectId)
+        public async Task<bool> DeleteAsync(Guid projectId)
         {
-            var project = await GetProjectByIdAsync(projectId);
-
-            if (project == null)
-                return false;
-
-            _applicationDbContext.Projects.Remove(project);
-            var deleted = await _applicationDbContext.SaveChangesAsync();
-
-            return deleted > 0;
+            var deleted = await _projectRepository.DeleteAsync(projectId);
+            return deleted;
         }
 
-        public async Task<Project> GetProjectByIdAsync(Guid projectId)
+        public async Task<Project> GetByIdAsync(Guid projectId)
         {
-            return await _applicationDbContext.Projects
-                .Include(p => p.Tickets).ThenInclude(t => t.Submitter)
-                .Include(p => p.Tickets).ThenInclude(t => t.Assignee)
-                .SingleOrDefaultAsync(x => x.Id == projectId);
+            var project = await _projectRepository.GetByIdAsync(projectId);
+            return project;
         }
 
-        public async Task<List<Project>> GetProjectsAsync()
+        public async Task<List<Project>> GetAllAsync()
         {
-            var queryable = _applicationDbContext.Projects
-              .Include(p => p.Tickets).ThenInclude(t => t.Submitter)
-              .Include(p => p.Tickets).ThenInclude(t => t.Assignee);
-            //.AsQueryable();
-
-            return await queryable.ToListAsync();
+            var projects = await _projectRepository.GetAllAsync();
+            return projects;
         }
 
-        public async Task<bool> UpdateProjectAsync(Project projectToUpdate)
+        public async Task<bool> UpdateAsync(Project projectToUpdate)
         {
-            _applicationDbContext.Projects.Update(projectToUpdate);
-            var updated = await _applicationDbContext.SaveChangesAsync();
-
-            return updated > 0;
+            var updated = await _projectRepository.UpdatetAsync(projectToUpdate);
+            return updated;
         }
     }
 }

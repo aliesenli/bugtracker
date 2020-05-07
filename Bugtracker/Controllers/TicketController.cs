@@ -44,7 +44,7 @@ namespace Bugtracker.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllFromUser([FromRoute] GetAllTicketsRequest query)
         {
-            var tickets = await _ticketService.GetUserTicketsAsync(query.UserId);
+            var tickets = await _ticketService.GetUsersAsync(query.UserId);
             var ticketsDto = _userTicketToDtoListConverter.Convert(tickets);
 
             return Ok(ticketsDto);
@@ -54,7 +54,7 @@ namespace Bugtracker.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var tickets = await _ticketService.GetTicketsAsync();
+            var tickets = await _ticketService.GetAllAsync();
             var ticketsDto = _ticketToDtoListConverter.Convert(tickets);
 
             return Ok(ticketsDto);
@@ -64,7 +64,7 @@ namespace Bugtracker.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromRoute]Guid ticketId)
         {
-            var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
+            var ticket = await _ticketService.GetByIdAsync(ticketId);
             var ticketDto = _ticketToDtoConverter.Convert(ticket);
 
             return Ok(ticketDto);
@@ -90,10 +90,10 @@ namespace Bugtracker.Controllers
                 ProjectId = postRequest.ProjectId,
             };
 
-            await _ticketService.CreateTicketAsync(ticket);
+            await _ticketService.CreateAsync(ticket);
 
-            var getTicketAfterCreation = await _ticketService.GetTicketByIdAsync(ticket.Id);
-            var ticketDto = _ticketToDtoConverter.Convert(getTicketAfterCreation);
+            var newTicket = await _ticketService.GetByIdAsync(ticket.Id);
+            var ticketDto = _ticketToDtoConverter.Convert(newTicket);
             var locationUri = _uriService.GetTicketUri(ticket.Id.ToString());
 
             return Created(locationUri, ticketDto);
@@ -104,7 +104,7 @@ namespace Bugtracker.Controllers
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
             var newAssignee = await _userService.GetUserByUserIdAsync(request.AssigneeId);
-            var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
+            var ticket = await _ticketService.GetByIdAsync(ticketId);
 
             ticket.Title = request.Title;
             ticket.Description = request.Description;
@@ -114,7 +114,7 @@ namespace Bugtracker.Controllers
             ticket.Assignee = newAssignee;
             ticket.AssigneeId = request.AssigneeId;
 
-            var updated = await _ticketService.UpdateTicketAsync(ticket);
+            var updated = await _ticketService.UpdateAsync(ticket);
 
             var ticketDto = _ticketToDtoConverter.Convert(ticket);
 
@@ -128,7 +128,7 @@ namespace Bugtracker.Controllers
         [Authorize(Roles = "Admin, Manager")]
         public async Task<IActionResult> Delete([FromRoute] Guid ticketId)
         {
-            var deleted = await _ticketService.DeleteTicketAsync(ticketId);
+            var deleted = await _ticketService.DeleteAsync(ticketId);
 
             if (deleted)
                 return NoContent();

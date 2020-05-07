@@ -38,7 +38,7 @@ namespace Bugtracker.Domain
 
         public Project Project { get; set; }
 
-        public IdentityUser Assignee { get; set; }
+        public IdentityUser? Assignee { get; set; }
 
         public IdentityUser Submitter { get; set; }
 
@@ -46,7 +46,7 @@ namespace Bugtracker.Domain
         public Guid ProjectId { get; set; }
 
         [ForeignKey(nameof(Assignee))]
-        public string AssigneeId { get; set; }
+        public string? AssigneeId { get; set; }
 
         [ForeignKey(nameof(Submitter))]
         public string SubmitterId { get; set; }

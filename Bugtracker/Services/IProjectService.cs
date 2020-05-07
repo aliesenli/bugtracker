@@ -1,21 +1,20 @@
 ﻿using Bugtracker.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Bugtracker.Services
 {
     public interface IProjectService
     {
-        Task<List<Project>> GetProjectsAsync();
+        Task<List<Project>> GetAllAsync();
 
-        Task<bool> CreateProjectAsync(Project project);
+        Task<bool> CreateAsync(Project project);
 
-        Task<Project> GetProjectByIdAsync(Guid projectId);
+        Task<Project> GetByIdAsync(Guid projectId);
 
-        Task<bool> UpdateProjectAsync(Project projectToUpdate);
+        Task<bool> UpdateAsync(Project projectToUpdate);
 
-        Task<bool> DeleteProjectAsync(Guid projectId);
+        Task<bool> DeleteAsync(Guid projectId);
     }
 }

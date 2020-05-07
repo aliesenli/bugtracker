@@ -38,13 +38,13 @@ namespace Bugtracker.UnitTests
                 .ReturnsAsync(ticket);
 
             // Act
-            var ticketResponse = await _sut.GetTicketByIdAsync(id);
+            var ticketResponse = await _sut.GetByIdAsync(id);
 
             // Assert
             Assert.Equal(id, ticketResponse.Id);
-            Assert.Equal(title, ticket.Title);
-            Assert.Equal(priority, ticket.Priority);
-            Assert.Equal(status, ticket.Status);
+            Assert.Equal(title, ticketResponse.Title);
+            Assert.Equal(priority, ticketResponse.Priority);
+            Assert.Equal(status, ticketResponse.Status);
         }
     }
 }

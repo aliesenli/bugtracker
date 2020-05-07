@@ -1,5 +1,6 @@
 ﻿using Bugtracker.Contracts.Responses;
 using Bugtracker.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,7 +32,7 @@ namespace Bugtracker.Converters
                     Priority = ticket.Priority.ToString(),
                     Project = ticket.Project.Name,
                     Submitter = ticket.Submitter.UserName,
-                    Assignee = ticket.Assignee.UserName
+                    Assignee = ticket.Assignee == null ? "" : ticket.Assignee.UserName
                 };
 
                 projectDto.Tickets.Add(ticketDtos);
