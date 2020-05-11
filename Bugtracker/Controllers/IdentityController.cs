@@ -5,9 +5,11 @@ using Bugtracker.Contracts.Responses;
 using Bugtracker.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Bugtracker.Controllers
 {
+    [SwaggerTag("Register, Login and Token-Refresh Operations")]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;

@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UserSecretsId>aspnet-Bugtracker-AE893018-30D8-4A07-8511-680C7CD6E088</UserSecretsId>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +12,8 @@
     <Compile Remove="Data\Migrations\20200311224549_test.Designer.cs" />
     <Compile Remove="Data\Migrations\20200317151450_init2.cs" />
     <Compile Remove="Data\Migrations\20200317151450_init2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200511215551_Update-ticket-model.cs" />
+    <Compile Remove="Data\Migrations\20200511215551_Update-ticket-model.Designer.cs" />
   </ItemGroup>
 
 

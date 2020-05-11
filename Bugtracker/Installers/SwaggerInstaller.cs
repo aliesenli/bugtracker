@@ -12,7 +12,7 @@ namespace Bugtracker.Installers
             services.AddSwaggerGen(x =>
             {
                 x.SwaggerDoc("v1", new OpenApiInfo { Title = "Bugtracker API", Version = "v1" });
-
+                x.EnableAnnotations();
                 x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the bearer scheme",

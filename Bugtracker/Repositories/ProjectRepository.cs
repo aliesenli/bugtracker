@@ -39,9 +39,9 @@ namespace Bugtracker.Repositories
         public async Task<List<Project>> GetAllAsync()
         {
             var queryable = _applicationDbContext.Projects
-              .Include(p => p.Tickets).ThenInclude(t => t.Submitter)
-              .Include(p => p.Tickets).ThenInclude(t => t.Assignee);
-            //.AsQueryable();
+                .Include(p => p.Tickets)
+                .Include(p => p.Tickets).ThenInclude(t => t.Submitter)
+                .Include(p => p.Tickets).ThenInclude(t => t.Assignee);
 
             return await queryable.ToListAsync();
         }
@@ -49,6 +49,7 @@ namespace Bugtracker.Repositories
         public async Task<Project> GetByIdAsync(Guid projectId)
         {
             return await _applicationDbContext.Projects
+                .Include(p => p.Tickets)
                 .Include(p => p.Tickets).ThenInclude(t => t.Submitter)
                 .Include(p => p.Tickets).ThenInclude(t => t.Assignee)
                 .SingleOrDefaultAsync(x => x.Id == projectId);

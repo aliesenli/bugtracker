@@ -105,6 +105,7 @@ namespace Bugtracker.Repositories
             var queryable = _applicationDbContext.Tickets.Where(t => t.Assignee.Id == userId)
                 .Include(t => t.Project)
                 .Include(t => t.Assignee)
+                .Include(t => t.Submitter)
                 .AsQueryable();
 
             return await queryable.ToListAsync();
