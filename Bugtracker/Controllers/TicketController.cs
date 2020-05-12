@@ -10,10 +10,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Bugtracker.Converters;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Bugtracker.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [SwaggerTag("Create, Read, Update and Delete Tickets")]
     public class TicketController : Controller
     {
         private readonly ITicketService _ticketService;
@@ -40,33 +43,43 @@ namespace Bugtracker.Controllers
         }
 
         [HttpGet("api/tickets/user/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAllFromUser([FromRoute] GetAllTicketsRequest query)
         {
-            var tickets = await _ticketService.GetUserTicketsAsync(query.UserId);
+            var tickets = await _ticketService.GetUsersAsync(query.UserId);
             var ticketsDto = _userTicketToDtoListConverter.Convert(tickets);
 
             return Ok(ticketsDto);
         }
 
         [HttpGet("api/tickets")]
+        [SwaggerOperation("Returns All Tickets")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
-            var tickets = await _ticketService.GetTicketsAsync();
+            var tickets = await _ticketService.GetAllAsync();
             var ticketsDto = _ticketToDtoListConverter.Convert(tickets);
 
             return Ok(ticketsDto);
         }
 
         [HttpGet("api/tickets/{ticketId}")]
+        [SwaggerOperation("Returns a Single Ticket")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get([FromRoute]Guid ticketId)
         {
-            var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
+            var ticket = await _ticketService.GetByIdAsync(ticketId);
             var ticketDto = _ticketToDtoConverter.Convert(ticket);
 
             return Ok(ticketDto);
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost("api/tickets/create")]
+        [SwaggerOperation("Create a new Ticket")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Create([FromBody] CreateTicketRequest postRequest)
         {
             var newTicketId = Guid.NewGuid();
@@ -79,35 +92,36 @@ namespace Bugtracker.Controllers
                 Priority = postRequest.Priority,
                 Status = 0,
                 CreatedAt = DateTime.Now,
-                AssigneeId = postRequest.AssigneeId,
                 SubmitterId = HttpContext.GetUserId(),
+                AssigneeId = postRequest.AssigneeId != "" ? postRequest.AssigneeId : null,
                 ProjectId = postRequest.ProjectId,
             };
 
-            await _ticketService.CreateTicketAsync(ticket);
+            await _ticketService.CreateAsync(ticket);
 
-            var getTicketAfterCreation = await _ticketService.GetTicketByIdAsync(ticket.Id);
-            var ticketDto = _ticketToDtoConverter.Convert(getTicketAfterCreation);
+            var newTicket = await _ticketService.GetByIdAsync(ticket.Id);
+            var ticketDto = _ticketToDtoConverter.Convert(newTicket);
             var locationUri = _uriService.GetTicketUri(ticket.Id.ToString());
 
             return Created(locationUri, ticketDto);
         }
 
+        [Authorize(Roles = "Admin, Manager, Developer")]
         [HttpPut("api/tickets/{ticketId}")]
+        [SwaggerOperation("Update a Ticket")]
         public async Task<IActionResult> Update([FromRoute]Guid ticketId, [FromBody] UpdateTicketRequest request)
         {
             var newAssignee = await _userService.GetUserByUserIdAsync(request.AssigneeId);
-            var ticket = await _ticketService.GetTicketByIdAsync(ticketId);
+            var ticket = await _ticketService.GetByIdAsync(ticketId);
 
             ticket.Title = request.Title;
             ticket.Description = request.Description;
             ticket.Priority = request.Priority;
             ticket.Status = request.Status;
             ticket.UpdatedAt = DateTime.UtcNow;
-            ticket.Assignee = newAssignee;
-            ticket.AssigneeId = request.AssigneeId;
+            ticket.AssigneeId = newAssignee.Id;
 
-            var updated = await _ticketService.UpdateTicketAsync(ticket);
+            var updated = await _ticketService.UpdateAsync(ticket);
 
             var ticketDto = _ticketToDtoConverter.Convert(ticket);
 
@@ -117,10 +131,12 @@ namespace Bugtracker.Controllers
             return NotFound();
         }
 
+        [Authorize(Roles = "Admin, Manager")]
         [HttpDelete("api/tickets/{ticketId}")]
+        [SwaggerOperation("Delete a Ticket")]
         public async Task<IActionResult> Delete([FromRoute] Guid ticketId)
         {
-            var deleted = await _ticketService.DeleteTicketAsync(ticketId);
+            var deleted = await _ticketService.DeleteAsync(ticketId);
 
             if (deleted)
                 return NoContent();
@@ -128,5 +144,4 @@ namespace Bugtracker.Controllers
             return NotFound();
         }
     }
-
 }

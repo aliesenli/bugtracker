@@ -3,10 +3,13 @@ using System.Threading.Tasks;
 using Bugtracker.Contracts.Requests;
 using Bugtracker.Contracts.Responses;
 using Bugtracker.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace Bugtracker.Controllers
 {
+    [SwaggerTag("Register, Login and Token-Refresh Operations")]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
@@ -16,6 +19,7 @@ namespace Bugtracker.Controllers
             _identityService = identityService;
         }
 
+        [AllowAnonymous]
         [HttpPost("api/identity/register")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
@@ -44,6 +48,7 @@ namespace Bugtracker.Controllers
             });
         }
 
+        [AllowAnonymous]
         [HttpPost("api/identity/login")]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {

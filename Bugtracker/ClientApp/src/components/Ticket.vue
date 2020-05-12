@@ -128,18 +128,27 @@
                         </div>
 
                         <b-tabs content-class="mt-3" lazy>
-                            <b-tab title="History"><b-alert show>
-                                <div class="mt-3" v-for="audit in getTicket.audits" v-bind:key="audit.id">
-                                    <span class="audit-date">{{ audit.date }}</span>  
-                                    {{ audit.property }} changed from 
-                                    <span class="">{{ audit.oldValue }}</span> <b-icon icon="arrow-right"></b-icon>
-                                    <span class=""> {{ audit.newValue }}</span>
-                                </div></b-alert></b-tab>
-                            <b-tab title="Comments"><b-alert show>I'm lazy mounted too!</b-alert></b-tab>
+                                <b-tab title="History">
+                                    <b-alert show >
+                                        <template v-if="getTicket.audits && getTicket.audits.length > 0">
+                                            <div class="mt-2 mb-2" v-for="audit in getTicket.audits" v-bind:key="audit.id">
+                                                <span class="audit-date">{{ audit.date }}</span>  
+                                                {{ audit.property }} changed from 
+                                                <span>{{ audit.oldValue }}</span> <b-icon icon="arrow-right"></b-icon>
+                                                <span> {{ audit.newValue }}</span>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            Edit Ticket to see changes...
+                                        </template>
+                                    </b-alert>
+                                </b-tab>
+                            
+                            <b-tab title="Comments"><b-alert show><template v-if="getTicket.comments > 0">todo: list comments</template><template v-else>No comments...</template></b-alert></b-tab>
                         </b-tabs>
                     </div>
                 </b-col>
-                
+    
                 <b-col cols="6" md="4">
                     <div>
                         <div class="mytextdiv">
@@ -198,7 +207,7 @@ export default {
         statusToNumber() {
             if(this.$refs.ticket_status.localValue == 'Open') return 0;
             else if(this.$refs.ticket_status.localValue == 'Closed') return 1;
-        }
+        },
     },
 
     computed: {

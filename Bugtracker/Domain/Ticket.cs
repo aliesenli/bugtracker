@@ -36,20 +36,20 @@ namespace Bugtracker.Domain
 
         public Status Status { get; set; }
 
-        public Project Project { get; set; }
-
-        public IdentityUser Assignee { get; set; }
-
-        public IdentityUser Submitter { get; set; }
-
-        [ForeignKey(nameof(Project))]
-        public Guid ProjectId { get; set; }
-
         [ForeignKey(nameof(Assignee))]
         public string AssigneeId { get; set; }
 
         [ForeignKey(nameof(Submitter))]
         public string SubmitterId { get; set; }
+
+        [ForeignKey(nameof(Project))]
+        public Guid ProjectId { get; set; }
+
+        public IdentityUser Assignee { get; set; }
+
+        public IdentityUser Submitter { get; set; }
+
+        public Project Project { get; set; }
 
         public virtual IEnumerable<Comment> Comments { get; set; }
 

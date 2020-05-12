@@ -10,6 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bugtracker.IntegrationTests
 		{521C2F12-2FF3-4DB8-A5F6-54B9F22F6223} = {521C2F12-2FF3-4DB8-A5F6-54B9F22F6223}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bugtracker.UnitTests", "Bugtracker.UnitTests\Bugtracker.UnitTests.csproj", "{A6FBA843-8C74-460C-81B6-A648ACB8256D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{521C2F12-2FF3-4DB8-A5F6-54B9F22F6223} = {521C2F12-2FF3-4DB8-A5F6-54B9F22F6223}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +29,10 @@ Global
 		{DFB54EA4-0CE4-440D-AC19-4EC7FFB6EFD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFB54EA4-0CE4-440D-AC19-4EC7FFB6EFD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFB54EA4-0CE4-440D-AC19-4EC7FFB6EFD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6FBA843-8C74-460C-81B6-A648ACB8256D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6FBA843-8C74-460C-81B6-A648ACB8256D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6FBA843-8C74-460C-81B6-A648ACB8256D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6FBA843-8C74-460C-81B6-A648ACB8256D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

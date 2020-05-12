@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h5>Your Tickets</h5>
+        <h4>Your Tickets</h4>
         <div class="p-2">
             <b-row align-h="between" class="mb-2">
                 <b-col sm="2" class="my-1">
@@ -84,8 +84,7 @@
                             <b-icon icon="grid3x2-gap"></b-icon><span class="sr-only">Search</span>
                         </template>
                         <b-dropdown-item @click="info(row.item)">Details</b-dropdown-item>
-                        <b-dropdown-item href="#">Another action</b-dropdown-item>
-                        <b-dropdown-item href="#">Something else here...</b-dropdown-item>
+                        <b-dropdown-item href="#">Delete</b-dropdown-item>
                     </b-dropdown>           
                 </template>
             </b-table> 

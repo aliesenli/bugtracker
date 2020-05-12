@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Bugtracker.Services
+namespace Bugtracker.Repositories
 {
-    public interface IProjectService
+    public interface IProjectRepository
     {
         Task<List<Project>> GetAllAsync();
 
@@ -13,7 +13,7 @@ namespace Bugtracker.Services
 
         Task<Project> GetByIdAsync(Guid projectId);
 
-        Task<bool> UpdateAsync(Project projectToUpdate);
+        Task<bool> UpdatetAsync(Project projectToUpdate);
 
         Task<bool> DeleteAsync(Guid projectId);
     }

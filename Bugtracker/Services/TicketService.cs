@@ -2,112 +2,54 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Bugtracker.Data;
 using Bugtracker.Domain;
-using Microsoft.EntityFrameworkCore;
+using Bugtracker.Repositories;
 
 namespace Bugtracker.Services
 {
     public class TicketService : ITicketService
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ITicketRepository _ticketRepository;
 
-        public TicketService(ApplicationDbContext applicationDbContext)
+        public TicketService(ITicketRepository ticketRepository)
         {
-            _applicationDbContext = applicationDbContext;
+            _ticketRepository = ticketRepository;
         }
 
-        public async Task<List<Ticket>> GetTicketsAsync()
+        public async Task<List<Ticket>> GetAllAsync()
         {
-            var queryable = _applicationDbContext.Tickets
-                .Include(t => t.Project)
-                .Include(t => t.Assignee)
-                .Include(t => t.Submitter)
-                .Include(t => t.Audits)
-                .AsQueryable();
-
-            foreach (var item in queryable)
-            {
-                item.Audits = item.Audits
-                    .OrderByDescending(a => a.Date.Date)
-                    .ThenByDescending(a => a.Date.Hour)
-                    .ToList();
-            }
-
-            return await queryable.ToListAsync();
+            var tickets = (await _ticketRepository.GetAllAsync()).ToList();
+            return tickets;
         }
 
-        public async Task<Ticket> GetTicketByIdAsync(Guid ticketId)
+        public async Task<Ticket> GetByIdAsync(Guid ticketId)
         {
-            var queryable = _applicationDbContext.Tickets
-                .Include(t => t.Project)
-                .Include(t => t.Assignee)
-                .Include(t => t.Submitter)
-                .Include(t => t.Audits)
-                .SingleOrDefaultAsync(t => t.Id == ticketId);
-
-            queryable.Result.Audits = queryable.Result.Audits
-                .OrderByDescending(a => a.Date.Date)
-                .ThenByDescending(a => a.Date.Hour)
-                .ToList();
-
-            return await queryable;
+            var ticket = (await _ticketRepository.GetByIdAsync(ticketId));
+            return ticket;
         }
 
-        public async Task<bool> CreateTicketAsync(Ticket post)
+        public async Task<bool> CreateAsync(Ticket ticketToCreate)
         {
-            await _applicationDbContext.Tickets.AddAsync(post);
-
-            var created = await _applicationDbContext.SaveChangesAsync();
-            return created > 0;
+            var ticket = (await _ticketRepository.CreateAsync(ticketToCreate));
+            return ticket;
         }
 
-        public async Task<bool> DeleteTicketAsync(Guid ticketId)
+        public async Task<bool> DeleteAsync(Guid ticketId)
         {
-            var post = await GetTicketByIdAsync(ticketId);
-
-            if (post == null)
-                return false;
-
-            _applicationDbContext.Tickets.Remove(post);
-            var deleted = await _applicationDbContext.SaveChangesAsync();
-            return deleted > 0;
+            var ticket = (await _ticketRepository.DeleteAsync(ticketId));
+            return ticket;
         }
 
-        public async Task<bool> UpdateTicketAsync(Ticket ticketToUpdate)
+        public async Task<bool> UpdateAsync(Ticket ticketToUpdate)
         {
-
-            var ttu = await _applicationDbContext.Tickets.FirstAsync(t => t.Id == ticketToUpdate.Id);
-
-            foreach (var entry in _applicationDbContext.Entry(ttu).Properties)
-            {
-                if (entry.IsModified && !(entry.Metadata.Name == "UpdatedAt"))
-                {
-                    var ticketAudit = new Audit
-                    {
-                        TicketId = ticketToUpdate.Id,
-                        Property = entry.Metadata.Name,
-                        OldValue = entry.OriginalValue.ToString(),
-                        NewValue = entry.CurrentValue.ToString(),
-                        Date = DateTime.Now,
-                    };
-                    _applicationDbContext.Audits.Add(ticketAudit);
-                }
-            }
-
-            _applicationDbContext.Tickets.Update(ticketToUpdate);
-            var updated = await _applicationDbContext.SaveChangesAsync();
-            return updated > 0;
+            var ticket = (await _ticketRepository.UpdateAsync(ticketToUpdate));
+            return ticket;
         }
 
-        public async Task<List<Ticket>> GetUserTicketsAsync(string userId)
+        public async Task<List<Ticket>> GetUsersAsync(string userId)
         {
-            var queryable = _applicationDbContext.Tickets.Where(t => t.Assignee.Id == userId)
-                .Include(t => t.Project)
-                .Include(t => t.Assignee)
-                .AsQueryable();
-
-            return await queryable.ToListAsync();
+            var tickets = (await _ticketRepository.GetUsersAsync(userId));
+            return tickets;
         }
     }
 }

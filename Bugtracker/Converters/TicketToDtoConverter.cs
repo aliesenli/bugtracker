@@ -18,24 +18,27 @@ namespace Bugtracker.Converters
                 Status = ticket.Status.ToString(),
                 CreatedOn = ticket.CreatedAt.ToString(),
                 UpdatedOn = ticket.UpdatedAt.ToString(),
-                Assignee = ticket.Assignee.UserName,
-                AssigneeId = ticket.Assignee.Id,
                 Submitter = ticket.Submitter.UserName,
+                Assignee = ticket.Assignee != null ? ticket.Assignee.UserName : "",
+                AssigneeId = ticket.AssigneeId != null ? ticket.Assignee.Id : "",
                 Project = ticket.Project.Name
             };
 
-            foreach (var audit in ticket.Audits)
+            if (ticket.Audits != null)
             {
-                var auditDto = new AuditResponse
+                foreach (var audit in ticket.Audits)
                 {
-                    Id = audit.Id,
-                    Property = audit.Property,
-                    NewValue = audit.NewValue,
-                    OldValue = audit.OldValue,
-                    Date = audit.Date.ToString()
-                };
+                    var auditDto = new AuditResponse
+                    {
+                        Id = audit.Id,
+                        Property = audit.Property,
+                        NewValue = audit.NewValue,
+                        OldValue = audit.OldValue,
+                        Date = audit.Date.ToString()
+                    };
 
-                ticketDto.Audits.Add(auditDto);
+                    ticketDto.Audits.Add(auditDto);
+                }
             }
 
             return ticketDto;

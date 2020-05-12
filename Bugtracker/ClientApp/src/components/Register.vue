@@ -6,7 +6,7 @@
                     <b-col cols="12" md="5">
                         <b-overlay :show="this.loading" rounded="sm">
                             <b-card title="Create new Account" :aria-hidden="show ? 'true' : null">
-                                <b-form @submit.prevent="register">
+                                <b-form @submit.prevent="register" class="mt-4">
                                     <b-form-input
                                     class="mt-2"
                                     v-model="email"
@@ -25,6 +25,7 @@
                                     </b-form-input>
                                     <b-button type="submit" variant="primary" class="w-100 mt-3">Register now</b-button>
                                 </b-form>
+                                <div class="mt-2"><b-link to="login">Already have an Account?</b-link></div>
                             </b-card>
                         </b-overlay>
                     </b-col>
@@ -60,6 +61,9 @@ import { mapState } from 'vuex'
                 this.$store.dispatch('register', data)
                .then(() => this.$router.push('/'))
                .catch(err => console.log(err))
+            },
+            loginPage: function() {
+                this.$route.push("/login")
             }
         }
     }

@@ -31,8 +31,6 @@ namespace Bugtracker.Services
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            //var x = _applicationDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username);
-
             return user;
         }
 
@@ -46,7 +44,6 @@ namespace Bugtracker.Services
                 return false;
             }
 
-            //var deleted = await _applicationDbContext.SaveChangesAsync();
             return true;
         }
 
