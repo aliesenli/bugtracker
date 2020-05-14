@@ -3,7 +3,7 @@
         <div class="main-content__body">
             <b-row>
                 <b-col cols="12">
-                    {{ getTicket.title }} / {{ getTicket.project}}
+                    {{ getTicket.project}} /  {{ getTicket.title }}
                 </b-col>
             </b-row>
             <b-row class="mt-4">
