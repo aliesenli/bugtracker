@@ -13,7 +13,7 @@
                             <b-button v-b-modal.modal-footer-sm variant="outline-primary">
                                 <b-icon icon="pencil"></b-icon> Edit Ticket
                             </b-button>
-                            <b-button variant="outline-primary">
+                            <b-button v-b-modal.modal-assign variant="outline-primary">
                                 <b-icon icon="person-fill"></b-icon> Assign
                             </b-button>
                             <b-button variant="outline-primary">
@@ -81,7 +81,15 @@
                                 </b-form-group>
                             </b-col>
                         </b-row>
+          
+                        <b-button type="submit" class="float-right mt-1" variant="primary">Update</b-button>
+                    </b-form>
+                </b-modal>
+            </div>
 
+            <div>
+                <b-modal id="modal-assign" size="lg" title="Assign To" ref="assign-ticket" hide-footer>
+                    <b-form @submit="onAssignTicket">
                         <b-form-group
                         label="Assign To"
                         label-for="assign-1"
@@ -192,10 +200,22 @@ export default {
                 description: this.$refs.ticket_description.localValue,
                 priority: this.priorityToNumber(),
                 status: this.statusToNumber(),
-                assigneeId: this.$refs.ticket_assigneeId.localValue
+                assigneeId: this.getTicket.assigneeId
             });
-
             this.$refs['edit-ticket'].hide()
+        },
+
+        onAssignTicket(e) {
+            e.preventDefault()
+            this.$store.dispatch('editTicket', {
+                ticketId: this.getTicket.id,
+                title: this.getTicket.title,
+                description: this.getTicket.description,
+                priority: this.getTicket.priority,
+                status: this.getTicket.status,
+                assigneeId: this.$refs.ticket_assigneeId.localValue     
+            });
+            this.$refs['assign-ticket'].hide()
         },
 
         priorityToNumber() {

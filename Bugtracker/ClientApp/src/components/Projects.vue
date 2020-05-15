@@ -209,8 +209,7 @@ export default {
 
             projectName: "",
             projectDescription: "",
-            completionDate: "",
-
+            completionDate: ""
         }
     },
     watch: {
