@@ -119,7 +119,7 @@ namespace Bugtracker.Controllers
             ticket.Priority = request.Priority;
             ticket.Status = request.Status;
             ticket.UpdatedAt = DateTime.UtcNow;
-            ticket.AssigneeId = newAssignee.Id;
+            ticket.AssigneeId = newAssignee?.Id;
 
             var updated = await _ticketService.UpdateAsync(ticket);
 

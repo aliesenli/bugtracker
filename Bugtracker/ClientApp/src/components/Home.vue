@@ -71,6 +71,10 @@
                     <b-icon icon="app-indicator"></b-icon> {{ row.item.title }}
                 </template>
 
+                 <template v-slot:cell(priority)="data" class="testolo">
+                    {{ data.value }}
+                </template>
+
                 <template v-slot:table-busy>
                     <div class="text-center text-danger my-2">
                     <b-spinner class="align-middle"></b-spinner>
@@ -124,7 +128,12 @@
 
             info(item) {
                 this.$router.push({ name: 'Ticket', params: { ticketId: item.id }})
-            }
+            },
+
+            rowClass(item, type) {
+        if (!item || type !== 'row') return
+        if (item.status === 'awesome') return 'table-success'
+      }
 
         },
         computed: {
@@ -141,7 +150,7 @@
                 fields: [
                     { key: 'title', label: 'Ticket title', sortable: true, sortDirection: 'desc' },
                     { key: 'description', label: 'Description', sortable: false },
-                    { key: 'project', label: 'Project', sortable: true, sortDirection: 'desc'},
+                    { key: 'project', label: 'Project', sortable: true, sortDirection: 'desc' },
                     { key: 'priority', label: 'Priority', sortable: true, sortDirection: 'desc' },
                     { key: 'status', label: 'Status', sortable: true, sortDirection: 'desc' },
                     { key: 'actions', label: 'Actions' }
@@ -155,9 +164,7 @@
                 sortDesc: false,
                 sortDirection: 'asc',
                 filter: null,
-                ignoreFilterFields: ["id", "createdOn", "completion", "description", "submitter", "assignee", "projectId"],
-
-                projectId: this.$route.params.projectId,
+                ignoreFilterFields: ["id", "createdOn", "completion", "description", "submitter", "assignee", "projectId"]
             }
         },
         watch: {
@@ -172,5 +179,9 @@
 <style>
     .deckel .btn {
         padding: 0;
+    }
+
+    .testolo {
+        background-color: red;
     }
 </style>

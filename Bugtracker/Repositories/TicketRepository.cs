@@ -87,8 +87,8 @@ namespace Bugtracker.Repositories
                     {
                         TicketId = ticketToUpdate.Id,
                         Property = entry.Metadata.Name,
-                        OldValue = entry.OriginalValue.ToString(),
-                        NewValue = entry.CurrentValue.ToString(),
+                        OldValue = entry.OriginalValue != null ? entry.OriginalValue.ToString() : "",
+                        NewValue = entry.CurrentValue != null ? entry.CurrentValue.ToString() : "",
                         Date = DateTime.Now,
                     };
                     _applicationDbContext.Audits.Add(ticketAudit);
