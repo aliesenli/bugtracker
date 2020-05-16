@@ -5,6 +5,7 @@
 #### Simple Project Management tool for tracking bugs/issues in Projects.
 <img src="https://github.com/AliEsenli/bugtracker/blob/master/Bugtracker/ClientApp/public/BT-tickets.png">
 <img src="https://github.com/AliEsenli/bugtracker/blob/master/Bugtracker/ClientApp/public/BT-ticket.png">
+<img src="https://github.com/AliEsenli/bugtracker/blob/master/Bugtracker/ClientApp/public/BT-swagger-api.png">
 
 ### Built with:
 Backend:
@@ -37,7 +38,6 @@ npm install
 ```
 npm run serve
 ```
-
 ### What’s missing?
 Even if the core principe works, this project is not perfectly polished. Here are some missing parts:
   <h6>Overall User Experience</h6>
