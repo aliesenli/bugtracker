@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 
 namespace Bugtracker.Repositories
@@ -24,6 +25,7 @@ namespace Bugtracker.Repositories
                 .Include(t => t.Assignee)
                 .Include(t => t.Submitter)
                 .Include(t => t.Audits)
+                .Include(t => t.Comments)
                 .AsQueryable();
 
             foreach (var item in queryable)
@@ -45,6 +47,7 @@ namespace Bugtracker.Repositories
                 .Include(t => t.Assignee)
                 .Include(t => t.Submitter)
                 .Include(t => t.Audits)
+                .Include(t => t.Comments)
                 .SingleOrDefaultAsync(t => t.Id == ticketId);
 
             queryable.Result.Audits = queryable.Result.Audits

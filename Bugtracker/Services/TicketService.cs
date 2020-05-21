@@ -24,31 +24,31 @@ namespace Bugtracker.Services
 
         public async Task<Ticket> GetByIdAsync(Guid ticketId)
         {
-            var ticket = (await _ticketRepository.GetByIdAsync(ticketId));
+            var ticket = await _ticketRepository.GetByIdAsync(ticketId);
             return ticket;
         }
 
         public async Task<bool> CreateAsync(Ticket ticketToCreate)
         {
-            var ticket = (await _ticketRepository.CreateAsync(ticketToCreate));
+            var ticket = await _ticketRepository.CreateAsync(ticketToCreate);
             return ticket;
         }
 
         public async Task<bool> DeleteAsync(Guid ticketId)
         {
-            var ticket = (await _ticketRepository.DeleteAsync(ticketId));
+            var ticket = await _ticketRepository.DeleteAsync(ticketId);
             return ticket;
         }
 
         public async Task<bool> UpdateAsync(Ticket ticketToUpdate)
         {
-            var ticket = (await _ticketRepository.UpdateAsync(ticketToUpdate));
+            var ticket = await _ticketRepository.UpdateAsync(ticketToUpdate);
             return ticket;
         }
 
         public async Task<List<Ticket>> GetUsersAsync(string userId)
         {
-            var tickets = (await _ticketRepository.GetUsersAsync(userId));
+            var tickets = await _ticketRepository.GetUsersAsync(userId);
             return tickets;
         }
     }
