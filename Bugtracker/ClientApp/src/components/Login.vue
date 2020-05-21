@@ -54,11 +54,11 @@ export default {
         
     methods: {
         login: function () {
-            let email = this.email 
-            let password = this.password
-            this.$store.dispatch('login', { email, password })
+            this.$store.dispatch('login', { 
+                vm : this,
+                payload: { email: this.email, password: this.password} 
+            })
             .then(() => this.$router.push('/'))
-            .catch(err => console.log(err))
         }
     }
 }
