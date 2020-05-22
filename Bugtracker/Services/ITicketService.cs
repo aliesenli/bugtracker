@@ -18,5 +18,9 @@ namespace Bugtracker.Services
         Task<bool> DeleteAsync(Guid ticketId);
 
         Task<List<Ticket>> GetUsersAsync(string userId);
+
+        Task<List<Comment>> GetAllCommentsAsync(Guid ticketId);
+
+        Task<bool> CreateCommentAsync(Comment comment);
     }
 }

@@ -51,5 +51,17 @@ namespace Bugtracker.Services
             var tickets = await _ticketRepository.GetUsersAsync(userId);
             return tickets;
         }
+
+        public async Task<List<Comment>> GetAllCommentsAsync(Guid ticketId)
+        {
+            var comments = await _ticketRepository.GetAllCommentsAsync(ticketId);
+            return comments;
+        }
+
+        public async Task<bool> CreateCommentAsync(Comment comment)
+        {
+            var created = await _ticketRepository.CreateCommentAsync(comment);
+            return created;
+        }
     }
 }

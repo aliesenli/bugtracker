@@ -18,5 +18,9 @@ namespace Bugtracker.Repositories
         Task<bool> UpdateAsync(Ticket ticketToUpdate);
 
         Task<List<Ticket>> GetUsersAsync(string userId);
+
+        Task<List<Comment>> GetAllCommentsAsync(Guid ticketId);
+
+        Task<bool> CreateCommentAsync(Comment comment);
     }
 }
