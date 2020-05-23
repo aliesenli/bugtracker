@@ -12,9 +12,9 @@ namespace Bugtracker.Domain
 
         public string Message { get; set; }
 
-        public IdentityUser Writer { get; set; }
-
         public Ticket Ticket { get; set; }
+
+        public IdentityUser Writer { get; set; }
 
         [ForeignKey(nameof(Writer))]
         public string WriterId { get; set; }

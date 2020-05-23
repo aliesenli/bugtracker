@@ -16,7 +16,7 @@
                             <b-button v-b-modal.modal-assign variant="outline-primary">
                                 <b-icon icon="person-fill"></b-icon> Assign
                             </b-button>
-                            <b-button variant="outline-primary">
+                            <b-button v-b-modal.modal-comment variant="outline-primary">
                                 <b-icon icon="inbox-fill"></b-icon> Comment
                             </b-button>
                         </b-button-group>
@@ -103,6 +103,25 @@
                 </b-modal>
             </div>
 
+            <div>
+                <b-modal id="modal-comment" size="lg" title="Comment" ref="ticket-comment" hide-footer>
+                    <b-form @submit="onPostComment">
+                        <b-form-group
+                        label="Add new Comment to this Ticket"
+                        label-for="Comment"
+                        >
+                            <b-form-textarea
+                            required
+                            id="textarea"
+                            placeholder="Enter your text"
+                            ref="ticket_comment"
+                            ></b-form-textarea>
+                        </b-form-group>    
+                        <b-button type="submit" class="float-right mt-1" variant="primary">Submit</b-button>
+                    </b-form>
+                </b-modal>
+            </div>
+
             <b-row class="mt-4">
                 <b-col cols="12" md="8">
                     <div>
@@ -152,7 +171,17 @@
                                     </b-alert>
                                 </b-tab>
                             
-                            <b-tab title="Comments"><b-alert show><template v-if="getTicket.comments > 0">todo: list comments</template><template v-else>No comments...</template></b-alert></b-tab>
+                            <b-tab title="Comments">
+                                <b-alert show>
+                                <template v-if="getTicket.comments && getTicket.comments.length < 0">todo: list comments</template>
+                                <template v-else>
+                                    <div class="mt-2 mb-2" v-for="comment in getTicket.comments" v-bind:key="comment.id">
+                                        <span class="text-danger">{{ comment.writer }}</span>:  
+                                        <span>{{ comment.message }}</span>
+                                    </div>
+                                </template>
+                                </b-alert>
+                            </b-tab>
                         </b-tabs>
                     </div>
                 </b-col>
@@ -171,7 +200,6 @@
                             <h6 class="mt-3">Submitter:</h6>
                             <b-avatar variant="secondary"></b-avatar> {{ getTicket.submitter }}
                         </div>
-                        
                     </div>
                 </b-col>
             </b-row>
@@ -216,6 +244,15 @@ export default {
                 assigneeId: this.$refs.ticket_assigneeId.localValue     
             });
             this.$refs['assign-ticket'].hide()
+        },
+
+        onPostComment(e) {
+            e.preventDefault()
+            this.$store.dispatch('postComment', {
+                ticketId: this.getTicket.id,
+                message: this.$refs.ticket_comment.localValue
+            })
+            this.$refs['ticket-comment'].hide()
         },
 
         priorityToNumber() {

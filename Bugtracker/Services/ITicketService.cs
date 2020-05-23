@@ -21,6 +21,8 @@ namespace Bugtracker.Services
 
         Task<List<Comment>> GetAllCommentsAsync(Guid ticketId);
 
+        Task<Comment> GetCommentByIdAsync(Guid commentId);
+
         Task<bool> CreateCommentAsync(Comment comment);
     }
 }

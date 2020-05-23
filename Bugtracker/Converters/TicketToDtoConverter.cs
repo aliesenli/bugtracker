@@ -41,6 +41,21 @@ namespace Bugtracker.Converters
                 }
             }
 
+            if (ticket.Comments != null)
+            {
+                foreach (var comment in ticket.Comments)
+                {
+                    var commentDto = new CommentResponse
+                    {
+                        Id = comment.Id,
+                        Message = comment.Message,
+                        Writer = comment.Writer.UserName
+                    };
+
+                    ticketDto.Comments.Add(commentDto);
+                }
+            }
+
             return ticketDto;
         }
 

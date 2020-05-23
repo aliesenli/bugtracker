@@ -148,7 +148,6 @@ namespace Bugtracker.Controllers
         public async Task<IActionResult> GetAllCommentsOfTicket([FromRoute] Guid ticketId)
         {
             var comments = await _ticketService.GetAllCommentsAsync(ticketId);
-            //var commentsDto = _commentToDtoListConverter.Convert(comments);
 
             return Ok(comments);
         }
@@ -168,7 +167,10 @@ namespace Bugtracker.Controllers
 
             var created = await _ticketService.CreateCommentAsync(comment);
             if (created)
-                return Ok();
+            {
+                var newComment = await _ticketService.GetCommentByIdAsync(comment.Id);
+                return Ok(newComment);
+            }
 
             return NotFound();
         }

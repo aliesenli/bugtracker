@@ -121,6 +121,11 @@ namespace Bugtracker.Repositories
             return await queryable.ToListAsync();
         }
 
+        public async Task<Comment> GetCommentByIdAsync(Guid commentId)
+        {
+            return await _applicationDbContext.Comments.SingleOrDefaultAsync(c => c.Id == commentId);
+        }
+
         public async Task<bool> CreateCommentAsync(Comment comment)
         {
             await _applicationDbContext.Comments.AddAsync(comment);
@@ -128,5 +133,6 @@ namespace Bugtracker.Repositories
             var created = await _applicationDbContext.SaveChangesAsync();
             return created > 0;
         }
+
     }
 }

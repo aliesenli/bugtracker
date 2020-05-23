@@ -58,10 +58,17 @@ namespace Bugtracker.Services
             return comments;
         }
 
+        public async Task<Comment> GetCommentByIdAsync(Guid commentId)
+        {
+            var comment = await _ticketRepository.GetCommentByIdAsync(commentId);
+            return comment;
+        }
+
         public async Task<bool> CreateCommentAsync(Comment comment)
         {
             var created = await _ticketRepository.CreateCommentAsync(comment);
             return created;
         }
+
     }
 }

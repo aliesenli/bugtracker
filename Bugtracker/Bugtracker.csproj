@@ -14,6 +14,16 @@
     <Compile Remove="Data\Migrations\20200317151450_init2.Designer.cs" />
     <Compile Remove="Data\Migrations\20200511215551_Update-ticket-model.cs" />
     <Compile Remove="Data\Migrations\20200511215551_Update-ticket-model.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200522222801_comment_model_changes.cs" />
+    <Compile Remove="Data\Migrations\20200522222801_comment_model_changes.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200522223350_comment_model_changes.cs" />
+    <Compile Remove="Data\Migrations\20200522223350_comment_model_changes.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200522223851_comment_model_change.cs" />
+    <Compile Remove="Data\Migrations\20200522223851_comment_model_change.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200522224204_comment_model_change.cs" />
+    <Compile Remove="Data\Migrations\20200522224204_comment_model_change.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200522224826_comment_model_changes.cs" />
+    <Compile Remove="Data\Migrations\20200522224826_comment_model_changes.Designer.cs" />
   </ItemGroup>
 
 
