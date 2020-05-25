@@ -29,12 +29,24 @@ const actions = {
         },
         {
             headers: {
-                "Authorization": "bearer "+ localStorage.getItem('access_token') 
+                "Authorization": "bearer " + localStorage.getItem('access_token') 
             }
         });
   
         commit('updateTicket', response.data)
     },
+
+    async postComment({commit}, payload) {
+        const response = await axios.post(`https://localhost:5001/api/tickets/${payload.ticketId}/comments/create`, {
+            message: payload.message
+        },
+        {
+            headers: {
+                "Authorization": "bearer " + localStorage.getItem('access_token')
+            }
+        });
+        commit('setComment', response.data)
+    }
 };
 
 const mutations = {
@@ -46,7 +58,8 @@ const mutations = {
         state.ticket.status = data.status,
         state.ticket.priority = data.priority,
         state.ticket.assignee = data.assignee
-    }
+    },
+    setComment: (state, comment) => state.ticket.comments.unshift(comment)
 };
 
 export default ({

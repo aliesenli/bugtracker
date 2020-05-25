@@ -28,5 +28,7 @@ namespace Bugtracker.Contracts.Responses
         public string Status { get; set; }
 
         public ICollection<AuditResponse> Audits { get; set; } = new HashSet<AuditResponse>();
+
+        public ICollection<CommentResponse> Comments { get; set; } = new HashSet<CommentResponse>();
     }
 }

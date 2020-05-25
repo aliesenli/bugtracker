@@ -143,5 +143,36 @@ namespace Bugtracker.Controllers
 
             return NotFound();
         }
+
+        [HttpGet("api/tickets/{ticketId}/comments")]
+        public async Task<IActionResult> GetAllCommentsOfTicket([FromRoute] Guid ticketId)
+        {
+            var comments = await _ticketService.GetAllCommentsAsync(ticketId);
+
+            return Ok(comments);
+        }
+
+        [HttpPost("api/tickets/{ticketId}/comments/create")]
+        public async Task<IActionResult> Create([FromRoute] Guid ticketId, [FromBody] CreateCommentRequest request)
+        {
+            var newCommentId = Guid.NewGuid();
+
+            var comment = new Comment
+            {
+                Id = newCommentId,
+                Message = request.Message,
+                TicketId = ticketId,
+                WriterId = HttpContext.GetUserId()
+            };
+
+            var created = await _ticketService.CreateCommentAsync(comment);
+            if (created)
+            {
+                var newComment = await _ticketService.GetCommentByIdAsync(comment.Id);
+                return Ok(newComment);
+            }
+
+            return NotFound();
+        }
     }
 }
