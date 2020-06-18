@@ -25,7 +25,7 @@
                                     </b-form-input>
                                     <b-button type="submit" variant="primary" class="w-100 mt-3">Register now</b-button>
                                 </b-form>
-                                <div class="mt-2"><b-link to="login">Already have an Account?</b-link></div>
+                                <div class="mt-3 text-center"><b-link to="login">Already have an Account?</b-link></div>
                             </b-card>
                         </b-overlay>
                     </b-col>

@@ -5,7 +5,7 @@
                 <b-row class="justify-content-md-center">
                     <b-col cols="12" md="5">
                         <b-overlay :show="this.loading" rounded="sm">
-                            <b-card title="Login" :aria-hidden="show ? 'true' : null">
+                            <b-card title="Log in to your Account" :aria-hidden="show ? 'true' : null">
                                 <b-form @submit.prevent="login" class="mt-4">
                                     <b-form-input
                                     class="mt-2"
@@ -25,7 +25,7 @@
                                     </b-form-input>
                                     <b-button type="submit" variant="primary" class="w-100 mt-3">Sign In</b-button>
                                 </b-form>
-                                <div class="mt-2"><b-link to="register">Don't have an Account?</b-link></div>
+                                <div class="mt-3 text-center"><b-link to="register">Don't have an Account?</b-link></div>
                             </b-card>
                         </b-overlay>
                     </b-col>
