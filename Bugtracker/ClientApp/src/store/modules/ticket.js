@@ -1,4 +1,5 @@
 import axios from 'axios'
+const BASE_URL = process.env.VUE_APP_BASEURL
 
 const state = {
     ticket: {}
@@ -10,17 +11,16 @@ const getters = {
 
 const actions = {
     async fetchTicket({ commit }, payload) {
-        const response = await axios(`https://localhost:5001/api/tickets/${payload}`, {
+        const response = await axios(BASE_URL + `/api/tickets/${payload}`, {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('access_token')
             }
         });
-        
         commit('setTicket', response.data)
     },
 
     async editTicket({ commit }, payload) {
-        const response = await axios.put(`https://localhost:5001/api/tickets/${payload.ticketId}`, {
+        const response = await axios.put(BASE_URL + `/api/tickets/${payload.ticketId}`, {
             title: payload.title,
             description: payload.description,
             priority: payload.priority,
@@ -32,12 +32,11 @@ const actions = {
                 "Authorization": "bearer " + localStorage.getItem('access_token') 
             }
         });
-  
         commit('updateTicket', response.data)
     },
 
     async postComment({commit}, payload) {
-        const response = await axios.post(`https://localhost:5001/api/tickets/${payload.ticketId}/comments/create`, {
+        const response = await axios.post(BASE_URL + `/api/tickets/${payload.ticketId}/comments/create`, {
             message: payload.message
         },
         {
@@ -57,7 +56,8 @@ const mutations = {
         state.ticket.updatedOn = data.updatedOn,
         state.ticket.status = data.status,
         state.ticket.priority = data.priority,
-        state.ticket.assignee = data.assignee
+        state.ticket.assignee = data.assignee,
+        state.ticket.audits = data.audits
     },
     setComment: (state, comment) => state.ticket.comments.unshift(comment)
 };

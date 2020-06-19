@@ -1,4 +1,5 @@
 import axios from 'axios'
+const BASE_URL = process.env.VUE_APP_BASEURL
 
 const state = {
     projects: []
@@ -10,7 +11,7 @@ const getters = {
 
 const actions = {
     async fetchProjects({ commit }) {
-        const response = await axios('https://localhost:5001/api/projects', {
+        const response = await axios(BASE_URL + '/api/projects', {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('access_token')
             }
@@ -20,7 +21,7 @@ const actions = {
     },
 
     async createProject({ commit }, payload) {
-        const response = await axios.post('https://localhost:5001/api/projects/create', 
+        const response = await axios.post(BASE_URL + '/api/projects/create', 
         { 
             name: payload.name, 
             description: payload.description, 

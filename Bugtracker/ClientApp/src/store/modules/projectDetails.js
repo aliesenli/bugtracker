@@ -1,4 +1,5 @@
 import axios from 'axios'
+const BASE_URL = process.env.VUE_APP_BASEURL
 
 const state = {
     projectName: "",
@@ -22,7 +23,7 @@ const getters = {
 
 const actions = {
     async fetchProjectTickets({ commit }, test) {
-        const response = await axios(`https://localhost:5001/api/projects/${test}`, {
+        const response = await axios(BASE_URL + `/api/projects/${test}`, {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
@@ -35,7 +36,7 @@ const actions = {
 
 
     async createTicket({ commit }, payload ) {
-        const response = await axios.post('https://localhost:5001/api/tickets/create', { 
+        const response = await axios.post(BASE_URL + '/api/tickets/create', { 
             title: payload.title,
             description: payload.description,
             priority: payload.priority, 
@@ -54,14 +55,13 @@ const actions = {
     },
 
     async deleteTicket({ commit }, ticketId) {
-        const respone = await axios.delete(`https://localhost:5001/api/tickets${ticketId}`);
-        console.log(respone.data);
+        await axios.delete(BASE_URL + `/api/tickets${ticketId}`);
         
         commit('deleteTicket', ticketId);
     },
 
     async editProject({ commit }, payload) {
-        const response = await axios.put(`https://localhost:5001/api/projects/${payload.projectId}`, 
+        const response = await axios.put(BASE_URL + `/api/projects/${payload.projectId}`, 
         {
             name: payload.projectName,
             description: payload.projectDescription
@@ -78,7 +78,7 @@ const actions = {
     },
 
     async fetchStaffs({commit}) {
-        const response = await axios('https://localhost:5001/api/users', {
+        const response = await axios(BASE_URL + '/api/users', {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",

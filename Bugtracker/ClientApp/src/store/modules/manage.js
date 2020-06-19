@@ -1,4 +1,5 @@
 import axios from 'axios'
+const BASE_URL = process.env.VUE_APP_BASEURL
 
 const state = {
     tableStaffs: []
@@ -10,7 +11,7 @@ const getters = {
 
 const actions = {
     async fetchTableStaffs({commit}) {
-        const response = await axios('https://localhost:5001/api/users', {
+        const response = await axios(BASE_URL + '/api/users', {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('access_token')
             }
@@ -20,7 +21,7 @@ const actions = {
     },
 
     async assignRole({commit}, payload) {
-        const response = await axios.post('https://localhost:5001/api/users/role', 
+        const response = await axios.post(BASE_URL + '/api/users/role', 
         {
             user: payload.user,
             role: payload.role
