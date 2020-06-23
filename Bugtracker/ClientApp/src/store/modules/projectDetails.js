@@ -31,6 +31,7 @@ const actions = {
             }
         });
 
+        console.log(response.data)
         commit('setProjectDetails', response.data)
     },
 
@@ -96,7 +97,7 @@ const mutations = {
         state.projectName = data.name,
         state.projectDescription = data.description,
         state.projectCreatedOn = data.createdOn,
-        state.projectCompletion = data.compleation,
+        state.projectCompletion = data.completion,
         state.projectTickets = data.tickets
     },
     editProject: (state, data) => {
