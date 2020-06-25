@@ -170,8 +170,10 @@ export default {
             this.createProject({
                 name: this.projectName,
                 description: this.projectDescription,
-                completions: this.completionDate
+                completion: this.completionDate
             });
+
+
             
             this.$refs['new-project'].hide()
         }
