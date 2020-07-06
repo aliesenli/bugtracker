@@ -27,11 +27,9 @@ const actions = {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
-                "cache-control": "no-cache"
             }
         });
 
-        console.log(response.data)
         commit('setProjectDetails', response.data)
     },
 
@@ -48,7 +46,6 @@ const actions = {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
-                "cache-control": "no-cache"
             },
         });
  
@@ -71,7 +68,6 @@ const actions = {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
-                "cache-control": "no-cache"
             }
         });
         
@@ -83,7 +79,6 @@ const actions = {
             headers: {
                 "Authorization": "bearer "+ localStorage.getItem('token') ,
                 "Accept": "application/json",
-                "cache-control": "no-cache"
             }
         });
 

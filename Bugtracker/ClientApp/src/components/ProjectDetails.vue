@@ -47,7 +47,7 @@
         </b-row>
 
         <b-row class="mt-4">
-            <b-col cols="12" md="8">
+            <b-col cols="12" md="6">
                 <div>
                     <div class="mytextdiv">
                         <div class="mytexttitle">
@@ -78,7 +78,7 @@
                 </div>
             </b-col>
             
-            <b-col cols="6" md="4">
+            <b-col>
                 <div>
                     <div class="mytextdiv">
                         <div class="mytexttitle">
@@ -94,6 +94,7 @@
                 </div>
             </b-col>
         </b-row>
+
     </div>
 </template>
 

@@ -56,7 +56,7 @@
                     >
                         <b-form-select v-model="assigneeId" :options="staffs" class="mb-1" id="assign-1">
                             <template v-slot:first>
-                                <b-form-select-option :value="null" disabled>-- Assign To --</b-form-select-option>
+                                <b-form-select-option :value="null" disabled>-- Please select someone --</b-form-select-option>
                             </template>
                         </b-form-select>
                     </b-form-group>
@@ -145,10 +145,14 @@
                 </template>
 
                 <template v-slot:cell(actions)="row">
-                    <b-button size="sm" @click="info(row.item)" class="mr-1">
-                    Details
-                    </b-button>                    
+                    <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret class="deckel">
+                        <template v-slot:button-content>
+                            <b-icon icon="grid3x2-gap"></b-icon><span class="sr-only">Search</span>
+                        </template>
+                        <b-dropdown-item @click="info(row.item)">Details</b-dropdown-item>
+                    </b-dropdown>           
                 </template>
+
             </b-table> 
 
             <b-row>

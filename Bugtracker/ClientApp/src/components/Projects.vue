@@ -124,9 +124,12 @@
                 </template>
 
                 <template v-slot:cell(actions)="row">
-                    <b-button size="sm" @click="info(row.item)" class="mr-1">
-                    Details 
-                    </b-button>                    
+                    <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret class="deckel">
+                        <template v-slot:button-content>
+                            <b-icon icon="grid3x2-gap"></b-icon><span class="sr-only">Search</span>
+                        </template>
+                        <b-dropdown-item @click="info(row.item)">Details</b-dropdown-item>
+                    </b-dropdown>           
                 </template>
             </b-table> 
 
@@ -172,9 +175,6 @@ export default {
                 description: this.projectDescription,
                 completion: this.completionDate
             });
-
-
-            
             this.$refs['new-project'].hide()
         }
     },
