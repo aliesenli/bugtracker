@@ -4,27 +4,25 @@
             <b-container class="bv-example-row">
                 <b-row class="justify-content-md-center">
                     <b-col cols="12" md="5">
+                        <div class="text-center">
+                            <img src="../../public/logo.png" class="rounded" width="50">
+                        </div>
+                        <h2 class="text-light text-center mb-4">Create a new Account</h2>
                         <b-overlay :show="this.loading" rounded="sm">
-                            <b-card title="Create new Account" :aria-hidden="show ? 'true' : null">
-                                <b-form @submit.prevent="register" class="mt-4">
-                                    <b-form-input
-                                    class="mt-2"
-                                    v-model="email"
-                                    type="email"
-                                    required
-                                    placeholder="Email"
-                                    >
-                                    </b-form-input>
-                                    <b-form-input
-                                    class="mt-2"
-                                    type="password"
-                                    v-model="password"
-                                    required
-                                    placeholder="Password"
-                                    >
-                                    </b-form-input>
+                            <b-card :aria-hidden="show ? 'true' : null">
+
+                                <b-form @submit.prevent="register">
+                                    <b-form-group id="email-group" class="mt-2" label-for="email-input" label="Email">
+                                        <b-form-input id="email-input" type="email" v-model="email" required></b-form-input>
+                                    </b-form-group>
+
+                                    <b-form-group id="password-group" class="mt-2" label-for="password-input" label="Password">
+                                        <b-form-input id="password-input" type="password" v-model="password" required></b-form-input>
+                                    </b-form-group>
+
                                     <b-button type="submit" variant="primary" class="w-100 mt-3">Register now</b-button>
                                 </b-form>
+
                                 <div class="mt-3 text-center"><b-link to="login">Already have an Account?</b-link></div>
                             </b-card>
                         </b-overlay>
@@ -43,7 +41,6 @@ import { mapState } from 'vuex'
             return {
                 email : "",
                 password : "",
-                is_admin : null,
                 show: false
             }
         },
