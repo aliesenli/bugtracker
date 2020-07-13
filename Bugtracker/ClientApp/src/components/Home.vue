@@ -82,7 +82,7 @@
                     </div>
                 </template>
 
-                <template v-slot:cell(actions)="row" class="gully">
+                <template v-slot:cell(actions)="row">
                     <b-dropdown size="lg"  variant="link" toggle-class="text-decoration-none" no-caret class="deckel">
                         <template v-slot:button-content>
                             <b-icon icon="grid3x2-gap"></b-icon><span class="sr-only">Search</span>
