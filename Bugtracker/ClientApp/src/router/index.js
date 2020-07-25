@@ -23,22 +23,34 @@ const routes = [
   {
     path: '/projects',
     name: 'Projects',
-    component: Projects
+    component: Projects,
+    meta: {
+      requiresAuth: true
+    }
   },
   { 
     path: '/project/:projectId',
     name: 'Project',
-    component: Project
+    component: Project,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/ticket/:ticketId',
     name: 'Ticket',
-    component: Ticket
+    component: Ticket,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/manage-roles',
     name: 'Manage',
-    component: Manage
+    component: Manage,
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: '/login',

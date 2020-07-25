@@ -20,7 +20,7 @@
                                 type="text"
                                 required
                                 ref="project_name"
-                                :value="projectName"
+                                :value="projectDetails.name"
                                 ></b-form-input>
                             </b-form-group>
 
@@ -34,7 +34,7 @@
                                 type="text"
                                 required
                                 ref="project_description"
-                                :value="projectDescription"
+                                :value="projectDetails.description"
                                 ></b-form-textarea>
                             </b-form-group>
 
@@ -58,7 +58,7 @@
                     <div class="p-2">
                         <b-row>
                             <b-col cols="6" md="6">
-                                <p>Name: {{ projectName }}</p>
+                                <p>Name: {{ projectDetails.name }}</p>
                             </b-col>
                             <b-col cols="6" md="6">
 
@@ -73,7 +73,7 @@
                         <div class="divider"></div>
                     </div>
                     <div class="p-2">
-                        {{ projectDescription }}
+                        {{ projectDetails.description }}
                     </div>
                 </div>
             </b-col>
@@ -87,8 +87,8 @@
                         <div class="divider"></div>
                     </div>
                     <div class="p-2">
-                        <p>Created: {{ projectCreatedOn }}</p>
-                        <p>Completion: {{ projectCompletion }}</p>
+                        <p>Created: {{ projectDetails.createdOn }}</p>
+                        <p>Completion: {{ projectDetails.completion }}</p>
                     </div>
                     
                 </div>
@@ -116,10 +116,7 @@
         },
         computed: {
             ...mapGetters([
-                'projectName',
-                'projectDescription',
-                'projectCreatedOn',
-                'projectCompletion',
+                'projectDetails',
             ]),      
         },
         data() {

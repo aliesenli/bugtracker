@@ -2,20 +2,12 @@ import axios from 'axios'
 const BASE_URL = process.env.VUE_APP_BASEURL
 
 const state = {
-    projectName: "",
-    projectDescription: "",
-    projectCreatedOn: "",
-    projectCompletion: "",
     projectTickets: [],
     projectDetails: {},
     staffs: []
 };
 
 const getters = {
-    projectName: (state) => state.projectName,
-    projectDescription: (state) => state.projectDescription,
-    projectCreatedOn: (state) => state.projectCreatedOn,
-    projectCompletion: (state) => state.projectCompletion,
     projectTickets: (state) => state.projectTickets,
     projectDetails: (state) => state.projectDetails,
     staffs: (state) => state.staffs
@@ -29,27 +21,30 @@ const actions = {
                 "Accept": "application/json",
             }
         });
-
         commit('setProjectDetails', response.data)
     },
 
-
-    async createTicket({ commit }, payload ) {
-        const response = await axios.post(BASE_URL + '/api/tickets/create', { 
-            title: payload.title,
-            description: payload.description,
-            priority: payload.priority, 
-            assigneeId: payload.assigneeId, 
-            projectId: payload.projectId 
-        },
-        {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('token') ,
-                "Accept": "application/json",
-            },
-        });
- 
-        commit('addTicket', response.data);
+    createTicket({commit}, {vm ,payload}){
+        return new Promise((resolve, reject) => {
+            axios.post(BASE_URL + `/api/tickets/create`, {
+                title: payload.title, 
+                description: payload.description, 
+                priority: payload.priority, 
+                assigneeId: payload.assigneeId, 
+                projectId: payload.projectId 
+            })
+            .then(response => {
+                commit('addTicket', response.data);
+                resolve(response)
+            })
+            .catch(error => {
+                vm.$bvToast.toast(`${error.response.data.errors}`, {
+                    title : 'No Permisson',
+                    variant : 'danger'
+                })
+                reject(error)
+            })
+        })
     },
 
     async deleteTicket({ commit }, ticketId) {
@@ -89,10 +84,7 @@ const actions = {
 
 const mutations = {
     setProjectDetails: (state, data) => { 
-        state.projectName = data.name,
-        state.projectDescription = data.description,
-        state.projectCreatedOn = data.createdOn,
-        state.projectCompletion = data.completion,
+        state.projectDetails = { name: data.name, description: data.description, createdOn: data.createdOn, completion: data.completion }
         state.projectTickets = data.tickets
     },
     editProject: (state, data) => {
