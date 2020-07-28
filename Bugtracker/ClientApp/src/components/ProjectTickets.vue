@@ -186,11 +186,14 @@
             onCreateTicket(e) {
                 e.preventDefault()
                 this.$store.dispatch('createTicket', {
-                    title: this.ticketTitle,
-                    description: this.ticketDescription,
-                    priority: this.priority,
-                    assigneeId: this.assigneeId,
-                    projectId: this.projectId
+                    vm: this,
+                    payload: {
+                        title: this.ticketTitle,
+                        description: this.ticketDescription,
+                        priority: this.priority,
+                        assigneeId: this.assigneeId,
+                        projectId: this.projectId
+                    }
                 })
                 this.$refs['new-ticket'].hide()
             },

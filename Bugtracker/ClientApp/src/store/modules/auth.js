@@ -63,15 +63,15 @@ const actions = {
             })
         })
     },
-      logout({commit}){
+    logout({commit}){
         return new Promise((resolve) => {
-              commit('logout')
-              localStorage.removeItem('access_token')
-              localStorage.removeItem('refresh_token')
-              delete axios.defaults.headers.common['Authorization']
-              resolve()
+            commit('logout')
+            localStorage.removeItem('access_token')
+            localStorage.removeItem('refresh_token')
+            delete axios.defaults.headers.common['Authorization']
+            resolve()
         })
-      }
+    }
 };
 
 const mutations = {
