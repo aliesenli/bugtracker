@@ -34,6 +34,7 @@ namespace Bugtracker.Repositories
                     .OrderByDescending(a => a.Date.Date)
                     .ThenByDescending(a => a.Date.Hour)
                     .ThenByDescending(a => a.Date.Minute)
+                    .ThenByDescending(a => a.Date.Second)
                     .ToList();
             }
 
@@ -53,6 +54,8 @@ namespace Bugtracker.Repositories
             queryable.Result.Audits = queryable.Result.Audits
                 .OrderByDescending(a => a.Date.Date)
                 .ThenByDescending(a => a.Date.Hour)
+                .ThenByDescending(a => a.Date.Minute)
+                .ThenByDescending(a => a.Date.Second)
                 .ToList();
 
             return await queryable;
