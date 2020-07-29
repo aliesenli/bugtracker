@@ -38,8 +38,8 @@ const actions = {
                 resolve(response)
             })
             .catch(error => {
-                vm.$bvToast.toast(`${error.response.data.errors}`, {
-                    title : 'No Permisson',
+                vm.$bvToast.toast(`insufficient permissions`, {
+                    title : 'Ticket not created',
                     variant : 'danger'
                 })
                 reject(error)

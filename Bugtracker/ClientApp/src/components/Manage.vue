@@ -14,7 +14,6 @@
                         <b-form-select-option :value="null" disabled>-- Please select a role --</b-form-select-option>
                     </template>
                   </b-form-select>
-
               </div>
               <div>
                   <b-button variant="primary" class="w-100" @click="assignUserRole">Submit</b-button>
@@ -103,9 +102,3 @@ import { mapGetters, mapActions } from 'vuex'
   }
 </script>
 
-<style scoped>
-  .vl {
-    border-left: 1px solid rgb(199, 199, 199);
-    height: 500px;
-  }
-</style>

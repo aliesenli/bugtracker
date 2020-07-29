@@ -42,7 +42,7 @@ const mutations = {
         state.tableStaffs = staffs
     },
     updateTable: (state, staff) => {
-       state.tableStaffs.find(element => element.staffId == staff.staffId).role = staff.role
+       state.tableStaffs.find(element => element.userId == staff.userId).role = staff.role
     }
 };
 
