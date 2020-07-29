@@ -20,14 +20,14 @@ const actions = {
             email: payload.email,
             password: payload.password
             })
-            .then(resp => {
-                const access_token = resp.data.token
-                const refresh_token = resp.data.refreshToken
+            .then(response => {
+                const access_token = response.data.token
+                const refresh_token = response.data.refreshToken
                 localStorage.setItem('access_token', access_token);
                 localStorage.setItem('refresh_token', refresh_token);
                 axios.defaults.headers.common['Authorization'] = access_token
                 commit('auth_success', access_token, payload)
-                resolve(resp)
+                resolve(response)
             })
             .catch(error => {
                 vm.$bvToast.toast(`${error.response.data.errors}`, {
@@ -47,19 +47,19 @@ const actions = {
                 email: user.email,
                 password: user.password
             })
-            .then(resp => {
-                const token = resp.data.token
-                const refreshToken = resp.data.refreshToken
+            .then(response => {
+                const token = response.data.token
+                const refreshToken = response.data.refreshToken
                 localStorage.setItem('access_token', token)
                 localStorage.setItem('refresh_token', refreshToken);
                 axios.defaults.headers.common['Authorization'] = token
                 commit('auth_success', token, user)
-                resolve(resp)
+                resolve(response)
             })
-            .catch(err => {
-                commit('auth_error', err)
+            .catch(error => {
+                commit('auth_error', error)
                 localStorage.removeItem('access_token')
-                reject(err)
+                reject(error)
             })
         })
     },

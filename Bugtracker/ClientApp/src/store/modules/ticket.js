@@ -11,11 +11,7 @@ const getters = {
 
 const actions = {
     async fetchTicket({ commit }, payload) {
-        const response = await axios(BASE_URL + `/api/tickets/${payload}`, {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('access_token')
-            }
-        });
+        const response = await axios(BASE_URL + `/api/tickets/${payload}`);
         commit('setTicket', response.data)
     },
 
@@ -26,11 +22,6 @@ const actions = {
             priority: payload.priority,
             status: payload.status,
             assigneeId: payload.assigneeId
-        },
-        {
-            headers: {
-                "Authorization": "bearer " + localStorage.getItem('access_token') 
-            }
         });
         commit('updateTicket', response.data)
     },
@@ -38,11 +29,6 @@ const actions = {
     async postComment({commit}, payload) {
         const response = await axios.post(BASE_URL + `/api/tickets/${payload.ticketId}/comments/create`, {
             message: payload.message
-        },
-        {
-            headers: {
-                "Authorization": "bearer " + localStorage.getItem('access_token')
-            }
         });
         commit('setComment', response.data)
     }

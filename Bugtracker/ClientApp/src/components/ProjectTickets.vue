@@ -8,7 +8,7 @@
             </b-button>
 
             <b-modal id="modal-footer-sm" size="lg" title="Create New Ticket"  ref="new-ticket" hide-footer>
-                <b-form @submit="onCreateTicket">
+                <b-form @submit.prevent="onCreateTicket">
                     <b-form-group
                     class="mb-2"
                     label="Title"
@@ -183,8 +183,7 @@
                 'fetchStaffs'
             ]), 
 
-            onCreateTicket(e) {
-                e.preventDefault()
+            onCreateTicket() {
                 this.$store.dispatch('createTicket', {
                     vm: this,
                     payload: {
