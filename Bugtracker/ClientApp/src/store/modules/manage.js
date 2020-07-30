@@ -11,12 +11,7 @@ const getters = {
 
 const actions = {
     async fetchTableStaffs({commit}) {
-        const response = await axios(BASE_URL + '/api/users', {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('access_token')
-            }
-        });
-
+        const response = await axios(BASE_URL + '/api/users');
         commit('setTableStaffs', response.data);
     },
 
@@ -25,13 +20,7 @@ const actions = {
         {
             user: payload.user,
             role: payload.role
-        }, 
-        {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('access_token')
-            }
         });
-
         commit('updateTable', response.data);
     }
 
@@ -42,7 +31,7 @@ const mutations = {
         state.tableStaffs = staffs
     },
     updateTable: (state, staff) => {
-       state.tableStaffs.find(element => element.staffId == staff.staffId).role = staff.role
+       state.tableStaffs.find(element => element.userId == staff.userId).role = staff.role
     }
 };
 

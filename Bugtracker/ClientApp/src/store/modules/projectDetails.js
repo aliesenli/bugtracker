@@ -14,13 +14,8 @@ const getters = {
 };
 
 const actions = {
-    async fetchProjectTickets({ commit }, test) {
-        const response = await axios(BASE_URL + `/api/projects/${test}`, {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('token') ,
-                "Accept": "application/json",
-            }
-        });
+    async fetchProjectTickets({ commit }, projectId) {
+        const response = await axios(BASE_URL + `/api/projects/${projectId}`);
         commit('setProjectDetails', response.data)
     },
 
@@ -38,8 +33,8 @@ const actions = {
                 resolve(response)
             })
             .catch(error => {
-                vm.$bvToast.toast(`${error.response.data.errors}`, {
-                    title : 'No Permisson',
+                vm.$bvToast.toast(`insufficient permissions`, {
+                    title : 'Ticket not created',
                     variant : 'danger'
                 })
                 reject(error)
@@ -49,7 +44,6 @@ const actions = {
 
     async deleteTicket({ commit }, ticketId) {
         await axios.delete(BASE_URL + `/api/tickets${ticketId}`);
-        
         commit('deleteTicket', ticketId);
     },
 
@@ -58,25 +52,12 @@ const actions = {
         {
             name: payload.projectName,
             description: payload.projectDescription
-        }, 
-        {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('token') ,
-                "Accept": "application/json",
-            }
         });
-        
         commit('editProject', response.data);
     },
 
     async fetchStaffs({commit}) {
-        const response = await axios(BASE_URL + '/api/users', {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('token') ,
-                "Accept": "application/json",
-            }
-        });
-
+        const response = await axios(BASE_URL + '/api/users');
         commit('setStaffs', response.data);
     }
 

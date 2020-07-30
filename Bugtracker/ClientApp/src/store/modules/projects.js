@@ -11,29 +11,36 @@ const getters = {
 
 const actions = {
     async fetchProjects({ commit }) {
-        const response = await axios(BASE_URL + '/api/projects', {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('access_token')
-            }
-        });
-        
-        commit('setProjects', response.data);
+        return new Promise((resolve, reject) => {
+            axios.get(BASE_URL + '/api/projects')
+            .then(response => {
+                commit('setProjects', response.data)
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
+        })
     },
 
-    async createProject({ commit }, payload) {
-        const response = await axios.post(BASE_URL + '/api/projects/create', 
-        { 
-            name: payload.name, 
-            description: payload.description, 
-            completion: payload.completion
-        },
-        {
-            headers: {
-                "Authorization": "bearer "+ localStorage.getItem('access_token')
-            }
-        });
-
-        commit('addProject', response.data);
+    async createProject({ commit }, {vm, payload}) {
+        return new Promise((resolve, reject) => {
+            axios.post(BASE_URL + `/api/projects/create`, {
+                name: payload.name, 
+                description: payload.description, 
+                completion: payload.completion
+            })
+            .then(response => {
+                commit('addProject', response.data);
+                resolve(response)
+            })
+            .catch(error => {
+                vm.$bvToast.toast(`insufficient permissions`, {
+                    title : 'Project not created',
+                    variant : 'danger'
+                })
+                reject(error)
+            })
+        })
     }
 };
 

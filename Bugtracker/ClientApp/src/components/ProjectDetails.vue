@@ -9,7 +9,7 @@
                     </b-button>
 
                     <b-modal id="modal-edit-footer-sm" size="lg" title="Edit Project" ref="edit-project" hide-footer>
-                        <b-form @submit="onEditProject">
+                        <b-form @submit.prevent="onEditProject">
                             <b-form-group
                             class="mb-2"
                             label="Title"
@@ -60,9 +60,6 @@
                             <b-col cols="6" md="6">
                                 <p>Name: {{ projectDetails.name }}</p>
                             </b-col>
-                            <b-col cols="6" md="6">
-
-                            </b-col>
                         </b-row>
                     </div>
 
@@ -90,7 +87,6 @@
                         <p>Created: {{ projectDetails.createdOn }}</p>
                         <p>Completion: {{ projectDetails.completion }}</p>
                     </div>
-                    
                 </div>
             </b-col>
         </b-row>
@@ -104,8 +100,7 @@
     export default {
         name: 'ProjectDetail',
         methods: {
-            onEditProject(e) {
-                e.preventDefault();
+            onEditProject() {
                 this.$store.dispatch('editProject', {
                     projectId: this.$route.params.projectId,
                     projectName: this.$refs.project_name.localValue,
@@ -118,11 +113,6 @@
             ...mapGetters([
                 'projectDetails',
             ]),      
-        },
-        data() {
-            return {
-
-            }
         },
     }
 </script>

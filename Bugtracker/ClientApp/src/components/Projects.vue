@@ -6,7 +6,7 @@
             </b-button>
 
             <b-modal id="modal-footer-sm" size="lg" title="Create New Project" ref="new-project" hide-footer>
-                <b-form @submit="onSubmit">
+                <b-form @submit.prevent="onCreateProject">
                     <b-form-group
                     class="mb-2"
                     id="input-group-1"
@@ -168,12 +168,14 @@ export default {
             this.$router.push({ name: 'Project', params: { projectId: item.id }})
         },
 
-        onSubmit(e) {
-            e.preventDefault();
+        onCreateProject() {
             this.createProject({
-                name: this.projectName,
-                description: this.projectDescription,
-                completion: this.completionDate
+                vm: this,
+                payload: {
+                    name: this.projectName,
+                    description: this.projectDescription,
+                    completion: this.completionDate
+                }
             });
             this.$refs['new-project'].hide()
         }
