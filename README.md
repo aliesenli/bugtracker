@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/alirizaesenli/Bugtracker/_apis/build/status/AliEsenli.Bugtracker?branchName=master)](https://dev.azure.com/alirizaesenli/Bugtracker/_build/latest?definitionId=1&branchName=master)
+
 <img align="left" width="40" height="40" src="https://github.com/AliEsenli/bugtracker/blob/master/Bugtracker/ClientApp/public/logo.png" alt="Bugtracker icon">
 
 # Bugtracker
