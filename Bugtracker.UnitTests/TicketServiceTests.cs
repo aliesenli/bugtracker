@@ -5,6 +5,8 @@ using Moq;
 using Bugtracker.Repositories;
 using Bugtracker.Services;
 using Bugtracker.Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bugtracker.UnitTests
 {
@@ -143,6 +145,52 @@ namespace Bugtracker.UnitTests
             Assert.Equal(comment.Message, commentResponse.Message);
             Assert.Equal(comment.TicketId, commentResponse.TicketId);
             Assert.Equal(comment.WriterId, commentResponse.WriterId);
+        }
+
+        [Fact]
+        public async Task GetAllAsync_ShouldReturnList_WhenTicketsExists()
+        {
+            // Arrange
+            List<Ticket> allTickets = new List<Ticket>();
+
+            var id = Guid.NewGuid();
+            var title = "MoqTest";
+            var priority = Priority.High;
+            var status = Status.Open;
+            var ticket = new Ticket
+            {
+                Id = id,
+                Title = title,
+                Priority = priority,
+                Status = status
+            };
+
+            var id2 = Guid.NewGuid();
+            var title2 = "MoqTest2";
+            var priority2 = Priority.High;
+            var status2 = Status.Open;
+            var ticket2 = new Ticket
+            {
+                Id = id2,
+                Title = title2,
+                Priority = priority2,
+                Status = status2
+            };
+
+            allTickets.Add(ticket);
+            allTickets.Add(ticket2);
+
+            _ticketRepoMock.Setup(x => x.GetAllAsync())
+                .ReturnsAsync(allTickets);
+
+            // Act
+            var ticketResponse = await _sut.GetAllAsync();
+
+            // Assert
+            Assert.NotEmpty(ticketResponse);
+            Assert.NotNull(ticketResponse);
+            Assert.Contains(ticketResponse, item => item == ticket);
+            Assert.Contains(ticketResponse, item => item == ticket2);
         }
     }
 }
