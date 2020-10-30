@@ -41,7 +41,6 @@ npm install
 npm run serve
 ```
 ### What’s missing?
-Even if the core principe works, this project is not perfectly polished. Here are some missing parts:
   <h6>Overall User Experience</h6>
   <ul>
     <li>Form Validation</li>
