@@ -21,14 +21,16 @@ namespace Bugtracker.Services
         private readonly JwtSettings _jwtSettings;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly ApplicationDbContext _context;
+        private readonly IUserService _userService;
 
-        public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters, ApplicationDbContext context, RoleManager<IdentityRole> roleManager)
+        public IdentityService(UserManager<IdentityUser> userManager, JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters, ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IUserService userService)
         {
             _userManager = userManager;
             _jwtSettings = jwtSettings;
             _tokenValidationParameters = tokenValidationParameters;
             _context = context;
             _roleManager = roleManager;
+            _userService = userService;
         }
 
         public async Task<AuthenticationResult> RegisterAsync(string email, string password)
@@ -59,6 +61,13 @@ namespace Bugtracker.Services
                 {
                     Errors = createdUser.Errors.Select(x => x.Description)
                 };
+            }
+
+            // give admin perms to first user
+            if (_context.Users.ToList().Count == 1)
+            {
+                var firstUser = _context.Users.First();
+                await _userService.AssignUserRoleAsync(firstUser.Id, "Admin");
             }
 
             return await GenerateAuthenticationResultForUserAsync(newUser);
